@@ -13,16 +13,36 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    blog: Blog;
+    filieres: Filiere;
+    universites: Universite;
+    'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
+  };
+  collectionsJoins: {};
+  collectionsSelect: {
+    users: UsersSelect<false> | UsersSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    blog: BlogSelect<false> | BlogSelect<true>;
+    filieres: FilieresSelect<false> | FilieresSelect<true>;
+    universites: UniversitesSelect<false> | UniversitesSelect<true>;
+    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
+    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
+    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
     defaultIDType: string;
   };
   globals: {};
+  globalsSelect: {};
   locale: null;
   user: User & {
     collection: 'users';
+  };
+  jobs: {
+    tasks: unknown;
+    workflows: unknown;
   };
 }
 export interface UserAuthOperations {
@@ -81,6 +101,130 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog".
+ */
+export interface Blog {
+  id: string;
+  title: string;
+  slug: string;
+  shortDescription: string;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  content_html?: string | null;
+  category?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "filieres".
+ */
+export interface Filiere {
+  id: string;
+  nomDeFiliere: string;
+  slug: string;
+  descriptionCourte: string;
+  salaireMoyen?: string | null;
+  longDescription?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  longDescription_html?: string | null;
+  region?: ('Niamey' | 'Zinder' | 'Maradi' | 'Tahaoua' | 'Agadez') | null;
+  categorie?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "universites".
+ */
+export interface Universite {
+  id: string;
+  nomDeLUniversite: string;
+  slug: string;
+  description: string;
+  lienVideo?: string | null;
+  longDescription?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  longDescription_html?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-locked-documents".
+ */
+export interface PayloadLockedDocument {
+  id: string;
+  document?:
+    | ({
+        relationTo: 'users';
+        value: string | User;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'blog';
+        value: string | Blog;
+      } | null)
+    | ({
+        relationTo: 'filieres';
+        value: string | Filiere;
+      } | null)
+    | ({
+        relationTo: 'universites';
+        value: string | Universite;
+      } | null);
+  globalSlug?: string | null;
+  user: {
+    relationTo: 'users';
+    value: string | User;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
@@ -112,6 +256,115 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users_select".
+ */
+export interface UsersSelect<T extends boolean = true> {
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog_select".
+ */
+export interface BlogSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  shortDescription?: T;
+  content?: T;
+  content_html?: T;
+  category?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "filieres_select".
+ */
+export interface FilieresSelect<T extends boolean = true> {
+  nomDeFiliere?: T;
+  slug?: T;
+  descriptionCourte?: T;
+  salaireMoyen?: T;
+  longDescription?: T;
+  longDescription_html?: T;
+  region?: T;
+  categorie?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "universites_select".
+ */
+export interface UniversitesSelect<T extends boolean = true> {
+  nomDeLUniversite?: T;
+  slug?: T;
+  description?: T;
+  lienVideo?: T;
+  longDescription?: T;
+  longDescription_html?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-locked-documents_select".
+ */
+export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
+  document?: T;
+  globalSlug?: T;
+  user?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-preferences_select".
+ */
+export interface PayloadPreferencesSelect<T extends boolean = true> {
+  user?: T;
+  key?: T;
+  value?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-migrations_select".
+ */
+export interface PayloadMigrationsSelect<T extends boolean = true> {
+  name?: T;
+  batch?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
