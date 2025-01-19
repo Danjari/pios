@@ -27,17 +27,23 @@ export default async function FilierePage({ params }: { params: { slug: string }
     return notFound(); // If no filiere found, return a 404
   }
 
-  return (
-    <article className="pt-16 pb-16 px-4 sm:px-6 md:px-8 max-w-4xl mx-auto">
-  <h1 className="text-3xl font-bold text-center mb-4 sm:text-4xl">{filiere.nomDeFiliere}</h1>
-  <p className="text-sm text-blue-500 text-center mb-2 sm:text-base">{filiere.region}</p>
-  <p className="text-sm text-gray-700 text-center mb-8 sm:text-base">{`Salaire: ${filiere.salaireMoyen}`}</p>
-  
-  <div className="prose mx-auto mt-8">
-    <div dangerouslySetInnerHTML={{ __html: filiere.longDescription_html || "" }} />
-  </div>
-</article>
 
+  return (
+      <article className="pt-16 pb-16 px-6 sm:px-8 md:px-12 max-w-3xl mx-auto space-y-8">
+        {/* Title */}
+        <h1 className="text-3xl font-semibold text-center text-gray-900 mb-4 sm:text-4xl">{filiere.nomDeFiliere}</h1>
+
+        {/* Region and Salary */}
+        <div className="flex justify-center space-x-6">
+          <p className="text-sm text-blue-600">{filiere.region}</p>
+          <p className="text-sm text-gray-600">{`Salaire: ${filiere.salaireMoyen}`}</p>
+        </div>
+
+        {/* Description */}
+        <div className="prose mx-auto mt-8 text-gray-800">
+          <div dangerouslySetInnerHTML={{ __html: filiere.longDescription_html || "" }} />
+        </div>
+      </article>
   );
 }
 
