@@ -1,18 +1,18 @@
 'use client'
 import React, { useState } from "react";
-import Link from "next/link";
+import Link from "next/link"; // Import Link for navigation
 
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Toggle mobile menu
+  // Toggle mobile menu visibility
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
-    <nav className="bg-blue-600 p-4 relative">
+    <nav className="bg-white bg-opacity-5 p-4 sticky top-0 z-50 backdrop-blur-lg shadow-lg">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         {/* Logo or Title */}
-        <div className="text-white text-2xl font-bold transition-all duration-300 hover:scale-105">
+        <div className="text-2xl font-bold text-blue-600 transition-all duration-300 hover:scale-105">
           <Link href="/">PIOS</Link>
         </div>
 
@@ -27,7 +27,7 @@ export default function NavBar() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-white transition-all duration-30 hover:text-gray-300"
+              className="text-gray-800 transition-all duration-300 hover:text-blue-500"
             >
               {link.label}
             </Link>
@@ -38,22 +38,22 @@ export default function NavBar() {
         <div className="md:hidden flex items-center">
           <button
             onClick={toggleMenu}
-            className="text-white w-8 h-8 relative focus:outline-none"
+            className="text-gray-800 w-8 h-8 relative focus:outline-none"
             aria-label="Toggle Menu"
           >
             <div className="block w-8 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
               <span
-                className={`block absolute h-0.5 w-8 bg-white transform transition duration-300 ease-in-out ${
+                className={`block absolute h-0.5 w-8 bg-gray-800 transform transition duration-300 ease-in-out ${
                   isMenuOpen ? "rotate-45" : "-translate-y-2"
                 }`}
               ></span>
               <span
-                className={`block absolute h-0.5 bg-white transform transition duration-300 ease-in-out ${
+                className={`block absolute h-0.5 bg-gray-800 transform transition duration-300 ease-in-out ${
                   isMenuOpen ? "opacity-0 w-0" : "w-8"
                 }`}
               ></span>
               <span
-                className={`block absolute h-0.5 w-8 bg-white transform transition duration-300 ease-in-out ${
+                className={`block absolute h-0.5 w-8 bg-gray-800 transform transition duration-300 ease-in-out ${
                   isMenuOpen ? "-rotate-45" : "translate-y-2"
                 }`}
               ></span>
