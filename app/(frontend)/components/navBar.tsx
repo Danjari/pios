@@ -22,7 +22,7 @@ export default function NavBar() {
             { href: "/", label: "Home" },
             { href: "/filieres", label: "Filières" },
             { href: "/universites", label: "Universités" },
-            { href: "/blog", label: "Blog" },
+            //{ href: "/blog", label: "Blog" },
           ].map((link) => (
             <Link
               key={link.href}
@@ -75,7 +75,7 @@ export default function NavBar() {
             { href: "/", label: "Home" },
             { href: "/filieres", label: "Filières" },
             { href: "/universites", label: "Universités" },
-            { href: "/blog", label: "Blog" },
+            //{ href: "/blog", label: "Blog" },
           ].map((link) => (
             <Link
               key={link.href}
