@@ -13,7 +13,7 @@ async function fetchFilieres() {
     select: {
       nomDeFiliere: true,
       slug: true,
-      region: true,
+      Categorie: true,
       salaireMoyen: true,
       longDescription: true,
     },

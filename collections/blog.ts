@@ -45,6 +45,13 @@ export const BlogPosts: CollectionConfig = {
       },
     },
     {
+      name:"cover",
+      type:"upload",
+      label:"cover",
+      relationTo:"media",
+      required: true,
+    },
+    {
       name: 'shortDescription',
       type: 'textarea',
       required: true,
@@ -69,6 +76,17 @@ export const BlogPosts: CollectionConfig = {
     {
       name: 'category',
       type: 'text',
+    },
+    {
+      name: 'creator',  // Add creator field
+      type: 'relationship',
+      relationTo: 'users',  // Reference to Users collection
+      required: true,  // Make it required if necessary
+    },
+    {
+      name: 'publishedDate',
+      type: 'date',
+      required: true,
     },
   ],
 };

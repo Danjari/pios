@@ -12,7 +12,7 @@ export default function NavBar() {
     <nav className="bg-white bg-opacity-5 p-4 sticky top-0 z-50 backdrop-blur-lg shadow-lg">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         {/* Logo or Title */}
-        <div className="text-2xl font-bold text-blue-600 transition-all duration-300 hover:scale-105">
+        <div className="text-2xl font-bold text-blue-800 transition-all duration-300 hover:scale-105">
           <Link href="/">PIOS</Link>
         </div>
 
@@ -27,7 +27,7 @@ export default function NavBar() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-gray-800 transition-all duration-300 hover:text-blue-500"
+              className="text-gray-800 transition-all duration-300 hover:text-blue-800"
             >
               {link.label}
             </Link>
@@ -64,7 +64,7 @@ export default function NavBar() {
 
       {/* Mobile Menu */}
       <div
-        className={`absolute left-0 right-0 bg-blue-600 transition-all duration-300 ease-in-out ${
+        className={`absolute left-0 right-0 bg-blue-800 transition-all duration-300 ease-in-out ${
           isMenuOpen
             ? "opacity-100 translate-y-0"
             : "opacity-0 -translate-y-2 pointer-events-none"

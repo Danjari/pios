@@ -35,8 +35,8 @@ export default async function FilierePage({ params }: { params: { slug: string }
 
         {/* Region and Salary */}
         <div className="flex justify-center space-x-6">
-          <p className="text-sm text-blue-600">{filiere.region}</p>
-          <p className="text-sm text-gray-600">{`Salaire: ${filiere.salaireMoyen}`}</p>
+          <p className="text-sm text-blue-600">{filiere.Categorie}</p>
+          <p className="text-sm text-gray-600">{`Salaire moyen estimé à: ${filiere.salaireMoyen}`}</p>
         </div>
 
         {/* Description */}

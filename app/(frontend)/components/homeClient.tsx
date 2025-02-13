@@ -37,9 +37,11 @@ export default function HomeClient({ filieres }) {
             <div key={filiere.id} className="bg-white rounded-lg shadow-md p-4">
               <p className="text-gray-500 text-sm">{filiere.date}</p>
               <h2 className="text-lg font-semibold my-2">
-                <Link href={`/filieres/${filiere.slug}`}>{filiere.nomDeFiliere}</Link>
+              <Link href={`/filieres/${filiere.slug}`}>
+                {filiere.nomDeFiliere.length > 50 ? `${filiere.nomDeFiliere.slice(0, 50)}...` : filiere.nomDeFiliere}
+              </Link>
               </h2>
-              <p className="text-sm text-blue-500">{filiere.region}</p>
+              <p className="text-sm text-blue-500">{filiere.Categorie}</p>
               <p className="text-sm text-gray-700">{`Salaire: ${filiere.salaireMoyen}`}</p>
             </div>
           ))}

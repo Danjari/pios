@@ -50,8 +50,16 @@ export const Universites: CollectionConfig = {
       required: true,
     },
     {
-      name: 'lienVideo',
-      type: 'text',
+      name: 'region',
+      type: 'select',
+      options: ['Niamey', 'Zinder', 'Maradi', 'Tahaoua', 'Agadez',"Tillabery","Dosso","Diffa"], // Example regions
+    },
+    {
+      name: 'logo',
+      type: 'upload',
+      label: 'Logo',
+      relationTo: 'media', // Assuming you have a 'media' collection for uploads
+      required: true,
     },
     {
       name: 'longDescription',

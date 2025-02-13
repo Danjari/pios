@@ -107,6 +107,7 @@ export interface Blog {
   id: string;
   title: string;
   slug: string;
+  cover: string | Media;
   shortDescription: string;
   content?: {
     root: {
@@ -125,6 +126,8 @@ export interface Blog {
   } | null;
   content_html?: string | null;
   category?: string | null;
+  creator: string | User;
+  publishedDate: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -154,8 +157,9 @@ export interface Filiere {
     [k: string]: unknown;
   } | null;
   longDescription_html?: string | null;
-  region?: ('Niamey' | 'Zinder' | 'Maradi' | 'Tahaoua' | 'Agadez') | null;
-  categorie?: string | null;
+  Categorie?:
+    | ('Engenieurie' | 'Administration' | 'Technologie' | 'Agriculture' | 'Science Sociale' | 'Science de la Terre')
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -168,7 +172,8 @@ export interface Universite {
   nomDeLUniversite: string;
   slug: string;
   description: string;
-  lienVideo?: string | null;
+  region?: ('Niamey' | 'Zinder' | 'Maradi' | 'Tahaoua' | 'Agadez' | 'Tillabery' | 'Dosso' | 'Diffa') | null;
+  logo: string | Media;
   longDescription?: {
     root: {
       type: string;
@@ -297,10 +302,13 @@ export interface MediaSelect<T extends boolean = true> {
 export interface BlogSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
+  cover?: T;
   shortDescription?: T;
   content?: T;
   content_html?: T;
   category?: T;
+  creator?: T;
+  publishedDate?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -315,8 +323,7 @@ export interface FilieresSelect<T extends boolean = true> {
   salaireMoyen?: T;
   longDescription?: T;
   longDescription_html?: T;
-  region?: T;
-  categorie?: T;
+  Categorie?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -328,7 +335,8 @@ export interface UniversitesSelect<T extends boolean = true> {
   nomDeLUniversite?: T;
   slug?: T;
   description?: T;
-  lienVideo?: T;
+  region?: T;
+  logo?: T;
   longDescription?: T;
   longDescription_html?: T;
   updatedAt?: T;

@@ -70,14 +70,11 @@ export const Filieres: CollectionConfig = {
     },
     // This generates an HTML version of the content
     lexicalHTML('longDescription', { name: 'longDescription_html' }),
+    
     {
-      name: 'region',
+      name: 'Categorie',
       type: 'select',
-      options: ['Niamey', 'Zinder', 'Maradi', 'Tahaoua', 'Agadez'], // Example regions
-    },
-    {
-      name: 'categorie',
-      type: 'text',
+      options: ['Engenieurie', 'Administration', 'Technologie', 'Agriculture', 'Science Sociale', "Science de la Terre"], // Example regions
     },
   ],
 };
