@@ -1,6 +1,9 @@
 import { withPayload } from "@payloadcms/next/withPayload";
-const nextConfig = {
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
   reactStrictMode: true,
+  experimental: { esmExternals: "loose" }, // Helps with Node.js modules in Next.js 15
   webpack: (config) => {
     config.resolve.fallback = {
       fs: false,
@@ -13,4 +16,5 @@ const nextConfig = {
     return config;
   },
 };
-export default withPayload(nextConfig);
+
+export default withPayload(nextConfig as NextConfig);
