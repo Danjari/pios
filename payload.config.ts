@@ -1,11 +1,12 @@
 // storage-adapter-import-placeholder
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
-import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
+//import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
+import {s3Storage} from "@payloadcms/storage-s3"
 
 //importing collections
 import { Users } from './collections/Users'
@@ -13,6 +14,7 @@ import { Media } from './collections/Media'
 import { BlogPosts } from "./collections/blog"
 import { Filieres } from './collections/filieres'
 import {Universites} from './collections/universites'
+
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -35,7 +37,22 @@ export default buildConfig({
   }),
   sharp,
   plugins: [
-    payloadCloudPlugin(),
-    // storage-adapter-placeholder
+    // payloadCloudPlugin(),
+    s3Storage({
+      collections:{
+        media:true,
+      },
+      bucket:process.env.S3_BUCKET_NAME ||"",
+      config:{
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY_ID||"",
+          secretAccessKey: process.env.S3_SECRET || '',
+        },
+        region: "auto",
+        endpoint: process.env.S3_BUCKET_API||"",
+
+      }
+    })
+
   ],
 })
