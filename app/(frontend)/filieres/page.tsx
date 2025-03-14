@@ -3,6 +3,8 @@
 import React from "react";
 import HomeClient from "../components/homeClient";  // Separate client component
 
+
+export const revalidate = 60;
 // Fetch data from API
 async function fetchFilieres() {
   try {

@@ -1,6 +1,7 @@
 import React from "react";
 import University from "../components/universityClient"; // Client component
 
+export const revalidate = 60;
 // Fetch data from API
 async function fetchUniversites() {
   try {
