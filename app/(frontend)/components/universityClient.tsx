@@ -4,7 +4,17 @@ import React, { useState } from "react";
 import Link from "next/link"; // Import Link for navigation
 import Image from "next/image"; // Import Image for optimized image rendering
 
-export default function University({ universites }) {
+// Define the type for a university
+interface University {
+  id: string;
+  slug: string;
+  nomDeLUniversite: string;
+  region: string;
+  logo?: { url: string }; // Optional logo field
+  description?: string; // Optional description
+}
+
+export default function UniversityClient({ universites }: { universites: University[] }) {
   const [search, setSearch] = useState("");
 
   const filteredUniversites = universites.filter((university) =>
@@ -39,7 +49,10 @@ export default function University({ universites }) {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {filteredUniversites.length > 0 ? (
             filteredUniversites.map((university) => (
-              <div key={university.id} className="bg-white rounded-lg shadow-md p-4 transition-transform transform hover:scale-105 hover:shadow-xl">
+              <div
+                key={university.id}
+                className="bg-white rounded-lg shadow-md p-4 transition-transform transform hover:scale-105 hover:shadow-xl"
+              >
                 {/* University Logo */}
                 <div className="flex items-center mb-4">
                   {university.logo ? (
@@ -51,7 +64,7 @@ export default function University({ universites }) {
                       className="rounded-full mr-4"
                     />
                   ) : (
-                    <div className="w-12 h-12 bg-gray-300 rounded-full mr-4"></div> 
+                    <div className="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
                   )}
                   <h2 className="text-lg font-semibold">{university.nomDeLUniversite}</h2>
                 </div>
@@ -62,10 +75,7 @@ export default function University({ universites }) {
                     : "No description available"}
                 </p>
                 <div className="mt-4">
-                  <Link
-                    href={`/universites/${university.slug}`}
-                    className="text-blue-800 hover:text-blue-900"
-                  >
+                  <Link href={`/universites/${university.slug}`} className="text-blue-800 hover:text-blue-900">
                     En savoir plus
                   </Link>
                 </div>

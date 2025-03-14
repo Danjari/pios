@@ -3,7 +3,17 @@
 import React, { useState } from "react";
 import Link from "next/link"; // Import Link for navigation
 
-export default function HomeClient({ filieres }) {
+// Define the type for a filiere
+interface Filiere {
+  id: string;
+  slug: string;
+  nomDeFiliere: string;
+  Categorie: string;
+  salaireMoyen: string;
+  date?: string; // Optional field
+}
+
+export default function HomeClient({ filieres }: { filieres: Filiere[] }) {
   const [search, setSearch] = useState("");
 
   const filteredFilieres = filieres.filter((filiere) =>
@@ -35,11 +45,13 @@ export default function HomeClient({ filieres }) {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {filteredFilieres.map((filiere) => (
             <div key={filiere.id} className="bg-white rounded-lg shadow-md p-4">
-              <p className="text-gray-500 text-sm">{filiere.date}</p>
+              <p className="text-gray-500 text-sm">{filiere.date ?? "Date inconnue"}</p>
               <h2 className="text-lg font-semibold my-2">
-              <Link href={`/filieres/${filiere.slug}`}>
-                {filiere.nomDeFiliere.length > 50 ? `${filiere.nomDeFiliere.slice(0, 50)}...` : filiere.nomDeFiliere}
-              </Link>
+                <Link href={`/filieres/${filiere.slug}`}>
+                  {filiere.nomDeFiliere.length > 50
+                    ? `${filiere.nomDeFiliere.slice(0, 50)}...`
+                    : filiere.nomDeFiliere}
+                </Link>
               </h2>
               <p className="text-sm text-blue-500">{filiere.Categorie}</p>
               <p className="text-sm text-gray-700">{`Salaire: ${filiere.salaireMoyen}`}</p>

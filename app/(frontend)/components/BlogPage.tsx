@@ -1,7 +1,18 @@
 import Link from "next/link";
 import Image from "next/image";
 
-export default function BlogPage({ posts }) {
+// Define the type for a blog post
+interface BlogPost {
+  slug: string;
+  title: string;
+  shortDescription: string;
+  publishedDate: string;
+  cover?: { url: string };
+  creator?: { firstName?: string; lastName?: string };
+}
+
+// Add the type definition for the `posts` prop
+export default function BlogPage({ posts }: { posts: BlogPost[] }) {
   return (
     <div className="relative min-h-screen text-black bg-gray-50 py-16 px-6 sm:px-10 lg:px-16">
       <h1 className="text-4xl font-bold text-center mb-10 text-gray-900">Blog</h1>
