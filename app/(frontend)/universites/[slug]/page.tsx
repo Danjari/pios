@@ -16,8 +16,10 @@ async function fetchUniversityBySlug(slug: string) {
   }
 }
 
-export default async function UniversityPage({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+export default async function UniversityPage({ params }: { params: Promise<{ slug: string }> }) {
+  // Await params to properly extract slug
+  const { slug } = await params;
+
   const university = await fetchUniversityBySlug(slug);
 
   if (!university) {
@@ -71,8 +73,8 @@ export default async function UniversityPage({ params }: { params: { slug: strin
 }
 
 // Generate metadata dynamically for SEO
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const university = await fetchUniversityBySlug(slug);
 
   if (!university) {
