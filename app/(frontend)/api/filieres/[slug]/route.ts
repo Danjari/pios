@@ -1,10 +1,10 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
 
-export async function GET(req: Request, { params }: { params: { slug: string } }) {
+export async function GET(req: NextRequest, { params }: { params: { slug: string } }) {
   try {
-    const { slug } = params;
+    const slug = params?.slug;
     if (!slug) {
       return NextResponse.json({ success: false, error: "Missing slug" }, { status: 400 });
     }
@@ -28,6 +28,6 @@ export async function GET(req: Request, { params }: { params: { slug: string } }
     if (error instanceof Error) {
       return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }
-    return NextResponse.json({ success: false, error: 'An unknown error occurred' }, { status: 500 });
+    return NextResponse.json({ success: false, error: "An unknown error occurred" }, { status: 500 });
   }
 }
