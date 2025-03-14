@@ -1,22 +1,19 @@
 import React from "react";
-import { getPayload } from "payload";
-import configPromise from "@payload-config";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
-// Fetch university data by slug
+// Fetch data from API
 async function fetchUniversityBySlug(slug: string) {
-  const payload = await getPayload({ config: configPromise });
-  const result = await payload.find({
-    collection: "universites",
-    where: {
-      slug: { equals: slug },
-    },
-    limit: 1,
-  });
-
-  return result.docs?.[0];  // Return the first matched university
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/universites/${slug}`);
+    if (!res.ok) throw new Error("Failed to fetch university");
+    const data = await res.json();
+    return data.success ? data.university : null;
+  } catch (error) {
+    console.error("Error fetching university:", error);
+    return null;
+  }
 }
 
 export default async function UniversityPage({ params }: { params: { slug: string } }) {
@@ -24,7 +21,7 @@ export default async function UniversityPage({ params }: { params: { slug: strin
   const university = await fetchUniversityBySlug(slug);
 
   if (!university) {
-    return notFound();  // If no university is found, show a 404
+    return notFound();
   }
 
   return (
@@ -50,8 +47,8 @@ export default async function UniversityPage({ params }: { params: { slug: strin
         {/* University Details */}
         <p className="text-sm text-blue-500 mb-4">{university.region}</p>
         <p className="bg-blue-50 border-l-4 border-blue-500 text-gray-700 text-base mb-6 p-4">
-  {university.description || "No description available"}
-</p>
+          {university.description || "No description available"}
+        </p>
 
         {/* Long Description */}
         <div className="prose mb-8">
@@ -71,4 +68,22 @@ export default async function UniversityPage({ params }: { params: { slug: strin
       </div>
     </div>
   );
+}
+
+// Generate metadata dynamically for SEO
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+  const { slug } = params;
+  const university = await fetchUniversityBySlug(slug);
+
+  if (!university) {
+    return {
+      title: "Université non trouvée",
+      description: "Cette université n'existe pas.",
+    };
+  }
+
+  return {
+    title: university.nomDeLUniversite,
+    description: university.longDescription_html?.slice(0, 160) || "Détails sur l'université.",
+  };
 }

@@ -1,29 +1,21 @@
 import React from "react";
-import { getPayload } from "payload";
-import configPromise from "@payload-config";
-import University from "../components/universityClient";  // Separate client component
+import University from "../components/universityClient"; // Client component
 
-// Server component that fetches data
+// Fetch data from API
 async function fetchUniversites() {
-  const payload = await getPayload({ config: configPromise });
-  const { docs: universites } = await payload.find({
-    collection: "universites",
-    limit: 100, // Adjust as necessary
-    sort: "nomDeLUniversite", // Or any other sort parameter you'd like
-    select: {
-      nomDeLUniversite: true,
-      slug: true,
-      region: true,
-      logo: true,
-      description: true,
-      longDescription: true,
-    },
-  });
-  return universites;
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/universites`);
+    if (!res.ok) throw new Error("Failed to fetch data");
+    const data = await res.json();
+    return data.success ? data.universites : [];
+  } catch (error) {
+    console.error("Error fetching universites:", error);
+    return [];
+  }
 }
 
 export default async function Universites() {
-  const universites = await fetchUniversites(); // Fetch data from Payload CMS
+  const universites = await fetchUniversites(); // Fetch from API
 
   return (
     <div>
