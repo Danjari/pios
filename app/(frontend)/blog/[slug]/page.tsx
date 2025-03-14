@@ -1,5 +1,7 @@
 // "use client";
-
+export default function PlaceholderPage() {
+  return <div>Blog feature is under maintenance.</div>;
+}
 // import { useEffect, useState } from "react";
 // import { useRouter } from "next/router";
 // import { getPayload } from "payload";

@@ -1,5 +1,7 @@
 // // app/(frontend)/blog/page.tsx
-
+export default function PlaceholderPage() {
+  return <div>Blog Page is under maintenance.</div>;
+}
 // import { getPayload } from "payload";
 // import configPromise from "@payload-config";
 // import BlogPage from "../components/BlogPage"; // Import client-side component for rendering
