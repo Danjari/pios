@@ -59,7 +59,7 @@ export default function UniversityClient({ universites }: { universites: Univers
                 <div className="flex items-center mb-4">
                   {university.logo ? (
                     <Image
-                      src={university.logo.url}
+                      src={university.logo.url || "fallback-image.jpeg"}
                       alt={university.nomDeLUniversite}
                       width={60}
                       height={60}

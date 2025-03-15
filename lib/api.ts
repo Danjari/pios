@@ -58,8 +58,14 @@ export async function fetchFiliereBySlug(slug: string) {
   
     return universites.map((uni) => ({
         ...uni,
-        logo: typeof uni.logo === "string" ? { url: uni.logo } : uni.logo || null,
-      }));;
+        // ✅ Normalize `logo` so it always matches `{ url: string } | null | undefined`
+        logo:
+          typeof uni.logo === "string"
+            ? { url: uni.logo }
+            : uni.logo && "url" in uni.logo && uni.logo.url
+            ? { url: uni.logo.url }
+            : null,
+      }));
   }
 
   export async function fetchUniversiteBySlug(slug: string) {
