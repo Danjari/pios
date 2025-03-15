@@ -2,29 +2,20 @@ import React from "react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-
-// Fetch data from API
-async function fetchUniversityBySlug(slug: string) {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/universites/${slug}`);
-    if (!res.ok) throw new Error("Failed to fetch university");
-    const data = await res.json();
-    return data.success ? data.university : null;
-  } catch (error) {
-    console.error("Error fetching university:", error);
-    return null;
-  }
-}
+import { fetchUniversiteBySlug } from "@/lib/api";
 
 export default async function UniversityPage({ params }: { params: Promise<{ slug: string }> }) {
   // Await params to properly extract slug
   const { slug } = await params;
 
-  const university = await fetchUniversityBySlug(slug);
-
+  const university = await fetchUniversiteBySlug(slug);
   if (!university) {
     return notFound();
   }
+
+  // Normalize logo
+  const normalizedLogo = typeof university.logo === "string" ? { url: university.logo } : university.logo || null;
+ 
 
   return (
     <div className="relative min-h-screen text-black flex items-start justify-center mt-20 px-4 sm:px-8">
@@ -34,9 +25,9 @@ export default async function UniversityPage({ params }: { params: Promise<{ slu
       <div className="max-w-4xl mx-auto relative z-10">
         {/* University Logo and Title */}
         <div className="flex items-center mb-6">
-          {university.logo && (
+          {normalizedLogo && (
             <Image
-              src={university.logo.url}
+              src={normalizedLogo?.url || "/fallback-image.jpeg"}
               alt={university.nomDeLUniversite}
               width={80}
               height={80}
@@ -75,7 +66,7 @@ export default async function UniversityPage({ params }: { params: Promise<{ slu
 // Generate metadata dynamically for SEO
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const university = await fetchUniversityBySlug(slug);
+  const university = await fetchUniversiteBySlug(slug);
 
   if (!university) {
     return {

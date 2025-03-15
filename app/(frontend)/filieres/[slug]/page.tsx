@@ -1,19 +1,8 @@
 import { notFound } from "next/navigation";
 
-// Fetch data from API
-async function fetchFiliereBySlug(slug: string) {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/filieres/${slug}`);
-    if (!res.ok) throw new Error("Failed to fetch filiere");
-    const data = await res.json();
-    return data.success ? data.filiere : null;
-  } catch (error) {
-    console.error("Error fetching filiere:", error);
-    return null;
-  }
-}
+import { fetchFiliereBySlug } from "@/lib/api";
 
-export default async function FilierePage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function FilierePage({ params }: { params: { slug: string } }) {
   // Await params to properly extract slug
   const { slug } = await params;
 

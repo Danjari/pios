@@ -8,9 +8,9 @@ interface Filiere {
   id: string;
   slug: string;
   nomDeFiliere: string;
-  Categorie: string;
-  salaireMoyen: string;
-  date?: string; // Optional field
+  Categorie?: string | null;
+  salaireMoyen?: string | null;
+
 }
 
 export default function HomeClient({ filieres }: { filieres: Filiere[] }) {
@@ -45,7 +45,6 @@ export default function HomeClient({ filieres }: { filieres: Filiere[] }) {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {filteredFilieres.map((filiere) => (
             <div key={filiere.id} className="bg-white rounded-lg shadow-md p-4">
-              <p className="text-gray-500 text-sm">{filiere.date ?? "Date inconnue"}</p>
               <h2 className="text-lg font-semibold my-2">
                 <Link href={`/filieres/${filiere.slug}`}>
                   {filiere.nomDeFiliere.length > 50

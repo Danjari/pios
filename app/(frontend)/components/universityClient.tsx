@@ -9,13 +9,15 @@ interface University {
   id: string;
   slug: string;
   nomDeLUniversite: string;
-  region: string;
-  logo?: { url: string }; // Optional logo field
-  description?: string; // Optional description
+  region?: string | null;
+  logo?: { url: string } | null;
+  description?: string | null;
 }
 
 export default function UniversityClient({ universites }: { universites: University[] }) {
   const [search, setSearch] = useState("");
+
+
 
   const filteredUniversites = universites.filter((university) =>
     university.nomDeLUniversite.toLowerCase().includes(search.toLowerCase())
