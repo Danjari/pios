@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 
 import { fetchFiliereBySlug } from "@/lib/api";
 
-export default async function FilierePage({ params }: { params: { slug: string } }) {
+export default async function FilierePage({ params }: { params: Promise<{ slug: string }> }) {
   // Await params to properly extract slug
   const { slug } = await params;
 
