@@ -1,7 +1,7 @@
 
 
 import React from "react";
-import HomeClient from "../components/homeClient";  // Separate client component
+import HomeClient from "../../../components/homeClient";  // Separate client component
 
 import { fetchFilieres } from "@/lib/api";
 export const revalidate = 60;

@@ -1,24 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link"; // Import Link for navigation
+//import Link from "next/link"; // Import Link for navigation
+import { SearchFilters } from "./filieres/search-filters";
+import { FiliereGrid } from "./filieres/filiere-grid";
+import { filieres } from "@/lib/data";
+import type { Filiere } from "@/lib/data";
 
-// Define the type for a filiere
-interface Filiere {
-  id: string;
-  slug: string;
-  nomDeFiliere: string;
-  Categorie?: string | null;
-  salaireMoyen?: string | null;
-
-}
-
-export default function HomeClient({ filieres }: { filieres: Filiere[] }) {
-  const [search, setSearch] = useState("");
-
-  const filteredFilieres = filieres.filter((filiere) =>
-    filiere.nomDeFiliere.toLowerCase().includes(search.toLowerCase())
-  );
+export default function HomeClient() {
+  const [filteredFilieres, setFilteredFilieres] = useState<Filiere[]>(filieres);
 
   return (
     <div className="relative min-h-screen text-black flex items-start justify-center mt-20 px-4 sm:px-8">
@@ -33,7 +23,7 @@ export default function HomeClient({ filieres }: { filieres: Filiere[] }) {
           Choisis ta filière en ayant toutes les informations nécessaires
           ici sur PIOS.
         </p>
-        <div className="relative mb-8">
+        {/* <div className="relative mb-8">
           <input
             type="text"
             placeholder="Rechercher une filière..."
@@ -56,6 +46,12 @@ export default function HomeClient({ filieres }: { filieres: Filiere[] }) {
               <p className="text-sm text-gray-700">{`Salaire: ${filiere.salaireMoyen}`}</p>
             </div>
           ))}
+        </div> */}
+
+        <SearchFilters onFiltersChange={setFilteredFilieres} />
+
+        <div className="mt-10">
+          <FiliereGrid filieres={filteredFilieres} />
         </div>
       </div>
     </div>

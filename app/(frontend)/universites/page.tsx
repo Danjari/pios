@@ -1,5 +1,5 @@
 import React from "react";
-import University from "../components/universityClient"; // Client component
+import University from "../../../components/universityClient"; // Client component
 import { fetchUniversites } from "@/lib/api";
 export const revalidate = 60;
 
