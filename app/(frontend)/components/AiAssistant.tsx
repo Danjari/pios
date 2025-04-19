@@ -2,7 +2,7 @@
 'use client'
 import { useState, useRef, useEffect } from 'react';
 import { Bot, X, Send, MessageSquare, Sparkles } from 'lucide-react';
-
+import ReactMarkdown from "react-markdown"
 interface Message {
   role: 'user' | 'assistant';
   content: string;
@@ -179,7 +179,7 @@ export default function AIAssistant() {
                         : 'bg-gray-200 text-gray-800 rounded-tl-none'
                     }`}
                   >
-                    {msg.content}
+                    <ReactMarkdown>{msg.content}</ReactMarkdown>
                   </div>
                   <div className={`text-xs mt-1 text-gray-500 ${
                     msg.role === 'user' ? 'text-right' : 'text-left'
