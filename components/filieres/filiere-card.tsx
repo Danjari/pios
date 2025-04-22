@@ -4,9 +4,10 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import type { Filiere } from "@/lib/data"
-
+// interface filiere card props 
 interface FiliereCardProps {
   filiere: Filiere
+
 }
 
 export function FiliereCard({ filiere }: FiliereCardProps) {
