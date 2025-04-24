@@ -80,3 +80,4 @@ export const Universites: CollectionConfig = {
     lexicalHTML('longDescription', { name: 'longDescription_html' }),
   ],
 };
+

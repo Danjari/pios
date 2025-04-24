@@ -212,9 +212,23 @@ export interface Filiere {
     [k: string]: unknown;
   } | null;
   longDescription_html?: string | null;
-  Categorie?:
-    | ('Engenieurie' | 'Administration' | 'Technologie' | 'Agriculture' | 'Science Sociale' | 'Science de la Terre')
+  category: 'Technologie' | 'Économie' | 'Agriculture' | 'Santé' | 'Sciences Sociales';
+  duration: string;
+  bacRequired: ('A' | 'C' | 'D' | 'F1' | 'F2' | 'F3' | 'G1' | 'G2')[];
+  locations?: ('Niamey' | 'Maradi' | 'Zinder' | 'Tahoua' | 'Agadez' | 'Dosso' | 'Diffa' | 'Tillabéri')[] | null;
+  prerequisites?:
+    | {
+        item?: string | null;
+        id?: string | null;
+      }[]
     | null;
+  careerOpportunities?:
+    | {
+        item?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  universities?: (string | Universite)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -378,7 +392,23 @@ export interface FilieresSelect<T extends boolean = true> {
   salaireMoyen?: T;
   longDescription?: T;
   longDescription_html?: T;
-  Categorie?: T;
+  category?: T;
+  duration?: T;
+  bacRequired?: T;
+  locations?: T;
+  prerequisites?:
+    | T
+    | {
+        item?: T;
+        id?: T;
+      };
+  careerOpportunities?:
+    | T
+    | {
+        item?: T;
+        id?: T;
+      };
+  universities?: T;
   updatedAt?: T;
   createdAt?: T;
 }
