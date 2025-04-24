@@ -15,9 +15,11 @@ interface FilierePageProps {
 }
 
 export default async function FilierePage({ params }: FilierePageProps) {
-  const filiere: Filiere | null = await fetchFiliereBySlug(params.slug)
+  // Await the params object before accessing its properties
+  const { slug } = await params;
+  const filiere: Filiere | null = await fetchFiliereBySlug(slug);
 
-  if (!filiere) notFound()
+  if (!filiere) notFound();
 
   return (
     <div className="min-h-screen bg-gray-50">
