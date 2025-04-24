@@ -8,13 +8,13 @@ import { Card, CardContent } from "@/components/ui/card"
 import { fetchFiliereBySlug } from "@/lib/api"
 import type { Filiere } from "@/payload-types"
 
-interface FilierePageProps {
-  params: {
-    slug: string
-  }
-}
+// interface FilierePageProps {
+//   params: {
+//     slug: string
+//   }
+// }
 
-export default async function FilierePage({ params }: FilierePageProps) {
+export default async function FilierePage({ params }: { params: Promise<{ slug: string }> }) {
   // Await the params object before accessing its properties
   const { slug } = await params;
   const filiere: Filiere | null = await fetchFiliereBySlug(slug);
@@ -164,7 +164,7 @@ export default async function FilierePage({ params }: FilierePageProps) {
   )
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   // Await the params object before accessing its properties
   const { slug } = await params;
   const filiere: Filiere | null = await fetchFiliereBySlug(slug);
