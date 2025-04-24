@@ -1,5 +1,5 @@
 import Link from "next/link"
-import Image from "next/image"
+//import Image from "next/image"
 import { notFound } from "next/navigation"
 import { ChevronLeft, Clock, BookOpen, Briefcase, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -29,13 +29,7 @@ export default async function FilierePage({ params }: FilierePageProps) {
           </Link>
 
           <div className="relative w-full h-48 md:h-64 rounded-lg overflow-hidden mb-8">
-            <Image
-              src={`/placeholder.svg?height=300&width=800`}
-              alt={filiere.nomDeFiliere || "Filière"}
-              fill
-              className="object-cover"
-              priority
-            />
+           
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
               <div className="p-6 w-full">
                 <Badge className="mb-2">{filiere.category}</Badge>
@@ -142,9 +136,11 @@ export default async function FilierePage({ params }: FilierePageProps) {
                           <h3 className="font-bold">{university.nomDeLUniversite}</h3>
                           <p className="text-gray-600 text-sm">{university.region}</p>
                           <div className="mt-3">
-                            <Button variant="outline" size="sm" className="w-full">
-                              Plus d&apos;informations
-                            </Button>
+                            <Link href={`/universites/${university.slug}`} passHref>
+                              <Button variant="outline" size="sm" className="w-full">
+                                Plus d&apos;informations
+                              </Button>
+                            </Link>
                           </div>
                         </CardContent>
                       </Card>
