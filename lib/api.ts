@@ -31,7 +31,7 @@ export async function fetchFilieres() {
     select: {
       nomDeFiliere: true,
       slug: true,
-      Categorie: true,
+      category: true,
       salaireMoyen: true,
       descriptionCourte: true,
       duration: true,
@@ -42,6 +42,8 @@ export async function fetchFilieres() {
       longDescription: true,
       longDescription_html: true,
       universities: true, // include populated universities
+      updatedAt: true,
+      createdAt: true,
     },
   });
 

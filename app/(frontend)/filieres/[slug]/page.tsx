@@ -163,21 +163,24 @@ export default async function FilierePage({ params }: FilierePageProps) {
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const filiere: Filiere | null = await fetchFiliereBySlug(params.slug)
+  // Await the params object before accessing its properties
+  const { slug } = await params;
+  const filiere: Filiere | null = await fetchFiliereBySlug(slug);
+  
   if (!filiere) {
     return {
       title: "Filiere Not Found",
       description: "This filiere could not be found.",
-    }
+    };
   }
 
-  const title = filiere.nomDeFiliere || "Filière"
+  const title = filiere.nomDeFiliere || "Filière";
   const description = filiere.longDescription_html
-    ? filiere.longDescription_html.replace(/<[^>]*>/g, '').slice(0, 160)
-    : "Filiere details."
+    ? filiere.longDescription_html.replace(/<[^>]*>/g, "").slice(0, 160)
+    : "Filiere details.";
 
   return {
     title,
     description,
-  }
+  };
 }
