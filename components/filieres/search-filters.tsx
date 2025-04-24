@@ -7,13 +7,15 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Badge } from "@/components/ui/badge"
-import { bacOptions, categorieOptions, localisationOptions, filieres, Filiere } from "@/lib/data"
+import { bacOptions, categorieOptions, localisationOptions } from "@/lib/data"
+import type { Filiere } from "@/payload-types"
 
 interface SearchFiltersProps {
+  filieres: Filiere[]
   onFiltersChange: (filteredFilieres: Filiere[]) => void
 }
 
-export function SearchFilters({ onFiltersChange }: SearchFiltersProps) {
+export function SearchFilters({ filieres, onFiltersChange }: SearchFiltersProps) {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedFilters, setSelectedFilters] = useState<{
@@ -49,13 +51,13 @@ export function SearchFilters({ onFiltersChange }: SearchFiltersProps) {
     const filteredFilieres = filieres.filter((filiere) => {
       // Search query filter
       const matchesSearch = searchQuery
-        ? filiere.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          filiere.shortDescription.toLowerCase().includes(searchQuery.toLowerCase())
+        ? filiere.nomDeFiliere.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          filiere.descriptionCourte.toLowerCase().includes(searchQuery.toLowerCase())
         : true
 
       // Bac filter
       const matchesBac = selectedFilters.bac
-        ? filiere.bacRequired.includes(selectedFilters.bac)
+        ? filiere.bacRequired?.includes(selectedFilters.bac as "A" | "C" | "D" | "F1" | "F2" | "F3" | "G1" | "G2")
         : true
 
       // Category filter
@@ -65,14 +67,14 @@ export function SearchFilters({ onFiltersChange }: SearchFiltersProps) {
 
       // Location filter
       const matchesLocation = selectedFilters.localisation
-        ? filiere.locations.includes(selectedFilters.localisation)
+        ? filiere.locations?.includes(selectedFilters.localisation as "Niamey" | "Maradi" | "Zinder" | "Tahoua" | "Agadez" | "Dosso" | "Diffa" | "Tillabéri")
         : true
 
       return matchesSearch && matchesBac && matchesCategory && matchesLocation
     })
 
     onFiltersChange(filteredFilieres)
-  }, [searchQuery, selectedFilters, onFiltersChange])
+  }, [searchQuery, selectedFilters, onFiltersChange, filieres])
 
   return (
     <div className="space-y-4">

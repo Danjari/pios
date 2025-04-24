@@ -3,7 +3,7 @@ import { Clock, BookOpen, MapPin } from "lucide-react"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import type { Filiere } from "@/lib/data"
+import type { Filiere } from "@/payload-types"
 // interface filiere card props 
 interface FiliereCardProps {
   filiere: Filiere
@@ -12,13 +12,13 @@ interface FiliereCardProps {
 
 export function FiliereCard({ filiere }: FiliereCardProps) {
   // Generate a slug from the id
-  const slug = filiere.id;
+  const slug = filiere.slug;
 
   return (
     <Card className="h-full flex flex-col transition-all hover:shadow-md">
       <CardHeader className="pb-2">
         <div className="flex justify-between items-start">
-          <h3 className="font-bold text-lg text-gray-800">{filiere.title}</h3>
+          <h3 className="font-bold text-lg text-gray-800">{filiere.nomDeFiliere}</h3>
           <Badge variant="outline" className="bg-indigo-50 text-indigo-700 border-indigo-200">
             {filiere.category}
           </Badge>
@@ -32,13 +32,13 @@ export function FiliereCard({ filiere }: FiliereCardProps) {
           </div>
           <div className="flex items-center text-gray-600">
             <BookOpen className="h-4 w-4 mr-2 text-indigo-600" />
-            <span>Bac {filiere.bacRequired.join(", ")}</span>
+            <span>Bac {filiere.bacRequired?.join(", ") || "Non spécifié"}</span>
           </div>
           <div className="flex items-center text-gray-600">
             <MapPin className="h-4 w-4 mr-2 text-indigo-600" />
-            <span>{filiere.locations.join(", ")}</span>
+            <span>{filiere.locations?.join(", ") || "Non spécifié"} </span>
           </div>
-          <p className="text-gray-600 text-sm mt-2 line-clamp-2">{filiere.shortDescription}</p>
+          <p className="text-gray-600 text-sm mt-2 line-clamp-2">{filiere.descriptionCourte}</p>
         </div>
       </CardContent>
       <CardFooter className="pt-2">

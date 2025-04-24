@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { FiliereCard } from "@/components/filieres/filiere-card"
-import type { Filiere } from "@/lib/data"
+import type { Filiere } from "@/payload-types"
 
 interface FiliereGridProps {
   filieres: Filiere[]
