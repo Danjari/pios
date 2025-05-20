@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Badge } from "@/components/ui/badge"
-
+// check the search filter of filieres to fix the remaining issues. 
 export function UniversitySearchFilters() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const [selectedFilters, setSelectedFilters] = useState<{
