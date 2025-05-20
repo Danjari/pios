@@ -90,48 +90,68 @@ export async function fetchFiliereBySlug(slug: string) {
 
 
 
-  export async function fetchUniversites() {
-    const payload = await getPayload({ config: configPromise });
+export async function fetchUniversites() {
+  const payload = await getPayload({ config: configPromise });
+
+  const { docs: universites } = await payload.find({
+    collection: "universites",
+    limit: 100,
+    sort: "name",
+    depth: 1,
+  });
+
+  return universites.map((uni) => ({
+    ...uni,
+    logo:
+      typeof uni.logo === "string"
+        ? { url: uni.logo }
+        : uni.logo && "url" in uni.logo && uni.logo.url
+        ? { url: uni.logo.url }
+        : null,
+    bannerImage:
+      typeof uni.bannerImage === "string"
+        ? { url: uni.bannerImage }
+        : uni.bannerImage && "url" in uni.bannerImage && uni.bannerImage.url
+        ? { url: uni.bannerImage.url }
+        : null,
+  }));
+}
+
+
+  export async function fetchUniversiteBySlug(slug: string) {
+    try {
+      const payload = await getPayload({ config: configPromise });
   
-    const { docs: universites } = await payload.find({
-      collection: "universites",
-      limit: 100,
-      sort: "nomDeLUniversite",
-      select: {
-        nomDeLUniversite: true,
-        slug: true,
-        region: true,
-        logo: true,
-        description: true,
-        longDescription: true,
-      },
-    });
+      const result = await payload.find({
+        collection: "universites",
+        where: { slug: { equals: slug } },
+        limit: 1,
+        pagination: false,
+        depth: 1,
+      });
   
-    return universites.map((uni) => ({
+      const uni = result.docs?.[0];
+  
+      if (!uni) return null;
+  
+      return {
         ...uni,
-        // ✅ Normalize `logo` so it always matches `{ url: string } | null | undefined`
         logo:
           typeof uni.logo === "string"
             ? { url: uni.logo }
             : uni.logo && "url" in uni.logo && uni.logo.url
             ? { url: uni.logo.url }
             : null,
-      }));
-  }
-
-  export async function fetchUniversiteBySlug(slug: string) {
-    try {
-      const payload = await getPayload({ config: configPromise });
-      const result = await payload.find({
-        collection: "universites",
-        where: { slug: { equals: slug } },
-        limit: 1,
-        pagination: false,
-      });
-  
-      return result.docs?.[0] || null;
+        bannerImage:
+          typeof uni.bannerImage === "string"
+            ? { url: uni.bannerImage }
+            : uni.bannerImage && "url" in uni.bannerImage && uni.bannerImage.url
+            ? { url: uni.bannerImage.url }
+            : null,
+      };
     } catch (error) {
       console.error("Error fetching universite:", error);
       return null;
     }
   }
+  

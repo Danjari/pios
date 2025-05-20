@@ -238,27 +238,81 @@ export interface Filiere {
  */
 export interface Universite {
   id: string;
-  nomDeLUniversite: string;
+  name: string;
   slug: string;
-  description: string;
+  type?: string | null;
   region?: ('Niamey' | 'Zinder' | 'Maradi' | 'Tahaoua' | 'Agadez' | 'Tillabery' | 'Dosso' | 'Diffa') | null;
-  logo: string | Media;
-  longDescription?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  longDescription_html?: string | null;
+  /**
+   * Entrer un autre pays si différent de Niger
+   */
+  country?: string | null;
+  educationSystem?: string | null;
+  graduatesCount?: number | null;
+  logo?: (string | null) | Media;
+  bannerImage?: (string | null) | Media;
+  motto?: string | null;
+  cycleDuration?:
+    | {
+        value?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  programs?: (string | Filiere)[] | null;
+  academicResults?: string | null;
+  admissionRequirements?:
+    | {
+        requirement?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  tuitionFees?:
+    | {
+        program?: string | null;
+        amount?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  accreditations?: string | null;
+  authorization?: string | null;
+  campusResources?:
+    | {
+        item?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  partners?:
+    | {
+        partner?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  studentActivities?:
+    | {
+        activity?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  clubs?:
+    | {
+        club?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  gallery?:
+    | {
+        src?: string | null;
+        alt?: string | null;
+        caption?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  videos?:
+    | {
+        src?: string | null;
+        title?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -417,13 +471,78 @@ export interface FilieresSelect<T extends boolean = true> {
  * via the `definition` "universites_select".
  */
 export interface UniversitesSelect<T extends boolean = true> {
-  nomDeLUniversite?: T;
+  name?: T;
   slug?: T;
-  description?: T;
+  type?: T;
   region?: T;
+  country?: T;
+  educationSystem?: T;
+  graduatesCount?: T;
   logo?: T;
-  longDescription?: T;
-  longDescription_html?: T;
+  bannerImage?: T;
+  motto?: T;
+  cycleDuration?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  programs?: T;
+  academicResults?: T;
+  admissionRequirements?:
+    | T
+    | {
+        requirement?: T;
+        id?: T;
+      };
+  tuitionFees?:
+    | T
+    | {
+        program?: T;
+        amount?: T;
+        id?: T;
+      };
+  accreditations?: T;
+  authorization?: T;
+  campusResources?:
+    | T
+    | {
+        item?: T;
+        id?: T;
+      };
+  partners?:
+    | T
+    | {
+        partner?: T;
+        id?: T;
+      };
+  studentActivities?:
+    | T
+    | {
+        activity?: T;
+        id?: T;
+      };
+  clubs?:
+    | T
+    | {
+        club?: T;
+        id?: T;
+      };
+  gallery?:
+    | T
+    | {
+        src?: T;
+        alt?: T;
+        caption?: T;
+        id?: T;
+      };
+  videos?:
+    | T
+    | {
+        src?: T;
+        title?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

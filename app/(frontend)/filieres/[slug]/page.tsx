@@ -135,7 +135,7 @@ export default async function FilierePage({ params }: { params: Promise<{ slug: 
                     return (
                       <Card key={index}>
                         <CardContent className="pt-6">
-                          <h3 className="font-bold">{university.nomDeLUniversite}</h3>
+                          <h3 className="font-bold">{university.name}</h3>
                           <p className="text-gray-600 text-sm">{university.region}</p>
                           <div className="mt-3">
                             <Link href={`/universites/${university.slug}`} passHref>
