@@ -100,21 +100,22 @@ export async function fetchUniversites() {
     depth: 1,
   });
 
-  return universites.map((uni) => ({
-    ...uni,
-    logo:
-      typeof uni.logo === "string"
-        ? { url: uni.logo }
-        : uni.logo && "url" in uni.logo && uni.logo.url
-        ? { url: uni.logo.url }
-        : null,
-    bannerImage:
-      typeof uni.bannerImage === "string"
-        ? { url: uni.bannerImage }
-        : uni.bannerImage && "url" in uni.bannerImage && uni.bannerImage.url
-        ? { url: uni.bannerImage.url }
-        : null,
-  }));
+  // return universites.map((uni) => ({
+  //   ...uni,
+  //   logo:
+  //     typeof uni.logo === "string"
+  //       ? { url: uni.logo }
+  //       : uni.logo && "url" in uni.logo && uni.logo.url
+  //       ? { url: uni.logo.url }
+  //       : null,
+  //   bannerImage:
+  //     typeof uni.bannerImage === "string"
+  //       ? { url: uni.bannerImage }
+  //       : uni.bannerImage && "url" in uni.bannerImage && uni.bannerImage.url
+  //       ? { url: uni.bannerImage.url }
+  //       : null,
+  // }));
+  return universites
 }
 
 

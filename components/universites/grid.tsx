@@ -2,9 +2,14 @@
 
 import { useState } from "react"
 import { UniversityCard } from "@/components/universites/Card"
-import { universities } from "@/lib/universityData"
+//import { universities } from "@/lib/universityData"
+import type { Universite } from "@/payload-types"
 
-export function UniversityGrid() {
+interface UniversiteGridProps {
+  universities: Universite[]
+}
+
+export function UniversityGrid({universities}:UniversiteGridProps) {
   const [visibleCount, setVisibleCount] = useState(6)
 
   const loadMore = () => {
@@ -15,7 +20,7 @@ export function UniversityGrid() {
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {universities.slice(0, visibleCount).map((university) => (
-          <UniversityCard key={university.id} university={university} />
+          <UniversityCard key={university.slug} university={university} />
         ))}
       </div>
 

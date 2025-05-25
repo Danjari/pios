@@ -81,18 +81,31 @@
 //   ],
 // };
 
-
 import type { CollectionConfig } from 'payload';
-
+import {
+  BlocksFeature,
+  FixedToolbarFeature,
+  HeadingFeature,
+  HorizontalRuleFeature,
+  InlineToolbarFeature,
+  lexicalEditor,
+  HTMLConverterFeature,
+  lexicalHTML,
+} from '@payloadcms/richtext-lexical';
 
 export const Universites: CollectionConfig = {
   slug: 'universites',
   admin: {
-    useAsTitle: 'name',
-    defaultColumns: ['name', 'slug', 'city'],
+    useAsTitle: 'nomDeLUniversite',
+    defaultColumns: ['nomDeLUniversite', 'slug', 'region'],
   },
   fields: [
-    { name: 'name', type: 'text', required: true },
+    // Basic Info
+    {
+      name: 'nomDeLUniversite',
+      type: 'text',
+      required: true,
+    },
     {
       name: 'slug',
       type: 'text',
@@ -100,57 +113,107 @@ export const Universites: CollectionConfig = {
       unique: true,
       admin: { position: 'sidebar' },
       hooks: {
-        beforeValidate: [({ siblingData }) => {
-          if (!siblingData.slug && siblingData.name) {
-            siblingData.slug = siblingData.name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '')
-          }
-          return siblingData.slug
-        }]
-      }
+        beforeValidate: [
+          ({ siblingData }) => {
+            if (!siblingData.slug && siblingData.nomDeLUniversite) {
+              siblingData.slug = siblingData.nomDeLUniversite
+                .toLowerCase()
+                .replace(/ /g, '-')
+                .replace(/[^\w-]+/g, '');
+            }
+            return siblingData.slug;
+          },
+        ],
+      },
     },
-    { name: 'type', type: 'text' },
+    {
+      name: 'description',
+      type: 'textarea',
+      required: true,
+    },
     {
       name: 'region',
       type: 'select',
-      options: ['Niamey', 'Zinder', 'Maradi', 'Tahaoua', 'Agadez','Tillabery','Dosso','Diffa'],
+      options: ['Niamey', 'Zinder', 'Maradi', 'Tahaoua', 'Agadez', 'Tillabery', 'Dosso', 'Diffa'],
+    },
+    {
+      name: 'type',
+      type: 'text',
+    },
+    {
+      name: 'city',
+      type: 'text',
     },
     {
       name: 'country',
       type: 'text',
-      defaultValue: 'Niger',
-      admin: {
-        placeholder: 'Niger',
-        description: 'Entrer un autre pays si différent de Niger',
-      },
     },
-    { name: 'educationSystem', type: 'text' },
-    { name: 'graduatesCount', type: 'number' },
+    {
+      name: 'educationSystem',
+      type: 'text',
+    },
+    {
+      name: 'graduatesCount',
+      type: 'number',
+    },
     {
       name: 'logo',
       type: 'upload',
+      label: 'Logo',
       relationTo: 'media',
+      required: true,
     },
     {
       name: 'bannerImage',
       type: 'upload',
+      label: 'Bannière',
       relationTo: 'media',
     },
-    { name: 'motto', type: 'text' },
+    {
+      name: 'motto',
+      type: 'text',
+    },
     {
       name: 'cycleDuration',
       type: 'array',
       fields: [{ name: 'value', type: 'text' }],
     },
+
+    // Faculties OR Flat Filières
     {
-      name: 'programs',
+      name: 'hasFaculties',
+      type: 'checkbox',
+      label: 'Cette université a-t-elle des facultés ?',
+      defaultValue: false,
+    },
+    {
+      name: 'faculties',
+      type: 'array',
+      admin: {
+        condition: (_, siblingData) => Boolean(siblingData?.hasFaculties),
+      },
+      fields: [
+        { name: 'name', type: 'text', required: true },
+        { name: 'description', type: 'textarea' },
+        {
+          name: 'filieres',
+          type: 'relationship',
+          relationTo: 'filieres',
+          hasMany: true,
+        },
+      ],
+    },
+    {
+      name: 'filieres',
       type: 'relationship',
       relationTo: 'filieres',
       hasMany: true,
-      required: false,
       admin: {
-        isSortable: true,
+        condition: (_, siblingData) => !Boolean(siblingData?.hasFaculties),
       },
     },
+
+    // Academic Info
     {
       name: 'academicResults',
       type: 'textarea',
@@ -160,20 +223,39 @@ export const Universites: CollectionConfig = {
       type: 'array',
       fields: [{ name: 'requirement', type: 'text' }],
     },
+
+    // Tuition Fees
     {
       name: 'tuitionFees',
       type: 'array',
       fields: [
         { name: 'program', type: 'text' },
-        { name: 'amount', type: 'text' },
+        {
+          name: 'amount',
+          type: 'text',
+          validate: (val: string | null | undefined) => {
+            if (val === null || val === undefined || val === '') return true;
+            return /^[0-9]+$/.test(val) ? true : 'Le montant doit être numérique';
+          },
+        },
       ],
     },
-    { name: 'accreditations', type: 'textarea' },
-    { name: 'authorization', type: 'textarea' },
+
+    // Accreditation and Authorization
+    {
+      name: 'accreditations',
+      type: 'textarea',
+    },
+    {
+      name: 'authorization',
+      type: 'textarea',
+    },
+
+    // Campus Resources, Partners, Clubs
     {
       name: 'campusResources',
       type: 'array',
-      fields: [{ name: 'item', type: 'text' }],
+      fields: [{ name: 'resource', type: 'text' }],
     },
     {
       name: 'partners',
@@ -190,15 +272,19 @@ export const Universites: CollectionConfig = {
       type: 'array',
       fields: [{ name: 'club', type: 'text' }],
     },
+
+    // Gallery
     {
       name: 'gallery',
       type: 'array',
       fields: [
-        { name: 'src', type: 'text' },
+        { name: 'src', type: 'upload', relationTo: 'media' },
         { name: 'alt', type: 'text' },
         { name: 'caption', type: 'text' },
       ],
     },
+
+    // Videos
     {
       name: 'videos',
       type: 'array',
@@ -207,5 +293,23 @@ export const Universites: CollectionConfig = {
         { name: 'title', type: 'text' },
       ],
     },
+
+    // Long Description
+    {
+      name: 'longDescription',
+      type: 'richText',
+      editor: lexicalEditor({
+        features: ({ defaultFeatures }) => [
+          ...defaultFeatures,
+          HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3'] }),
+          BlocksFeature({ blocks: [] }),
+          FixedToolbarFeature(),
+          InlineToolbarFeature(),
+          HorizontalRuleFeature(),
+          HTMLConverterFeature({}),
+        ],
+      }),
+    },
+    lexicalHTML('longDescription', { name: 'longDescription_html' }),
   ],
 };

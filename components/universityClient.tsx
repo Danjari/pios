@@ -134,7 +134,7 @@ export default function UniversitiesPage({universites}:Props) {
             Explorez les différentes universités du Niger et trouvez celle qui correspond à vos aspirations académiques.
           </p>
 
-          <UniversitySearchFilters universities={allUniversities} onFiltersChange={setFilteredUniversities}/>
+          <UniversitySearchFilters universites={allUniversities} onFiltersChange={setFilteredUniversities}/>
 
           <div className="mt-10">
             <UniversityGrid universities={filteredUniversties} />

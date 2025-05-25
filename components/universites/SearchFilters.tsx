@@ -7,8 +7,15 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Badge } from "@/components/ui/badge"
+import type { Universite } from "@/payload-types"
 // check the search filter of filieres to fix the remaining issues. 
-export function UniversitySearchFilters() {
+
+// creating the interface 
+interface SearchFiltersPropsUni{
+  universites: Universite[]
+  onFiltersChange: (filteredUniversites:Universite[])=>void
+}
+export function UniversitySearchFilters({universites,onFiltersChange}:SearchFiltersPropsUni) {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const [selectedFilters, setSelectedFilters] = useState<{
     bac: string | null
@@ -40,7 +47,7 @@ export function UniversitySearchFilters() {
   }
 
   const hasActiveFilters = selectedFilters.bac || selectedFilters.categorie || selectedFilters.localisation
-
+  useEffect
   return (
     <div className="space-y-4">
       <div className="relative">
