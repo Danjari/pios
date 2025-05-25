@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState,useEffect } from "react"
 import { Search, Filter, ChevronDown, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Badge } from "@/components/ui/badge"
 import type { Universite } from "@/payload-types"
+import {  categorieOptions, localisationOptions } from "@/lib/data"
 // check the search filter of filieres to fix the remaining issues. 
 
 // creating the interface 
@@ -17,21 +18,18 @@ interface SearchFiltersPropsUni{
 }
 export function UniversitySearchFilters({universites,onFiltersChange}:SearchFiltersPropsUni) {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+  const [searchQuery,setSearchQuery] = useState("")
   const [selectedFilters, setSelectedFilters] = useState<{
-    bac: string | null
-    categorie: string | null
+    
+    type: string | null
     localisation: string | null
   }>({
-    bac: null,
-    categorie: null,
+    
+    type: null,
     localisation: null,
   })
 
-  const bacOptions = ["A", "C", "D", "F1", "F2", "F3", "G1", "G2"]
-  const categorieOptions = ["Technologie", "Économie", "Agriculture", "Santé", "Sciences Sociales"]
-  const localisationOptions = ["Niamey", "Maradi", "Zinder", "Tahoua", "Agadez", "Dosso", "Diffa", "Tillabéri"]
-
-  const handleFilterChange = (type: "bac" | "categorie" | "localisation", value: string | null) => {
+  const handleFilterChange = (type:  "type" | "localisation", value: string | null) => {
     setSelectedFilters((prev) => ({
       ...prev,
       [type]: value,
@@ -40,14 +38,43 @@ export function UniversitySearchFilters({universites,onFiltersChange}:SearchFilt
 
   const clearFilters = () => {
     setSelectedFilters({
-      bac: null,
-      categorie: null,
+     
+      type: null,
       localisation: null,
     })
+    setSearchQuery("")
   }
 
-  const hasActiveFilters = selectedFilters.bac || selectedFilters.categorie || selectedFilters.localisation
-  useEffect
+  const hasActiveFilters =  selectedFilters.type || selectedFilters.localisation
+   // Filter filieres based on search query and selected filters
+    useEffect(() => {
+      const filteredFilieres = universites.filter((universite) => {
+        // Search query filter
+        const matchesSearch = searchQuery
+          ? universite.nomDeLUniversite.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            universite.description.toLowerCase().includes(searchQuery.toLowerCase())
+          : true
+  
+        // Bac filter
+        // const matchesBac = selectedFilters.bac
+        //   ? universite.bacRequired?.includes(selectedFilters.bac as "A" | "C" | "D" | "F1" | "F2" | "F3" | "G1" | "G2")
+        //   : true
+  
+        // Category filter
+        const matchesType = selectedFilters.type
+          ? universite.type === selectedFilters.type
+          : true
+  
+        // Location filter
+        const matchesLocation = selectedFilters.localisation
+          ? universite.region?.includes(selectedFilters.localisation as "Niamey" | "Maradi" | "Zinder" | "Tahoua" | "Agadez" | "Dosso" | "Diffa" | "Tillabéri")
+          : true
+  
+        return matchesSearch && matchesType && matchesLocation
+      })
+      onFiltersChange(filteredFilieres)
+    }, [searchQuery, selectedFilters, onFiltersChange, universites])
+  
   return (
     <div className="space-y-4">
       <div className="relative">
@@ -58,7 +85,7 @@ export function UniversitySearchFilters({universites,onFiltersChange}:SearchFilt
       {/* Desktop Filters */}
       <div className="hidden md:flex flex-wrap items-center gap-3">
         <div className="flex items-center gap-2 flex-wrap">
-          <Select value={selectedFilters.bac || ""} onValueChange={(value) => handleFilterChange("bac", value || null)}>
+          {/* <Select value={selectedFilters.bac || ""} onValueChange={(value) => handleFilterChange("bac", value || null)}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Filière du Bac" />
             </SelectTrigger>
@@ -69,14 +96,14 @@ export function UniversitySearchFilters({universites,onFiltersChange}:SearchFilt
                 </SelectItem>
               ))}
             </SelectContent>
-          </Select>
+          </Select> */}
 
           <Select
-            value={selectedFilters.categorie || ""}
-            onValueChange={(value) => handleFilterChange("categorie", value || null)}
+            value={selectedFilters.type || ""}
+            onValueChange={(value) => handleFilterChange("type", value || null)}
           >
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Catégorie" />
+              <SelectValue placeholder="Type" />
             </SelectTrigger>
             <SelectContent>
               {categorieOptions.map((option) => (
@@ -130,7 +157,7 @@ export function UniversitySearchFilters({universites,onFiltersChange}:SearchFilt
               <SheetDescription>Affinez votre recherche d&apos;universités</SheetDescription>
             </SheetHeader>
             <div className="py-6 space-y-6">
-              <div className="space-y-3">
+              {/* <div className="space-y-3">
                 <h3 className="font-medium">Filière du Bac</h3>
                 <div className="flex flex-wrap gap-2">
                   {bacOptions.map((option) => (
@@ -144,18 +171,18 @@ export function UniversitySearchFilters({universites,onFiltersChange}:SearchFilt
                     </Badge>
                   ))}
                 </div>
-              </div>
+              </div> */}
 
               <div className="space-y-3">
-                <h3 className="font-medium">Catégorie</h3>
+                <h3 className="font-medium">Type</h3>
                 <div className="flex flex-wrap gap-2">
                   {categorieOptions.map((option) => (
                     <Badge
                       key={option}
-                      variant={selectedFilters.categorie === option ? "default" : "outline"}
+                      variant={selectedFilters.type === option ? "default" : "outline"}
                       className="cursor-pointer"
                       onClick={() =>
-                        handleFilterChange("categorie", selectedFilters.categorie === option ? null : option)
+                        handleFilterChange("type", selectedFilters.type === option ? null : option)
                       }
                     >
                       {option}
@@ -197,16 +224,16 @@ export function UniversitySearchFilters({universites,onFiltersChange}:SearchFilt
         {/* Mobile Selected Filters */}
         {hasActiveFilters && (
           <div className="flex flex-wrap gap-2 mt-3">
-            {selectedFilters.bac && (
+            {/* {selectedFilters.bac && (
               <Badge className="bg-indigo-100 text-indigo-800 hover:bg-indigo-200">
                 Bac: {selectedFilters.bac}
                 <X size={14} className="ml-1 cursor-pointer" onClick={() => handleFilterChange("bac", null)} />
               </Badge>
-            )}
-            {selectedFilters.categorie && (
+            )} */}
+            {selectedFilters.type && (
               <Badge className="bg-indigo-100 text-indigo-800 hover:bg-indigo-200">
-                {selectedFilters.categorie}
-                <X size={14} className="ml-1 cursor-pointer" onClick={() => handleFilterChange("categorie", null)} />
+                {selectedFilters.type}
+                <X size={14} className="ml-1 cursor-pointer" onClick={() => handleFilterChange("type", null)} />
               </Badge>
             )}
             {selectedFilters.localisation && (

@@ -81,7 +81,6 @@
 //   };
 // }
 
-
 import Link from "next/link"
 import Image from "next/image"
 import { notFound } from "next/navigation"
@@ -91,16 +90,26 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Gallery } from "@/components/universites/gallery"
-import { universities } from "@/lib/universityData"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { fetchUniversiteBySlug } from "@/lib/api"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
-interface UniversityPageProps {
-  params: {
-    id: string
-  }
-}
 
-export default function UniversityPage({ params }: UniversityPageProps) {
-  const university = universities.find((u) => u.id === params.id)
+
+export default async function UniversityPage({ params }: { params: Promise<{ slug: string }> }) {
+  const university = await fetchUniversiteBySlug((await params).slug)
 
   if (!university) {
     notFound()
@@ -111,7 +120,7 @@ export default function UniversityPage({ params }: UniversityPageProps) {
       <header className="bg-indigo-700 text-white py-6">
         <div className="container mx-auto px-4">
           <h1 className="text-2xl md:text-3xl font-bold">PIOS</h1>
-          <p className="text-indigo-100">Projet d&apos;Orientation Scolaire au Niger</p>
+          <p className="text-indigo-100">Projet d'Orientation Scolaire au Niger</p>
         </div>
       </header>
 
@@ -124,8 +133,8 @@ export default function UniversityPage({ params }: UniversityPageProps) {
 
           <div className="relative w-full h-48 md:h-64 rounded-lg overflow-hidden mb-8">
             <Image
-              src={university.bannerImage || `/placeholder.svg?height=300&width=800`}
-              alt={university.name}
+              src={university.bannerImage?.url || `/placeholder.svg?height=300&width=800`}
+              alt={university.nomDeLUniversite}
               fill
               className="object-cover"
               priority
@@ -143,8 +152,8 @@ export default function UniversityPage({ params }: UniversityPageProps) {
               <div className="h-24 w-24 rounded-full bg-white p-1 shadow-lg">
                 <div className="relative h-full w-full rounded-full overflow-hidden">
                   <Image
-                    src={university.logo || "/placeholder.svg"}
-                    alt={`${university.name} logo`}
+                    src={university.logo?.url || "/placeholder.svg"}
+                    alt={`${university.nomDeLUniversite} logo`}
                     fill
                     className="object-cover"
                   />
@@ -195,7 +204,7 @@ export default function UniversityPage({ params }: UniversityPageProps) {
 
           {university.motto && (
             <div className="bg-indigo-50 border border-indigo-100 rounded-lg p-4 text-center italic text-indigo-800 mb-8">
-              &ldquo;{university.motto}&rdquo;
+              &quot;{university.motto}&quot;
             </div>
           )}
 
@@ -216,28 +225,56 @@ export default function UniversityPage({ params }: UniversityPageProps) {
                   <CardContent className="pt-6">
                     <div className="space-y-4">
                       <div>
-                        <h3 className="font-semibold text-gray-700">Système d&apos;enseignement</h3>
+                        <h3 className="font-semibold text-gray-700">Système d'enseignement</h3>
                         <p>{university.educationSystem}</p>
                       </div>
                       <div>
                         <h3 className="font-semibold text-gray-700">Durée de formation par cycle</h3>
                         <ul className="list-disc pl-5 space-y-1">
-                          {university.cycleDuration.map((cycle, index) => (
+                          {university.cycleDuration?.map((cycle, index) => (
                             <li key={index}>{cycle}</li>
                           ))}
                         </ul>
                       </div>
                       <div>
-                        <h3 className="font-semibold text-gray-700">Offre de formation</h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
-                          {university.programs.map((program, index) => (
-                            <Link href={`/filieres/${program.id}`} key={index}>
-                              <div className="bg-gray-100 hover:bg-indigo-50 p-2 rounded-md text-sm transition-colors">
-                                {program.name}
-                              </div>
-                            </Link>
-                          ))}
-                        </div>
+                        <h3 className="font-semibold text-gray-700 mb-3">Offre de formation</h3>
+                        {university.faculties && university.faculties.length > 0 ? (
+                          <Accordion type="multiple" className="w-full">
+                            {university.faculties.map((faculty) => (
+                              <AccordionItem key={faculty.id} value={faculty.id!} className="border rounded-lg mb-2">
+                                <AccordionTrigger className="px-4 py-3 hover:no-underline">
+                                  <div className="text-left">
+                                    <h4 className="font-medium text-gray-800">{faculty.name}</h4>
+                                    {faculty.description && (
+                                      <p className="text-sm text-gray-600 mt-1">{faculty.description}</p>
+                                    )}
+                                  </div>
+                                </AccordionTrigger>
+                                <AccordionContent className="px-4 pb-4">
+                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                    {faculty.programs.map((program, index) => (
+                                      <Link href={`/filieres/${program.id}`} key={index}>
+                                        <div className="bg-gray-50 hover:bg-indigo-50 p-3 rounded-md text-sm transition-colors border border-gray-200 hover:border-indigo-200">
+                                          <span className="font-medium">{program.name}</span>
+                                        </div>
+                                      </Link>
+                                    ))}
+                                  </div>
+                                </AccordionContent>
+                              </AccordionItem>
+                            ))}
+                          </Accordion>
+                        ) : (
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                            {university.programs.map((program, index) => (
+                              <Link href={`/filieres/${program.id}`} key={index}>
+                                <div className="bg-gray-100 hover:bg-indigo-50 p-2 rounded-md text-sm transition-colors">
+                                  {program.name}
+                                </div>
+                              </Link>
+                            ))}
+                          </div>
+                        )}
                       </div>
                       <div>
                         <h3 className="font-semibold text-gray-700">Résultats académiques antérieurs</h3>
@@ -262,7 +299,7 @@ export default function UniversityPage({ params }: UniversityPageProps) {
                   <CardContent className="pt-6">
                     <div className="space-y-4">
                       <div>
-                        <h3 className="font-semibold text-gray-700">Conditions d&apos;accès</h3>
+                        <h3 className="font-semibold text-gray-700">Conditions d'accès</h3>
                         <ul className="list-disc pl-5 space-y-1">
                           {university.admissionRequirements.map((requirement, index) => (
                             <li key={index}>{requirement}</li>
@@ -285,7 +322,7 @@ export default function UniversityPage({ params }: UniversityPageProps) {
                         <p>{university.accreditations}</p>
                       </div>
                       <div>
-                        <h3 className="font-semibold text-gray-700">Autorisation et arrêt d&apos;ouverture</h3>
+                        <h3 className="font-semibold text-gray-700">Autorisation et arrêt d'ouverture</h3>
                         <p>{university.authorization}</p>
                       </div>
                     </div>
@@ -311,7 +348,7 @@ export default function UniversityPage({ params }: UniversityPageProps) {
                         </ul>
                       </div>
                       <div>
-                        <h3 className="font-semibold text-gray-700">Partenaires de l&apos;école</h3>
+                        <h3 className="font-semibold text-gray-700">Partenaires de l'école</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
                           {university.partners.map((partner, index) => (
                             <div key={index} className="bg-gray-100 p-2 rounded-md text-sm">
@@ -366,19 +403,104 @@ export default function UniversityPage({ params }: UniversityPageProps) {
             </h2>
             <Gallery images={university.gallery} videos={university.videos} />
           </section>
-          <div className="flex justify-center mt-12">
-          <Button size="lg" className="px-8">
-                  Postuler à cette université
-          </Button>
-          </div>
 
-         
+          <div className="flex justify-center mt-12">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button size="lg" className="px-8">
+                  Postuler à cette université
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[500px]">
+                <DialogHeader>
+                  <DialogTitle>Formulaire de candidature</DialogTitle>
+                  <DialogDescription>
+                    Veuillez remplir ce formulaire pour soumettre votre candidature à {university.name}.
+                  </DialogDescription>
+                </DialogHeader>
+                <form className="space-y-4 py-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="firstName">Prénom</Label>
+                      <Input id="firstName" placeholder="Votre prénom" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="lastName">Nom</Label>
+                      <Input id="lastName" placeholder="Votre nom" />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input id="email" type="email" placeholder="votre.email@exemple.com" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Téléphone</Label>
+                    <Input id="phone" placeholder="+227 XX XX XX XX" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="bac">Type de Bac</Label>
+                    <Select>
+                      <SelectTrigger id="bac">
+                        <SelectValue placeholder="Sélectionnez votre type de Bac" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="A">Bac A</SelectItem>
+                        <SelectItem value="C">Bac C</SelectItem>
+                        <SelectItem value="D">Bac D</SelectItem>
+                        <SelectItem value="F1">Bac F1</SelectItem>
+                        <SelectItem value="F2">Bac F2</SelectItem>
+                        <SelectItem value="F3">Bac F3</SelectItem>
+                        <SelectItem value="G1">Bac G1</SelectItem>
+                        <SelectItem value="G2">Bac G2</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="program">Programme souhaité</Label>
+                    <Select>
+                      <SelectTrigger id="program">
+                        <SelectValue placeholder="Sélectionnez un programme" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {university.faculties && university.faculties.length > 0
+                          ? university.faculties.map((faculty) =>
+                              faculty.programs.map((program) => (
+                                <SelectItem key={program.id} value={program.id}>
+                                  {program.name} ({faculty.name})
+                                </SelectItem>
+                              )),
+                            )
+                          : university.programs.map((program) => (
+                              <SelectItem key={program.id} value={program.id}>
+                                {program.name}
+                              </SelectItem>
+                            ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="motivation">Lettre de motivation</Label>
+                    <Textarea
+                      id="motivation"
+                      placeholder="Expliquez brièvement pourquoi vous souhaitez rejoindre cette université et ce programme"
+                      className="min-h-[100px]"
+                    />
+                  </div>
+                </form>
+                <DialogFooter>
+                  <Button type="submit" className="w-full">
+                    Soumettre ma candidature
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </div>
         </div>
       </main>
 
       <footer className="bg-gray-100 py-6 mt-12">
         <div className="container mx-auto px-4 text-center text-gray-600">
-          <p>© {new Date().getFullYear()} PIOS - Projet d&apos;Orientation Scolaire au Niger</p>
+          <p>© {new Date().getFullYear()} PIOS - Projet d'Orientation Scolaire au Niger</p>
         </div>
       </footer>
     </div>

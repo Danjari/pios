@@ -47,7 +47,7 @@ export default async function FilierePage({ params }: { params: Promise<{ slug: 
                   <Clock className="h-5 w-5 mr-2 text-indigo-600" />
                   <div>
                     <p className="text-sm text-gray-500">Durée</p>
-                    <p className="font-medium">{filiere.duration || "Non spécifié"}</p>
+                    <p className="font-medium">{filiere.duration || "Non spécifié"} ans</p>
                   </div>
                 </div>
               </CardContent>
@@ -135,7 +135,7 @@ export default async function FilierePage({ params }: { params: Promise<{ slug: 
                     return (
                       <Card key={index}>
                         <CardContent className="pt-6">
-                          <h3 className="font-bold">{university.name}</h3>
+                          <h3 className="font-bold">{university.nomDeLUniversite}</h3>
                           <p className="text-gray-600 text-sm">{university.region}</p>
                           <div className="mt-3">
                             <Link href={`/universites/${university.slug}`} passHref>

@@ -7,10 +7,7 @@ import { Button } from "@/components/ui/button"
 import type { Universite } from "@/payload-types"
 
 interface UniversityCardProps {
-  university: Universite & {
-    logo: { url: string } | null;
-    bannerImage: { url: string } | null;
-  }
+  university: Universite
 }
 
 export function UniversityCard({ university }: UniversityCardProps) {
@@ -27,7 +24,7 @@ export function UniversityCard({ university }: UniversityCardProps) {
           <div className="absolute -bottom-6 left-4 h-16 w-16 rounded-full bg-white p-1 shadow-md">
             <div className="relative h-full w-full rounded-full overflow-hidden">
               <Image
-                src={university.logo.url}
+                src={university.logo?.url || `/placeholder.svg?height=80&width=80`}
                 alt={`${university.nomDeLUniversite} logo`}
                 fill
                 className="object-cover"
