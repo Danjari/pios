@@ -1,5 +1,5 @@
 "use client"
-
+// implement the search filters after creating the bourse API. 
 import { useState } from "react"
 import { Search, Filter, ChevronDown, X } from "lucide-react"
 import { Button } from "@/components/ui/button"

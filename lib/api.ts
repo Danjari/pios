@@ -100,21 +100,6 @@ export async function fetchUniversites() {
     depth: 1,
   });
 
-  // return universites.map((uni) => ({
-  //   ...uni,
-  //   logo:
-  //     typeof uni.logo === "string"
-  //       ? { url: uni.logo }
-  //       : uni.logo && "url" in uni.logo && uni.logo.url
-  //       ? { url: uni.logo.url }
-  //       : null,
-  //   bannerImage:
-  //     typeof uni.bannerImage === "string"
-  //       ? { url: uni.bannerImage }
-  //       : uni.bannerImage && "url" in uni.bannerImage && uni.bannerImage.url
-  //       ? { url: uni.bannerImage.url }
-  //       : null,
-  // }));
   return universites
 }
 
@@ -152,6 +137,47 @@ export async function fetchUniversites() {
       };
     } catch (error) {
       console.error("Error fetching universite:", error);
+      return null;
+    }
+  }
+  
+
+
+
+export async function fetchBourses() {
+  const payload = await getPayload({ config: configPromise });
+
+  const { docs: bourses } = await payload.find({
+    collection: "bourses",
+    limit: 100,
+    sort: "name",
+    depth: 1,
+  });
+
+
+  return bourses
+}
+
+
+  export async function fetchBourseBySlug(slug: string) {
+    try {
+      const payload = await getPayload({ config: configPromise });
+  
+      const result = await payload.find({
+        collection: "bourses",
+        where: { slug: { equals: slug } },
+        limit: 1,
+        pagination: false,
+        depth: 1,
+      });
+  
+      const bourse = result.docs?.[0];
+  
+      if (!bourse) return null;
+  
+      return bourse
+    } catch (error) {
+      console.error("Error fetching bourse:", error);
       return null;
     }
   }
