@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Badge } from "@/components/ui/badge"
 import type { Universite } from "@/payload-types"
-import {  categorieOptions, localisationOptions } from "@/lib/data"
+import {  type, localisationOptions } from "@/lib/data"
 // check the search filter of filieres to fix the remaining issues. 
 
 // creating the interface 
@@ -106,7 +106,7 @@ export function UniversitySearchFilters({universites,onFiltersChange}:SearchFilt
               <SelectValue placeholder="Type" />
             </SelectTrigger>
             <SelectContent>
-              {categorieOptions.map((option) => (
+              {type.map((option) => (
                 <SelectItem key={option} value={option}>
                   {option}
                 </SelectItem>
@@ -176,7 +176,7 @@ export function UniversitySearchFilters({universites,onFiltersChange}:SearchFilt
               <div className="space-y-3">
                 <h3 className="font-medium">Type</h3>
                 <div className="flex flex-wrap gap-2">
-                  {categorieOptions.map((option) => (
+                  {type.map((option) => (
                     <Badge
                       key={option}
                       variant={selectedFilters.type === option ? "default" : "outline"}

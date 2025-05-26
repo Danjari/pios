@@ -115,12 +115,7 @@ export default function UniversitiesPage({universites}:Props) {
   const [filteredUniversties, setFilteredUniversities] = useState<Universite[]>(universites)
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-indigo-700 text-white py-6">
-        <div className="container mx-auto px-4">
-          <h1 className="text-2xl md:text-3xl font-bold">PIOS</h1>
-          <p className="text-indigo-100">Projet d&apos;Orientation Scolaire au Niger</p>
-        </div>
-      </header>
+      
 
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">

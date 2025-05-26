@@ -1,110 +1,30 @@
-// import React from "react";
-// import Image from "next/image";
-// import { notFound } from "next/navigation";
-// import Link from "next/link";
-// import { fetchUniversiteBySlug } from "@/lib/api";
 
-// export default async function UniversityPage({ params }: { params: Promise<{ slug: string }> }) {
-//   // Await params to properly extract slug
-//   const { slug } = await params;
-
-//   const university = await fetchUniversiteBySlug(slug);
-//   if (!university) {
-//     return notFound();
-//   }
-
-//   // Normalize logo
-//   const normalizedLogo = typeof university.logo === "string" ? { url: university.logo } : university.logo || null;
- 
-
-//   return (
-//     <div className="relative min-h-screen text-black flex items-start justify-center mt-20 px-4 sm:px-8">
-//       {/* Background with Radial Gradient */}
-//       <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
-
-//       <div className="max-w-4xl mx-auto relative z-10">
-//         {/* University Logo and Title */}
-//         <div className="flex items-center mb-6">
-//           {normalizedLogo && (
-//             <Image
-//               src={normalizedLogo?.url || "/fallback-image.jpeg"}
-//               alt={university.nomDeLUniversite}
-//               width={80}
-//               height={80}
-//               className="rounded-full mr-4"
-//             />
-//           )}
-//           <h1 className="text-3xl sm:text-4xl font-bold">{university.nomDeLUniversite}</h1>
-//         </div>
-
-//         {/* University Details */}
-//         <p className="text-sm text-blue-500 mb-4">{university.region}</p>
-//         <p className="bg-blue-50 border-l-4 border-blue-500 text-gray-700 text-base mb-6 p-4">
-//           {university.description || "No description available"}
-//         </p>
-
-//         {/* Long Description */}
-//         <div className="prose mb-8">
-//           <div
-//             dangerouslySetInnerHTML={{
-//               __html: university.longDescription_html || "",
-//             }}
-//           />
-//         </div>
-
-//         {/* Optional Link to return to the list of universities */}
-//         <div className="text-center">
-//           <Link href="/universites" className="text-blue-500 hover:text-blue-700">
-//             Retour aux universités
-//           </Link>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-// // Generate metadata dynamically for SEO
-// export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-//   const { slug } = await params;
-//   const university = await fetchUniversiteBySlug(slug);
-
-//   if (!university) {
-//     return {
-//       title: "Université non trouvée",
-//       description: "Cette université n'existe pas.",
-//     };
-//   }
-
-//   return {
-//     title: university.nomDeLUniversite,
-//     description: university.longDescription_html?.slice(0, 160) || "Détails sur l'université.",
-//   };
-// }
 
 import Link from "next/link"
 import Image from "next/image"
 import { notFound } from "next/navigation"
 import { ChevronLeft, MapPin, GraduationCap, BookOpen, Award, FileText, Library, Users } from "lucide-react"
-import { Button } from "@/components/ui/button"
+// import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Gallery } from "@/components/universites/gallery"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+// import {
+//   Dialog,
+//   DialogContent,
+//   DialogDescription,
+//   DialogFooter,
+//   DialogHeader,
+//   DialogTitle,
+//   DialogTrigger,
+// } from "@/components/ui/dialog"
+// import { Input } from "@/components/ui/input"
+// import { Label } from "@/components/ui/label"
+// import { Textarea } from "@/components/ui/textarea"
+// import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { fetchUniversiteBySlug } from "@/lib/api"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+
 
 
 
@@ -117,12 +37,7 @@ export default async function UniversityPage({ params }: { params: Promise<{ slu
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-indigo-700 text-white py-6">
-        <div className="container mx-auto px-4">
-          <h1 className="text-2xl md:text-3xl font-bold">PIOS</h1>
-          <p className="text-indigo-100">Projet d'Orientation Scolaire au Niger</p>
-        </div>
-      </header>
+  
 
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
@@ -142,7 +57,7 @@ export default async function UniversityPage({ params }: { params: Promise<{ slu
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
               <div className="p-6 w-full">
                 <Badge className="mb-2">{university.type}</Badge>
-                <h1 className="text-2xl md:text-3xl font-bold text-white">{university.name}</h1>
+                <h1 className="text-2xl md:text-3xl font-bold text-white">{university.nomDeLUniversite}</h1>
               </div>
             </div>
           </div>
@@ -225,14 +140,14 @@ export default async function UniversityPage({ params }: { params: Promise<{ slu
                   <CardContent className="pt-6">
                     <div className="space-y-4">
                       <div>
-                        <h3 className="font-semibold text-gray-700">Système d'enseignement</h3>
+                        <h3 className="font-semibold text-gray-700">Système d&apos;enseignement</h3>
                         <p>{university.educationSystem}</p>
                       </div>
                       <div>
                         <h3 className="font-semibold text-gray-700">Durée de formation par cycle</h3>
                         <ul className="list-disc pl-5 space-y-1">
                           {university.cycleDuration?.map((cycle, index) => (
-                            <li key={index}>{cycle}</li>
+                            <li key={index}>{cycle.value}</li>
                           ))}
                         </ul>
                       </div>
@@ -252,13 +167,25 @@ export default async function UniversityPage({ params }: { params: Promise<{ slu
                                 </AccordionTrigger>
                                 <AccordionContent className="px-4 pb-4">
                                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                    {faculty.programs.map((program, index) => (
-                                      <Link href={`/filieres/${program.id}`} key={index}>
-                                        <div className="bg-gray-50 hover:bg-indigo-50 p-3 rounded-md text-sm transition-colors border border-gray-200 hover:border-indigo-200">
-                                          <span className="font-medium">{program.name}</span>
-                                        </div>
-                                      </Link>
-                                    ))}
+                                    {faculty.filieres && faculty.filieres.length > 0 ? (
+                                      faculty.filieres.map((program, index) => {
+                                        if (typeof program === 'string') return null 
+                                        return (
+                                          <Link href={`/filieres/${program.slug}`} key={index}>
+                                          <div className="bg-gray-50 hover:bg-indigo-50 p-3 rounded-md text-sm transition-colors border border-gray-200 hover:border-indigo-200">
+                                            <span className="font-medium">{program.nomDeFiliere}</span>
+                                          </div>
+                                        </Link>
+                                        )
+
+                                      })
+                                      
+                                        )
+                                        
+                                
+                                    : (
+                                      <p className="text-sm text-gray-500 col-span-2">Aucune filière disponible</p>
+                                    )}
                                   </div>
                                 </AccordionContent>
                               </AccordionItem>
@@ -266,13 +193,19 @@ export default async function UniversityPage({ params }: { params: Promise<{ slu
                           </Accordion>
                         ) : (
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
-                            {university.programs.map((program, index) => (
-                              <Link href={`/filieres/${program.id}`} key={index}>
+                            {university.filieres?.map((program, index) => {
+                              if (typeof program === 'string') return null
+                              return (
+                                <Link href={`/filieres/${program.slug}`} key={index}>
                                 <div className="bg-gray-100 hover:bg-indigo-50 p-2 rounded-md text-sm transition-colors">
-                                  {program.name}
+                                  {program.nomDeFiliere}
                                 </div>
                               </Link>
-                            ))}
+
+                              )
+                              
+                            })
+                          }
                           </div>
                         )}
                       </div>
@@ -299,20 +232,33 @@ export default async function UniversityPage({ params }: { params: Promise<{ slu
                   <CardContent className="pt-6">
                     <div className="space-y-4">
                       <div>
-                        <h3 className="font-semibold text-gray-700">Conditions d'accès</h3>
+                        <h3 className="font-semibold text-gray-700">Conditions d&apos;accès</h3>
                         <ul className="list-disc pl-5 space-y-1">
-                          {university.admissionRequirements.map((requirement, index) => (
-                            <li key={index}>{requirement}</li>
-                          ))}
+                          {university.admissionRequirements && university.admissionRequirements.length>0 ?(
+                            university.admissionRequirements!.map((requirement, index) => {
+                              
+                              return (
+                                <li key={index}>{requirement.requirement}</li>
+                              )
+                            
+                          })) : (
+                            <p> no requirements</p>
+
+                          )
+                          
+                        }
+                          
+                            
+                      
                         </ul>
                       </div>
                       <div>
                         <h3 className="font-semibold text-gray-700">Frais de formation</h3>
                         <div className="space-y-2">
-                          {university.tuitionFees.map((fee, index) => (
+                          {university.tuitionFees?.map((fee, index) => (
                             <div key={index} className="flex justify-between items-center border-b pb-2">
                               <span>{fee.program}</span>
-                              <span className="font-medium">{fee.amount}</span>
+                              <span className="font-medium">{fee.amount} FCFA/an</span>
                             </div>
                           ))}
                         </div>
@@ -322,7 +268,7 @@ export default async function UniversityPage({ params }: { params: Promise<{ slu
                         <p>{university.accreditations}</p>
                       </div>
                       <div>
-                        <h3 className="font-semibold text-gray-700">Autorisation et arrêt d'ouverture</h3>
+                        <h3 className="font-semibold text-gray-700">Autorisation et arrêt d&apos;ouverture</h3>
                         <p>{university.authorization}</p>
                       </div>
                     </div>
@@ -342,17 +288,17 @@ export default async function UniversityPage({ params }: { params: Promise<{ slu
                       <div>
                         <h3 className="font-semibold text-gray-700">Moyens didactiques et logistiques</h3>
                         <ul className="list-disc pl-5 space-y-1">
-                          {university.campusResources.map((resource, index) => (
-                            <li key={index}>{resource}</li>
+                          {university.campusResources?.map((resource, index) => (
+                            <li key={index}>{resource.resource}</li>
                           ))}
                         </ul>
                       </div>
                       <div>
-                        <h3 className="font-semibold text-gray-700">Partenaires de l'école</h3>
+                        <h3 className="font-semibold text-gray-700">Partenaires de l&apos;école</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
-                          {university.partners.map((partner, index) => (
+                          {university.partners?.map((partner, index) => (
                             <div key={index} className="bg-gray-100 p-2 rounded-md text-sm">
-                              {partner}
+                              {partner.partner}
                             </div>
                           ))}
                         </div>
@@ -374,17 +320,17 @@ export default async function UniversityPage({ params }: { params: Promise<{ slu
                       <div>
                         <h3 className="font-semibold text-gray-700">Activités extra-académiques</h3>
                         <ul className="list-disc pl-5 space-y-1">
-                          {university.studentActivities.map((activity, index) => (
-                            <li key={index}>{activity}</li>
+                          {university.studentActivities?.map((activity, index) => (
+                            <li key={index}>{activity.activity}</li>
                           ))}
                         </ul>
                       </div>
                       <div>
                         <h3 className="font-semibold text-gray-700">Clubs et associations</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
-                          {university.clubs.map((club, index) => (
+                          {university.clubs?.map((club, index) => (
                             <div key={index} className="bg-gray-100 p-2 rounded-md text-sm">
-                              {club}
+                              {club.club}
                             </div>
                           ))}
                         </div>
@@ -401,10 +347,20 @@ export default async function UniversityPage({ params }: { params: Promise<{ slu
               <Award className="h-5 w-5 mr-2 text-indigo-600" />
               Galerie
             </h2>
-            <Gallery images={university.gallery} videos={university.videos} />
+            <Gallery 
+              images={university.gallery?.map(item => ({
+                src: typeof item.src === 'string' ? item.src : item.src?.url || '',
+                alt: item.alt || '',
+                caption: item.caption || undefined
+              })) || []}
+              videos={university.videos?.map(video => ({
+                src: video.src || '',
+                title: video.title || ''
+              })) || []}
+            />
           </section>
-
-          <div className="flex justify-center mt-12">
+          {/* this section is for the form that takes the button */}
+          {/* <div className="flex justify-center mt-12">
             <Dialog>
               <DialogTrigger asChild>
                 <Button size="lg" className="px-8">
@@ -415,7 +371,7 @@ export default async function UniversityPage({ params }: { params: Promise<{ slu
                 <DialogHeader>
                   <DialogTitle>Formulaire de candidature</DialogTitle>
                   <DialogDescription>
-                    Veuillez remplir ce formulaire pour soumettre votre candidature à {university.name}.
+                    Veuillez remplir ce formulaire pour soumettre votre candidature à {university.nomDeLUniversite}.
                   </DialogDescription>
                 </DialogHeader>
                 <form className="space-y-4 py-4">
@@ -494,13 +450,13 @@ export default async function UniversityPage({ params }: { params: Promise<{ slu
                 </DialogFooter>
               </DialogContent>
             </Dialog>
-          </div>
+          </div> */}
         </div>
       </main>
 
       <footer className="bg-gray-100 py-6 mt-12">
         <div className="container mx-auto px-4 text-center text-gray-600">
-          <p>© {new Date().getFullYear()} PIOS - Projet d'Orientation Scolaire au Niger</p>
+          <p>© {new Date().getFullYear()} PIOS - Projet d&apos;Orientation Scolaire au Niger</p>
         </div>
       </footer>
     </div>
