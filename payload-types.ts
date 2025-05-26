@@ -349,6 +349,7 @@ export interface Universite {
 export interface Bourse {
   id: string;
   name: string;
+  slug: string;
   type: 'Gouvernementale' | 'Internationale' | 'Privée' | 'Universitaire';
   country: 'Niger' | 'Afrique' | 'Amerique' | 'Europe' | 'Asie' | 'Oceanie';
   coverage: '100%' | '75%' | '50%' | '25%';
@@ -651,6 +652,7 @@ export interface UniversitesSelect<T extends boolean = true> {
  */
 export interface BoursesSelect<T extends boolean = true> {
   name?: T;
+  slug?: T;
   type?: T;
   country?: T;
   coverage?: T;

@@ -14,6 +14,26 @@ export const Bourses: CollectionConfig = {
       required: true,
     },
     {
+      name: 'slug',
+      type: 'text',
+      required: true,
+      unique: true,
+      admin: { position: 'sidebar' },
+      hooks: {
+        beforeValidate: [
+          ({ siblingData }) => {
+            if (!siblingData.slug && siblingData.name) {
+              siblingData.slug = siblingData.name
+                .toLowerCase()
+                .replace(/ /g, '-')
+                .replace(/[^\w-]+/g, '');
+            }
+            return siblingData.slug;
+          },
+        ],
+      },
+    },
+    {
       name: 'type',
       type: 'select',
       options: ['Gouvernementale', 'Internationale', 'Privée', 'Universitaire'],
