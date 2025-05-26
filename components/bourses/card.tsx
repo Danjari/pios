@@ -3,10 +3,11 @@ import { Clock, Globe, Percent, GraduationCap } from "lucide-react"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import type { Scholarship } from "@/lib/bourseData"
+//import type { Scholarship } from "@/lib/bourseData"
+import type { Bourse } from "@/payload-types"
 
 interface ScholarshipCardProps {
-  scholarship: Scholarship
+  scholarship: Bourse
 }
 
 export function ScholarshipCard({ scholarship }: ScholarshipCardProps) {

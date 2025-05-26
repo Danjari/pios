@@ -1,6 +1,6 @@
 
 export const typeOptions = ["Gouvernementale", "Internationale", "Privée", "Universitaire"]
-export const countryOptions = ["France", "Maroc", "Canada", "Allemagne", "Chine", "Turquie", "Inde", "Égypte"]
+export const countryOptions = ["Asie", "Europe", "Amérique", "Afrique", "Océanie","Niger"]
 export const coverageOptions = ["100%", "75%", "50%", "25%"]
 export const durationOptions = ["1 an", "2 ans", "3 ans", "Cycle complet"]
 export const levelOptions = ["Licence", "Master", "Doctorat"]
