@@ -39,7 +39,7 @@ export default function ScholarshipPage({ params }: ScholarshipPageProps) {
       <header className="bg-indigo-700 text-white py-6">
         <div className="container mx-auto px-4">
           <h1 className="text-2xl md:text-3xl font-bold">PIOS</h1>
-          <p className="text-indigo-100">Projet d'Orientation Scolaire au Niger</p>
+          <p className="text-indigo-100">Projet d&apos;Orientation Scolaire au Niger</p>
         </div>
       </header>
 
@@ -145,7 +145,7 @@ export default function ScholarshipPage({ params }: ScholarshipPageProps) {
                     <div className="space-y-4">
                       {scholarship.testimonials.map((testimonial, index) => (
                         <blockquote key={index} className="italic text-gray-600 border-l-4 border-indigo-200 pl-4">
-                          "{testimonial}"
+                          &quot;{testimonial}&quot;
                         </blockquote>
                       ))}
                     </div>
@@ -163,7 +163,7 @@ export default function ScholarshipPage({ params }: ScholarshipPageProps) {
                 <CardContent className="pt-6">
                   <div className="space-y-6">
                     <div>
-                      <h3 className="font-semibold text-gray-700 mb-3">Conditions d'éligibilité</h3>
+                      <h3 className="font-semibold text-gray-700 mb-3">Conditions d&apos;éligibilité</h3>
                       <ul className="list-disc pl-5 space-y-2">
                         {scholarship.eligibilityRequirements.map((requirement, index) => (
                           <li key={index} className="text-gray-600">
@@ -292,7 +292,7 @@ export default function ScholarshipPage({ params }: ScholarshipPageProps) {
 
       <footer className="bg-gray-100 py-6 mt-12">
         <div className="container mx-auto px-4 text-center text-gray-600">
-          <p>© {new Date().getFullYear()} PIOS - Projet d'Orientation Scolaire au Niger</p>
+          <p>© {new Date().getFullYear()} PIOS - Projet d&apos;Orientation Scolaire au Niger</p>
         </div>
       </footer>
     </div>
