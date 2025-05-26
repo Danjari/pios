@@ -14,6 +14,7 @@ import { Media } from './collections/Media'
 import { BlogPosts } from "./collections/blog"
 import { Filieres } from './collections/filieres'
 import {Universites} from './collections/universites'
+import { Bourses } from './collections/bourses'
 
 
 const filename = fileURLToPath(import.meta.url)
@@ -26,7 +27,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media,BlogPosts,Filieres,Universites],
+  collections: [Users, Media,BlogPosts,Filieres,Universites,Bourses],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
