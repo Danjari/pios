@@ -1,5 +1,5 @@
 import React from "react";
-import University from "../../../components/universityClient"; // Client component
+import UniversitiesPage from "@/components/universityClient"; // Client component
 import { fetchUniversites } from "@/lib/api";
 export const revalidate = 60;
 
@@ -10,7 +10,8 @@ export default async function Universites() {
   return (
     <div>
       {/* Pass fetched data to client component */}
-      <University universites={universites} />
+      <UniversitiesPage universites={universites} />
     </div>
   );
 }
+

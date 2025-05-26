@@ -47,7 +47,7 @@ export default async function FilierePage({ params }: { params: Promise<{ slug: 
                   <Clock className="h-5 w-5 mr-2 text-indigo-600" />
                   <div>
                     <p className="text-sm text-gray-500">Durée</p>
-                    <p className="font-medium">{filiere.duration || "Non spécifié"}</p>
+                    <p className="font-medium">{filiere.duration || "Non spécifié"} ans</p>
                   </div>
                 </div>
               </CardContent>

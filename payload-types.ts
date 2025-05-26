@@ -242,7 +242,85 @@ export interface Universite {
   slug: string;
   description: string;
   region?: ('Niamey' | 'Zinder' | 'Maradi' | 'Tahaoua' | 'Agadez' | 'Tillabery' | 'Dosso' | 'Diffa') | null;
+  type?: string | null;
+  city?: string | null;
+  country?: string | null;
+  educationSystem?: string | null;
+  graduatesCount?: number | null;
   logo: string | Media;
+  bannerImage?: (string | null) | Media;
+  motto?: string | null;
+  cycleDuration?:
+    | {
+        value?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  hasFaculties?: boolean | null;
+  faculties?:
+    | {
+        name: string;
+        description?: string | null;
+        filieres?: (string | Filiere)[] | null;
+        id?: string | null;
+      }[]
+    | null;
+  filieres?: (string | Filiere)[] | null;
+  academicResults?: string | null;
+  admissionRequirements?:
+    | {
+        requirement?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  tuitionFees?:
+    | {
+        program?: string | null;
+        amount?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  accreditations?: string | null;
+  authorization?: string | null;
+  campusResources?:
+    | {
+        resource?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  partners?:
+    | {
+        partner?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  studentActivities?:
+    | {
+        activity?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  clubs?:
+    | {
+        club?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  gallery?:
+    | {
+        src?: (string | null) | Media;
+        alt?: string | null;
+        caption?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  videos?:
+    | {
+        src?: string | null;
+        title?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   longDescription?: {
     root: {
       type: string;
@@ -421,7 +499,85 @@ export interface UniversitesSelect<T extends boolean = true> {
   slug?: T;
   description?: T;
   region?: T;
+  type?: T;
+  city?: T;
+  country?: T;
+  educationSystem?: T;
+  graduatesCount?: T;
   logo?: T;
+  bannerImage?: T;
+  motto?: T;
+  cycleDuration?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  hasFaculties?: T;
+  faculties?:
+    | T
+    | {
+        name?: T;
+        description?: T;
+        filieres?: T;
+        id?: T;
+      };
+  filieres?: T;
+  academicResults?: T;
+  admissionRequirements?:
+    | T
+    | {
+        requirement?: T;
+        id?: T;
+      };
+  tuitionFees?:
+    | T
+    | {
+        program?: T;
+        amount?: T;
+        id?: T;
+      };
+  accreditations?: T;
+  authorization?: T;
+  campusResources?:
+    | T
+    | {
+        resource?: T;
+        id?: T;
+      };
+  partners?:
+    | T
+    | {
+        partner?: T;
+        id?: T;
+      };
+  studentActivities?:
+    | T
+    | {
+        activity?: T;
+        id?: T;
+      };
+  clubs?:
+    | T
+    | {
+        club?: T;
+        id?: T;
+      };
+  gallery?:
+    | T
+    | {
+        src?: T;
+        alt?: T;
+        caption?: T;
+        id?: T;
+      };
+  videos?:
+    | T
+    | {
+        src?: T;
+        title?: T;
+        id?: T;
+      };
   longDescription?: T;
   longDescription_html?: T;
   updatedAt?: T;

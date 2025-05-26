@@ -18,6 +18,7 @@ export interface University {
   }
 
   export const bacOptions = ["A", "C", "D", "F1", "F2", "F3", "G1", "G2"]
+  export const type = ["Prive","Publique","Internationale"]
   export const categorieOptions = ["Technologie", "Économie", "Agriculture", "Santé", "Sciences Sociales"]
   export const localisationOptions = ["Niamey", "Maradi", "Zinder", "Tahoua", "Agadez", "Dosso", "Diffa", "Tillabéri"]
   
