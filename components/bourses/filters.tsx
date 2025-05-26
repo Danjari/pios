@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Badge } from "@/components/ui/badge"
+import { coverageOptions, durationOptions, levelOptions, typeOptions } from "@/lib/bourseData"
 
 export function ScholarshipSearchFilters() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
