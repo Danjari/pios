@@ -351,7 +351,7 @@ export interface Bourse {
   name: string;
   slug: string;
   type: 'Gouvernementale' | 'Internationale' | 'Privée' | 'Universitaire';
-  country: 'Niger' | 'Afrique' | 'Amerique' | 'Europe' | 'Asie' | 'Oceanie';
+  country: 'Niger' | 'Afrique' | 'Amerique' | 'Europe' | 'Asie' | 'Oceanie' | 'Globale';
   coverage: '100%' | '75%' | '50%' | '25%';
   duration: '1 an' | '2 ans' | '3 ans' | 'Cycle complet';
   levels: ('Licence' | 'Master' | 'Doctorat')[];

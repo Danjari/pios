@@ -4,16 +4,12 @@ import { ChevronLeft, Percent, Clock, GraduationCap, FileText, Users, Phone, Mai
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
-import { scholarships } from "@/lib/bourseData"
+import { fetchBourseBySlug } from "@/lib/api"
 
-interface ScholarshipPageProps {
-  params: {
-    id: string
-  }
-}
 
-export default function ScholarshipPage({ params }: ScholarshipPageProps) {
-  const scholarship = scholarships.find((s) => s.id === params.id)
+
+export default async function ScholarshipPage({ params }: { params: Promise<{ slug: string }> }) {
+  const scholarship = await fetchBourseBySlug((await params).slug)
 
   if (!scholarship) {
     notFound()
@@ -36,12 +32,7 @@ export default function ScholarshipPage({ params }: ScholarshipPageProps) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-indigo-700 text-white py-6">
-        <div className="container mx-auto px-4">
-          <h1 className="text-2xl md:text-3xl font-bold">PIOS</h1>
-          <p className="text-indigo-100">Projet d&apos;Orientation Scolaire au Niger</p>
-        </div>
-      </header>
+    
 
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
@@ -128,7 +119,7 @@ export default function ScholarshipPage({ params }: ScholarshipPageProps) {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {scholarship.partnerUniversities.map((university, index) => (
                         <div key={index} className="bg-gray-100 p-2 rounded-md text-sm">
-                          {university}
+                          {university.university}
                         </div>
                       ))}
                     </div>
@@ -145,7 +136,7 @@ export default function ScholarshipPage({ params }: ScholarshipPageProps) {
                     <div className="space-y-4">
                       {scholarship.testimonials.map((testimonial, index) => (
                         <blockquote key={index} className="italic text-gray-600 border-l-4 border-indigo-200 pl-4">
-                          &quot;{testimonial}&quot;
+                          &quot;{testimonial.quote}&quot;
                         </blockquote>
                       ))}
                     </div>
@@ -165,9 +156,9 @@ export default function ScholarshipPage({ params }: ScholarshipPageProps) {
                     <div>
                       <h3 className="font-semibold text-gray-700 mb-3">Conditions d&apos;éligibilité</h3>
                       <ul className="list-disc pl-5 space-y-2">
-                        {scholarship.eligibilityRequirements.map((requirement, index) => (
+                        {scholarship.eligibilityRequirements?.map((requirement, index) => (
                           <li key={index} className="text-gray-600">
-                            {requirement}
+                            {requirement.requirement}
                           </li>
                         ))}
                       </ul>
@@ -176,9 +167,9 @@ export default function ScholarshipPage({ params }: ScholarshipPageProps) {
                     <div>
                       <h3 className="font-semibold text-gray-700 mb-3">Processus de candidature</h3>
                       <ol className="list-decimal pl-5 space-y-2">
-                        {scholarship.applicationProcess.map((step, index) => (
+                        {scholarship.applicationProcess?.map((step, index) => (
                           <li key={index} className="text-gray-600">
-                            {step}
+                            {step.step}
                           </li>
                         ))}
                       </ol>
@@ -187,9 +178,9 @@ export default function ScholarshipPage({ params }: ScholarshipPageProps) {
                     <div>
                       <h3 className="font-semibold text-gray-700 mb-3">Documents requis</h3>
                       <ul className="list-disc pl-5 space-y-2">
-                        {scholarship.requiredDocuments.map((document, index) => (
+                        {scholarship.requiredDocuments?.map((document, index) => (
                           <li key={index} className="text-gray-600">
-                            {document}
+                            {document.document}
                           </li>
                         ))}
                       </ul>
@@ -211,7 +202,7 @@ export default function ScholarshipPage({ params }: ScholarshipPageProps) {
               <Card>
                 <CardContent className="pt-6">
                   <div className="space-y-4">
-                    {scholarship.contactInfo.email && (
+                    {scholarship.contactInfo?.email && (
                       <div className="flex items-center">
                         <Mail className="h-5 w-5 mr-3 text-indigo-600" />
                         <div>
@@ -226,7 +217,7 @@ export default function ScholarshipPage({ params }: ScholarshipPageProps) {
                       </div>
                     )}
 
-                    {scholarship.contactInfo.phone && (
+                    {scholarship.contactInfo?.phone && (
                       <div className="flex items-center">
                         <Phone className="h-5 w-5 mr-3 text-indigo-600" />
                         <div>
@@ -241,7 +232,7 @@ export default function ScholarshipPage({ params }: ScholarshipPageProps) {
                       </div>
                     )}
 
-                    {scholarship.contactInfo.website && (
+                    {scholarship.contactInfo?.website && (
                       <div className="flex items-center">
                         <Globe2 className="h-5 w-5 mr-3 text-indigo-600" />
                         <div>
@@ -258,7 +249,7 @@ export default function ScholarshipPage({ params }: ScholarshipPageProps) {
                       </div>
                     )}
 
-                    {scholarship.contactInfo.address && (
+                    {scholarship.contactInfo?.address && (
                       <div className="flex items-start">
                         <MapPin className="h-5 w-5 mr-3 text-indigo-600 mt-1" />
                         <div>

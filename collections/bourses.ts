@@ -42,7 +42,7 @@ export const Bourses: CollectionConfig = {
     {
       name: 'country',
       type: 'select',
-      options: ['Niger', 'Afrique', 'Amerique', 'Europe', 'Asie', 'Oceanie'],
+      options: ['Niger', 'Afrique', 'Amerique', 'Europe', 'Asie', 'Oceanie',"Globale"],
       required: true,
     },
     {

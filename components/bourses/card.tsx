@@ -58,7 +58,7 @@ export function ScholarshipCard({ scholarship }: ScholarshipCardProps) {
         </div>
       </CardContent>
       <CardFooter className="pt-2">
-        <Link href={`/bourses/${scholarship.id}`} className="w-full">
+        <Link href={`/bourses/${scholarship.slug}`} className="w-full">
           <Button className="w-full">Voir plus</Button>
         </Link>
       </CardFooter>
