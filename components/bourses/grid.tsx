@@ -2,9 +2,10 @@
 
 import { useState } from "react"
 import { ScholarshipCard } from "@/components/bourses/card"
-import { scholarships } from "@/lib/bourseData"
+//import { scholarships } from "@/lib/bourseData"
+import type { Bourse } from "@/payload-types"
 
-export function ScholarshipGrid() {
+export function ScholarshipGrid({bourses}: {bourses: Bourse[]}) {
   const [visibleCount, setVisibleCount] = useState(6)
 
   const loadMore = () => {
@@ -14,12 +15,12 @@ export function ScholarshipGrid() {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {scholarships.slice(0, visibleCount).map((scholarship) => (
-          <ScholarshipCard key={scholarship.id} scholarship={scholarship} />
+        {bourses.slice(0, visibleCount).map((bourse) => (
+          <ScholarshipCard key={bourse.id} scholarship={bourse} />
         ))}
       </div>
 
-      {visibleCount < scholarships.length && (
+      {visibleCount < bourses.length && (
         <div className="flex justify-center mt-8">
           <button
             onClick={loadMore}
