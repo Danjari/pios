@@ -1,25 +1,32 @@
 "use client"
 // implement the search filters after creating the bourse API. 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Search, Filter, ChevronDown, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Badge } from "@/components/ui/badge"
-import { coverageOptions, countryOptions, durationOptions, levelOptions, typeOptions } from "@/lib/bourseData"
+import { coverageOptions, locationOptions, durationOptions, levelOptions, typeOptions } from "@/lib/bourseData"
+import type { Bourse } from "@/payload-types"
 
-export function ScholarshipSearchFilters() {
+interface SearchFiltersProps{
+  bourses: Bourse[]
+  onFiltersChange: (filteredBourses:Bourse[])=>void
+}
+
+export function ScholarshipSearchFilters({bourses,onFiltersChange}:SearchFiltersProps) {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+  const [searchQuery,setSearchQuery] = useState("")
   const [selectedFilters, setSelectedFilters] = useState<{
     type: string | null
-    country: string | null
+    location: string | null
     coverage: string | null
     duration: string | null
     level: string | null
   }>({
     type: null,
-    country: null,
+    location: null,
     coverage: null,
     duration: null,
     level: null,
@@ -36,14 +43,27 @@ export function ScholarshipSearchFilters() {
   const clearFilters = () => {
     setSelectedFilters({
       type: null,
-      country: null,
+      location: null,
       coverage: null,
       duration: null,
       level: null,
     })
+    setSearchQuery("")
   }
 
   const hasActiveFilters = Object.values(selectedFilters).some((filter) => filter !== null)
+
+  useEffect(()=>{
+    const filteredBourses = bourses.filter((bourse) => {
+      const matchesType = selectedFilters.type ? bourse.type === selectedFilters.type : true
+      const matchesLocation = selectedFilters.location ? bourse.country === selectedFilters.location : true
+      const matchesCoverage = selectedFilters.coverage ? bourse.coverage === selectedFilters.coverage : true
+      const matchesDuration = selectedFilters.duration ? bourse.duration === selectedFilters.duration : true
+      const matchesLevel = selectedFilters.level ? bourse.levels.includes(selectedFilters.level as "Licence" | "Master" | "Doctorat") : true
+      return matchesType && matchesLocation && matchesCoverage && matchesDuration && matchesLevel
+    })
+    onFiltersChange(filteredBourses)
+  },[searchQuery, selectedFilters,onFiltersChange,bourses])
 
   return (
     <div className="space-y-4">
@@ -72,14 +92,14 @@ export function ScholarshipSearchFilters() {
           </Select>
 
           <Select
-            value={selectedFilters.country || ""}
-            onValueChange={(value) => handleFilterChange("country", value || null)}
+            value={selectedFilters.location || ""}
+            onValueChange={(value) => handleFilterChange("location", value || null)}
           >
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Pays d'origine" />
             </SelectTrigger>
             <SelectContent>
-              {countryOptions.map((option) => (
+              {locationOptions.map((option) => (
                 <SelectItem key={option} value={option}>
                   {option}
                 </SelectItem>
@@ -181,12 +201,12 @@ export function ScholarshipSearchFilters() {
               <div className="space-y-3">
                 <h3 className="font-medium">Pays d&apos;origine</h3>
                 <div className="flex flex-wrap gap-2">
-                  {countryOptions.map((option) => (
+                  {locationOptions.map((option) => (
                     <Badge
                       key={option}
-                      variant={selectedFilters.country === option ? "default" : "outline"}
+                      variant={selectedFilters.location === option ? "default" : "outline"}
                       className="cursor-pointer"
-                      onClick={() => handleFilterChange("country", selectedFilters.country === option ? null : option)}
+                      onClick={() => handleFilterChange("location", selectedFilters.location === option ? null : option)}
                     >
                       {option}
                     </Badge>
@@ -267,10 +287,10 @@ export function ScholarshipSearchFilters() {
                 <X size={14} className="ml-1 cursor-pointer" onClick={() => handleFilterChange("type", null)} />
               </Badge>
             )}
-            {selectedFilters.country && (
+            {selectedFilters.location && (
               <Badge className="bg-indigo-100 text-indigo-800 hover:bg-indigo-200">
-                {selectedFilters.country}
-                <X size={14} className="ml-1 cursor-pointer" onClick={() => handleFilterChange("country", null)} />
+                {selectedFilters.location}
+                <X size={14} className="ml-1 cursor-pointer" onClick={() => handleFilterChange("location", null)} />
               </Badge>
             )}
             {selectedFilters.coverage && (
