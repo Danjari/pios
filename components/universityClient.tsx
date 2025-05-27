@@ -12,9 +12,6 @@ interface Props {
   universites: Universite[]
 }
 
-export const revalidate = 60;
-
-  
 
 export default function UniversitiesPage({universites}:Props) {
   
