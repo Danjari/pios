@@ -1,26 +1,24 @@
-
 'use client'
+
 import { useState } from "react"
-import { UniversitySearchFilters } from "@/components/universites/SearchFilters"
-import { UniversityGrid } from "@/components/universites/grid"
+import { ScholarshipSearchFilters } from "@/components/bourses/filters"
+import { ScholarshipGrid } from "@/components/bourses/grid"
 import Link from "next/link"
 import { ChevronLeft } from "lucide-react"
-import type {Universite } from "@/payload-types" // Replace this with the actual new interface from payload-types
+import type {Bourse } from "@/payload-types" // Replace this with the actual new interface from payload-types
 //import { fetchFilieres } from "@/lib/api" // Create or adjust this path to match the real file
 
 interface Props {
-  universites: Universite[]
+  bourses: Bourse[]
 }
 
-
-export default function UniversitiesPage({universites}:Props) {
+export default function BoursesPage({bourses}:Props) {
   
-  const [allUniversities] = useState<Universite[]>(universites)
-  const [filteredUniversties, setFilteredUniversities] = useState<Universite[]>(universites)
+  const [allBourses] = useState<Bourse[]>(bourses)
+  const [filteredBourses, setFilteredBourses] = useState<Bourse[]>(bourses)
   return (
     <div className="min-h-screen bg-gray-50">
       
-
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           <Link href="/" className="inline-flex items-center text-indigo-600 hover:text-indigo-800 mb-6">
@@ -28,15 +26,16 @@ export default function UniversitiesPage({universites}:Props) {
             <span>Retour à l&apos;accueil</span>
           </Link>
 
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Découvrez les universités</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Découvrez les bourses</h2>
           <p className="text-gray-600 mb-8">
-            Explorez les différentes universités du Niger et trouvez celle qui correspond à vos aspirations académiques.
+            Explorez les différentes opportunités de bourses d&apos;études disponibles pour les étudiants nigériens et
+            trouvez celle qui correspond à vos besoins académiques et financiers.
           </p>
 
-          <UniversitySearchFilters universites={allUniversities} onFiltersChange={setFilteredUniversities}/>
+          <ScholarshipSearchFilters bourses={allBourses} onFiltersChange={setFilteredBourses} />
 
           <div className="mt-10">
-            <UniversityGrid universities={filteredUniversties} />
+            <ScholarshipGrid bourses={filteredBourses}  />
           </div>
         </div>
       </main>

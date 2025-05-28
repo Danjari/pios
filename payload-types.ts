@@ -71,6 +71,7 @@ export interface Config {
     blog: Blog;
     filieres: Filiere;
     universites: Universite;
+    bourses: Bourse;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -82,6 +83,7 @@ export interface Config {
     blog: BlogSelect<false> | BlogSelect<true>;
     filieres: FilieresSelect<false> | FilieresSelect<true>;
     universites: UniversitesSelect<false> | UniversitesSelect<true>;
+    bourses: BoursesSelect<false> | BoursesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -342,6 +344,63 @@ export interface Universite {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "bourses".
+ */
+export interface Bourse {
+  id: string;
+  name: string;
+  slug: string;
+  type: 'Gouvernementale' | 'Internationale' | 'Privée' | 'Universitaire';
+  country: 'Niger' | 'Afrique' | 'Amerique' | 'Europe' | 'Asie' | 'Oceanie' | 'Globale';
+  coverage: '100%' | '75%' | '50%' | '25%';
+  duration: '1 an' | '2 ans' | '3 ans' | 'Cycle complet';
+  levels: ('Licence' | 'Master' | 'Doctorat')[];
+  shortDescription: string;
+  fullDescription: string;
+  eligibilityRequirements?:
+    | {
+        requirement?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  applicationProcess?:
+    | {
+        step?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  requiredDocuments?:
+    | {
+        document?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  applicationDeadline?: string | null;
+  contactInfo?: {
+    email?: string | null;
+    phone?: string | null;
+    website?: string | null;
+    address?: string | null;
+  };
+  partnerUniversities?:
+    | {
+        university?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  testimonials?:
+    | {
+        quote?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  availableSpots?: number | null;
+  additionalNotes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -366,6 +425,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'universites';
         value: string | Universite;
+      } | null)
+    | ({
+        relationTo: 'bourses';
+        value: string | Bourse;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -580,6 +643,64 @@ export interface UniversitesSelect<T extends boolean = true> {
       };
   longDescription?: T;
   longDescription_html?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "bourses_select".
+ */
+export interface BoursesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  type?: T;
+  country?: T;
+  coverage?: T;
+  duration?: T;
+  levels?: T;
+  shortDescription?: T;
+  fullDescription?: T;
+  eligibilityRequirements?:
+    | T
+    | {
+        requirement?: T;
+        id?: T;
+      };
+  applicationProcess?:
+    | T
+    | {
+        step?: T;
+        id?: T;
+      };
+  requiredDocuments?:
+    | T
+    | {
+        document?: T;
+        id?: T;
+      };
+  applicationDeadline?: T;
+  contactInfo?:
+    | T
+    | {
+        email?: T;
+        phone?: T;
+        website?: T;
+        address?: T;
+      };
+  partnerUniversities?:
+    | T
+    | {
+        university?: T;
+        id?: T;
+      };
+  testimonials?:
+    | T
+    | {
+        quote?: T;
+        id?: T;
+      };
+  availableSpots?: T;
+  additionalNotes?: T;
   updatedAt?: T;
   createdAt?: T;
 }

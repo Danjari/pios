@@ -22,7 +22,7 @@ export default function NavBar() {
             { href: "/", label: "Home" },
             { href: "/filieres", label: "Filières" },
             { href: "/universites", label: "Universités" },
-            //{ href: "/blog", label: "Blog" },
+            { href: "/bourses", label: "Bourses" },
           ].map((link) => (
             <Link
               key={link.href}
