@@ -4,24 +4,10 @@ import Link from "next/link"
 import Image from "next/image"
 import { notFound } from "next/navigation"
 import { ChevronLeft, MapPin, GraduationCap, BookOpen, Award, FileText, Library, Users } from "lucide-react"
-// import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Gallery } from "@/components/universites/gallery"
-// import {
-//   Dialog,
-//   DialogContent,
-//   DialogDescription,
-//   DialogFooter,
-//   DialogHeader,
-//   DialogTitle,
-//   DialogTrigger,
-// } from "@/components/ui/dialog"
-// import { Input } from "@/components/ui/input"
-// import { Label } from "@/components/ui/label"
-// import { Textarea } from "@/components/ui/textarea"
-// import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { fetchUniversiteBySlug } from "@/lib/api"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
@@ -179,10 +165,8 @@ export default async function UniversityPage({ params }: { params: Promise<{ slu
                                         )
 
                                       })
-                                      
+                              
                                         )
-                                        
-                                
                                     : (
                                       <p className="text-sm text-gray-500 col-span-2">Aucune filière disponible</p>
                                     )}
