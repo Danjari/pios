@@ -1,4 +1,6 @@
-import { University, ChevronRight,Link } from "lucide-react";
+import { University, ChevronRight } from "lucide-react";
+import Link from "next/link";
+
 
 
 
@@ -6,7 +8,7 @@ import { Button } from "../ui/button"
 
 export default function LandingUniv() {
     return (
-      <section className="py-20 bg-slate-50">
+      <section className="py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-6">
