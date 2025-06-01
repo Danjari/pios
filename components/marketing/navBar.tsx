@@ -19,7 +19,7 @@ export default function NavBar() {
         {/* Desktop Menu */}
         <div className="hidden md:flex space-x-8">
           {[
-            { href: "/", label: "Home" },
+            { href: "/", label: "Accueil" },
             { href: "/filieres", label: "Filières" },
             { href: "/universites", label: "Universités" },
             { href: "/bourses", label: "Bourses" },
@@ -72,9 +72,10 @@ export default function NavBar() {
       >
         <div className="space-y-4 p-4">
           {[
-            { href: "/", label: "Home" },
+            { href: "/", label: "Accueil" },
             { href: "/filieres", label: "Filières" },
             { href: "/universites", label: "Universités" },
+            { href: "/bourses", label: "Bourses" },
             //{ href: "/blog", label: "Blog" },
           ].map((link) => (
             <Link
