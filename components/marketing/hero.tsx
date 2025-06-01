@@ -1,9 +1,19 @@
 import Link from "next/link";
-
+import Image from "next/image";
+import background from "@/public/background.png";
 export default function Hero() {
     return (
+    <section>
+
       <div className="relative min-h-screen flex flex-col justify-center  px-4 sm:px-8">
         {/* Background Gradient */}
+        <Image
+        src={background}
+        alt="Background"
+        fill
+        className="absolute inset-0 object-cover opacity-20 z-0"
+        priority
+      />
         <div className="max-w-4xl mx-auto relative z-10 text-center py-32">
           {/* Hero Text with Gradient */}
           <h1 className="text-5xl sm:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-800 to-slate-400 mb-6">
@@ -27,7 +37,7 @@ export default function Hero() {
             </Link>
           </div>
         </div>
-  
+        
         {/* Optional Background Shapes (or keep this simple without them) */}
         <div
           aria-hidden="true"
@@ -43,6 +53,6 @@ export default function Hero() {
         </div>
         
       </div>
-      
+      </section>
     );
   }
