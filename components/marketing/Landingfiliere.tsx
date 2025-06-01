@@ -1,7 +1,8 @@
 import { GraduationCap } from "lucide-react"
-import { ChevronRight, Link } from "lucide-react"
+import { ChevronRight } from "lucide-react"
 import { Card, CardContent } from "../ui/card"
 import { Button } from "../ui/button"
+import Link from "next/link"
 
 export default function Landingfiliere() {
     return (
