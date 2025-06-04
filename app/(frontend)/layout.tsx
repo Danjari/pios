@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import NavBar from "../../components/marketing/navBar";
 import AIAssistant from "../../components/AiAssistant";
+import { PostHogProvider } from "../providers/PHProviders";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "PIOS",
-  description: "La meilleure app d'Orientation",
+  description: "Meilleure Plateforme d'Orientation Scolaire - Votre guide personnalisé pour réussir vos études",
 };
 
 export default function RootLayout({
@@ -29,9 +30,11 @@ export default function RootLayout({
       <body
         className={` ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <PostHogProvider>
         <NavBar/>
         {children}
         <AIAssistant/>
+        </PostHogProvider>
       </body>
     </html>
   );
