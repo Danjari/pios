@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Gallery } from "@/components/universites/gallery"
 import { fetchUniversiteBySlug } from "@/lib/api"
+import { VideoPlayer } from "@/components/universites/videoPlayer"
 
 export default async function UniversityPage({ params }: { params: Promise<{ slug: string }> }) {
   const university = await fetchUniversiteBySlug((await params).slug)
@@ -310,6 +311,19 @@ export default async function UniversityPage({ params }: { params: Promise<{ slu
                 })) || []}
               />
             </section>
+            {university.videos && university.videos.length > 0 && (
+            <section>
+              <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                <Award className="h-5 w-5 mr-2 text-indigo-600" />
+                Vidéo de présentation
+              </h2>
+              <VideoPlayer 
+                src={university.videos[0].src?.replace("watch?v=", "embed/") || ''} 
+                title={university.videos[0].title || ''}
+              />
+            </section>
+          )}
+
           </div>
           {/* this section is for the form that takes the button */}
           {/* <div className="flex justify-center mt-12">
