@@ -5,6 +5,7 @@ import NavBar from "../../components/marketing/navBar";
 import AIAssistant from "../../components/AiAssistant";
 import { PostHogProvider } from "../providers/PHProviders";
 
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],

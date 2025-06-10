@@ -1,8 +1,8 @@
-import Link from "next/link"
+
 import { Clock, BookOpen, MapPin } from "lucide-react"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import {FunnyLoadingButton} from "@/components/FunnyButton"
 import type { Filiere } from "@/payload-types"
 // interface filiere card props 
 interface FiliereCardProps {
@@ -13,6 +13,7 @@ interface FiliereCardProps {
 export function FiliereCard({ filiere }: FiliereCardProps) {
   // Generate a slug from the id
   const slug = filiere.slug;
+
 
   return (
     <Card className="h-full flex flex-col transition-all hover:shadow-md">
@@ -52,9 +53,10 @@ export function FiliereCard({ filiere }: FiliereCardProps) {
         </div>
       </CardContent>
       <CardFooter className="pt-2">
-        <Link href={`/filieres/${slug}`} className="w-full">
-          <Button className="w-full">Voir plus</Button>
-        </Link>
+      <FunnyLoadingButton
+        href={`/filieres/${slug}`}
+        className="w-full"
+      />
       </CardFooter>
     </Card>
   )
