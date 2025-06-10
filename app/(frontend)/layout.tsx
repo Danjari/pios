@@ -4,6 +4,7 @@ import "./globals.css";
 import NavBar from "../../components/marketing/navBar";
 import AIAssistant from "../../components/AiAssistant";
 import { PostHogProvider } from "../providers/PHProviders";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +36,7 @@ export default function RootLayout({
         {children}
         <AIAssistant/>
         </PostHogProvider>
+        <Toaster richColors />
       </body>
     </html>
   );
