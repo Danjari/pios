@@ -5,13 +5,13 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 
 const funnyMessages = [
-  "Labou sanni no, attend seulement...",
-  "La connexion cherche son chemin 🐢",
-  "Wai, tu veux aller trop vite aussi 😭",
-  "C’est pas nous, c’est Niger Telecom",
-  "L’Internet a pris un petit thé, reviens bientôt ☕",
-  "On souffle un peu, et ça va partir",
-  "T’inquiète, ça va arriver juste un peu lentement"
+  "Labou sanni no...",
+  "Connexion en balade 🐢",
+  "Wai, doucement 😭",
+  "Blame Niger Telecom 😒",
+  "Internet boit son thé ☕",
+  "On souffle... ça arrive",
+  "Ça vient, mollo mollo"
 ]
 
 interface FunnyLoadingButtonProps {

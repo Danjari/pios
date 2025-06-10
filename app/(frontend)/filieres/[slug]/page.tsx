@@ -8,11 +8,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { fetchFiliereBySlug } from "@/lib/api"
 import type { Filiere } from "@/payload-types"
 
-// interface FilierePageProps {
-//   params: {
-//     slug: string
-//   }
-// }
 
 export default async function FilierePage({ params }: { params: Promise<{ slug: string }> }) {
   // Await the params object before accessing its properties
@@ -20,6 +15,20 @@ export default async function FilierePage({ params }: { params: Promise<{ slug: 
   const filiere: Filiere | null = await fetchFiliereBySlug(slug);
 
   if (!filiere) notFound();
+  const getTypeColor = (type: string) => {
+    switch (type) {
+      case "Technologie":
+        return "bg-green-50 text-green-700 border-green-200"
+      case "Économie":
+        return "bg-blue-50 text-blue-700 border-blue-200"
+      case "Privée":
+        return "bg-purple-50 text-purple-700 border-purple-200"
+      case "Sciences Sociales":
+        return "bg-orange-50 text-orange-700 border-orange-200"
+      default:
+        return "bg-gray-50 text-gray-700 border-gray-200"
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -30,12 +39,11 @@ export default async function FilierePage({ params }: { params: Promise<{ slug: 
             <span>Retour aux filières</span>
           </Link>
 
-          <div className="relative w-full h-48 md:h-64 rounded-lg overflow-hidden mb-8">
-           
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
-              <div className="p-6 w-full">
-                <Badge className="mb-2">{filiere.category}</Badge>
-                <h1 className="text-2xl md:text-3xl font-bold text-white">{filiere.nomDeFiliere}</h1>
+          <div className="bg-gradient-to-r from-indigo-600 to-indigo-800 text-white rounded-lg p-6 mb-8">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+              <div>
+                <Badge className={`mb-2 ${getTypeColor(filiere.category)} text-gray-800`}>{filiere.category}</Badge>
+                <h1 className="text-2xl md:text-3xl font-bold mb-2">{filiere.nomDeFiliere}</h1>
               </div>
             </div>
           </div>
