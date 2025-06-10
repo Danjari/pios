@@ -1,7 +1,7 @@
 "use client"
 
-import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 
 const funnyMessages = [
@@ -20,18 +20,27 @@ interface FunnyLoadingButtonProps {
 }
 
 export function FunnyLoadingButton({ href, className }: FunnyLoadingButtonProps) {
-  const [loadingText, setLoadingText] = useState<string | null>(null)
   const router = useRouter()
+  const [loadingText, setLoadingText] = useState<string | null>(null)
+  const [hasNavigated, setHasNavigated] = useState(false)
 
   const handleClick = () => {
-    const msg = funnyMessages[Math.floor(Math.random() * funnyMessages.length)]
-    setLoadingText(msg)
-
     setTimeout(() => {
-      setLoadingText("Ça arrive, je te jure… il y'a juste un petit problème de connexion 🙈")
-    }, 5000)
+      if (!hasNavigated) {
+        const msg = funnyMessages[Math.floor(Math.random() * funnyMessages.length)]
+        setLoadingText(msg)
+
+        // upgrade message after 5s
+        setTimeout(() => {
+          if (!hasNavigated) {
+            setLoadingText("Ça arrive, je te jure… il y'a juste un petit problème de connexion 🙈")
+          }
+        }, 5000)
+      }
+    }, 400) // If page still not changed after 400ms, show funny stuff
 
     router.push(href)
+    setHasNavigated(true) // this unmounts the component before any text is shown (in fast networks)
   }
 
   return (
