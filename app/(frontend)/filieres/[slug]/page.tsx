@@ -8,11 +8,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { fetchFiliereBySlug } from "@/lib/api"
 import type { Filiere } from "@/payload-types"
 
-// interface FilierePageProps {
-//   params: {
-//     slug: string
-//   }
-// }
 
 export default async function FilierePage({ params }: { params: Promise<{ slug: string }> }) {
   // Await the params object before accessing its properties
@@ -44,15 +39,6 @@ export default async function FilierePage({ params }: { params: Promise<{ slug: 
             <span>Retour aux filières</span>
           </Link>
 
-          {/* <div className="relative w-full h-48 md:h-64 rounded-lg overflow-hidden mb-8">
-           
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
-              <div className="p-6 w-full">
-                <Badge className="mb-2">{filiere.category}</Badge>
-                <h1 className="text-2xl md:text-3xl font-bold text-white">{filiere.nomDeFiliere}</h1>
-              </div>
-            </div>
-          </div> */}
           <div className="bg-gradient-to-r from-indigo-600 to-indigo-800 text-white rounded-lg p-6 mb-8">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between">
               <div>
