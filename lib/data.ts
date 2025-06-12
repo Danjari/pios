@@ -17,10 +17,36 @@ export interface University {
     universities: University[]
   }
 
-  export const bacOptions = ["A", "C", "D", "F1", "F2", "F3", "G1", "G2"]
+  export const bacOptions = ['A',
+    'C',
+    'D',
+    'E',
+    'F1',
+    'F2',
+    'F3',
+    'F4',
+    'G1',
+    'G2',
+    'G3',
+    'G4',
+    "PRO"]
   export const type = ["Prive","Publique","Internationale"]
-  export const categorieOptions = ["Technologie", "Économie", "Agriculture", "Santé", "Sciences Sociales"]
-  export const localisationOptions = ["Niamey", "Maradi", "Zinder", "Tahoua", "Agadez", "Dosso", "Diffa", "Tillabéri"]
+  export const categorieOptions = ['Technologie',
+        'Économie',
+        'Agriculture',
+        'Santé',
+        'Sciences sociales',
+        'Art',
+        'Sport',
+        'Éducation',
+        'Énergie',
+        'Environnement',
+        'Sciences industrielles',
+        'Lettres et sciences humaines',
+        'Aéronautique',
+        'Aviation civile et militaire']
+  export const localisationOptions = ['Niamey', 'Maradi', 'Zinder', 'Tahoua', 'Agadez', 'Dosso', 'Diffa', 'Tillabéri', 'Partout au Niger',
+    'Extérieur']
   
   export const filieres: Filiere[] = [
     {
