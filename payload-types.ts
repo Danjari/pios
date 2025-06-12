@@ -214,10 +214,37 @@ export interface Filiere {
     [k: string]: unknown;
   } | null;
   longDescription_html?: string | null;
-  category: 'Technologie' | 'Économie' | 'Agriculture' | 'Santé' | 'Sciences Sociales';
+  category:
+    | 'Technologie'
+    | 'Économie'
+    | 'Agriculture'
+    | 'Santé'
+    | 'Sciences sociales'
+    | 'Art'
+    | 'Sport'
+    | 'Éducation'
+    | 'Énergie'
+    | 'Environnement'
+    | 'Sciences industrielles'
+    | 'Lettres et sciences humaines'
+    | 'Aéronautique'
+    | 'Aviation civile et militaire';
   duration: string;
-  bacRequired: ('A' | 'C' | 'D' | 'F1' | 'F2' | 'F3' | 'G1' | 'G2')[];
-  locations?: ('Niamey' | 'Maradi' | 'Zinder' | 'Tahoua' | 'Agadez' | 'Dosso' | 'Diffa' | 'Tillabéri')[] | null;
+  bacRequired: ('A' | 'C' | 'D' | 'E' | 'F1' | 'F2' | 'F3' | 'F4' | 'G1' | 'G2' | 'G3' | 'G4' | 'PRO')[];
+  locations?:
+    | (
+        | 'Niamey'
+        | 'Maradi'
+        | 'Zinder'
+        | 'Tahoua'
+        | 'Agadez'
+        | 'Dosso'
+        | 'Diffa'
+        | 'Tillabéri'
+        | 'Partout au Niger'
+        | 'Exterieur'
+      )[]
+    | null;
   prerequisites?:
     | {
         item?: string | null;
