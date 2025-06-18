@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { fetchBourseBySlug } from "@/lib/api"
+import { EmailSignupForm } from "@/components/EmailSignUpForm"
 
 
 
@@ -282,6 +283,10 @@ export default async function ScholarshipPage({ params }: { params: Promise<{ sl
                 </Link>
               </div>
             )}
+
+            <div>
+              <EmailSignupForm/>
+            </div>
 
         </div>
       </main>
