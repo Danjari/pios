@@ -1,4 +1,4 @@
-import Link from "next/link"
+//import Link from "next/link"
 
 export default function Footer() {
   return (
@@ -6,9 +6,9 @@ export default function Footer() {
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="text-gray-600 mb-4 md:mb-0">
-            <p>© {new Date().getFullYear()} PIOS - Projet d&apos;Orientation Scolaire au Niger</p>
+            <p>© {new Date().getFullYear()} PIOS - tout droit reservé</p>
           </div>
-          <div className="flex space-x-6">
+          {/* <div className="flex space-x-6">
             <Link href="/about" className="text-gray-600 hover:text-gray-900">
               À propos
             </Link>
@@ -18,7 +18,7 @@ export default function Footer() {
             <Link href="/privacy" className="text-gray-600 hover:text-gray-900">
               Confidentialité
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </footer>
