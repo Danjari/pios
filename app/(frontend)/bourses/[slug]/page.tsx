@@ -284,7 +284,7 @@ export default async function ScholarshipPage({ params }: { params: Promise<{ sl
               </div>
             )}
 
-            <div>
+            <div className="flex justify-center mt-12">
               <EmailSignupForm/>
             </div>
 

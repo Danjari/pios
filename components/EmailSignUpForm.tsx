@@ -1,5 +1,6 @@
 'use client'
 import {useState} from 'react'
+import { Button } from "@/components/ui/button"
 
 export function EmailSignupForm() {
   const [name, setName] = useState("");
@@ -13,7 +14,7 @@ export function EmailSignupForm() {
 
     const res = await fetch("/api/newsletter", {
       method: "POST",
-      body: JSON.stringify({ firstName: name, number,email }),
+      body: JSON.stringify({ firstName: name, number, email }),
     });
 
     if (res.ok) {
@@ -28,45 +29,47 @@ export function EmailSignupForm() {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 className="text-xl font-semibold mb-2">Vous voulez savoir des qu&apos;une bourse est disponible?</h2>
-      <p className="mb-6 text-gray-600">Ajoute ton nom et ton numero Whatsapp.</p>
+    <div className="w-full max-w-md mx-auto px-4 py-8">
+      <div className="bg-white rounded-lg shadow-lg p-6">
+        <h2 className="text-xl font-semibold mb-2 text-center">Ne manquez plus aucune opportunité de bourse !</h2>
+        <p className="mb-6 text-gray-600 text-center">Chaque semaine, nous mettons à jour les nouvelles bourses disponibles. Soyez parmi les premiers informés directement sur WhatsApp.</p>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-md">
-        <input
-          type="text"
-          placeholder="First Name"
-          className="border px-4 py-2 rounded"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          className="border px-4 py-2 rounded"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="number"
-          placeholder="Numero WhatsApp"
-          className="border px-4 py-2 rounded"
-          value={number}
-          onChange={(e) => setNumber(e.target.value)}
-          required
-        />
-        <button
-          type="submit"
-          className="bg-slate-700 text-white py-2 rounded hover:bg-slate-800 transition"
-          disabled={status === "loading"}
-        >
-          {status === "loading" ? "Submitting..." : "Sign me up"}
-        </button>
-        {status === "success" && <p className="text-purple-900">You&apos;re in! </p>}
-        {status === "error" && <p className="text-red-900">Oops, something went wrong.</p>}
-      </form>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <input
+            type="text"
+            placeholder="Prénom"
+            className="border px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            className="border px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="tel"
+            placeholder="Numéro WhatsApp"
+            className="border px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={number}
+            onChange={(e) => setNumber(e.target.value)}
+            required
+          />
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={status === "loading"}
+          >
+            {status === "loading" ? "Envoi en cours..." : "S'inscrire"}
+          </Button>
+          {status === "success" && <p className="text-green-600 text-center">Inscription réussie!</p>}
+          {status === "error" && <p className="text-red-600 text-center">Une erreur est survenue.</p>}
+        </form>
+      </div>
     </div>
   );
 }
