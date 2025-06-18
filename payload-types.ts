@@ -423,6 +423,7 @@ export interface Bourse {
     | null;
   availableSpots?: number | null;
   additionalNotes?: string | null;
+  applicationLink?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -728,6 +729,7 @@ export interface BoursesSelect<T extends boolean = true> {
       };
   availableSpots?: T;
   additionalNotes?: T;
+  applicationLink?: T;
   updatedAt?: T;
   createdAt?: T;
 }
