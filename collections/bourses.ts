@@ -160,5 +160,18 @@ export const Bourses: CollectionConfig = {
       name: 'additionalNotes',
       type: 'textarea',
     },
+    {
+      name: 'applicationLink',
+      label: 'Lien vers l\'opportunité',
+      type: 'text',
+      required: false,
+      admin: {
+        placeholder: 'https://example.com',
+      },
+      validate: (val: string | null | undefined) =>
+        val && !/^https?:\/\/[\w.-]+\.[a-z]{2,}.*$/.test(val)
+          ? 'Veuillez entrer un lien valide commençant par http:// ou https://'
+          : true,
+    },
   ],
 };

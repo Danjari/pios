@@ -275,7 +275,10 @@ export default async function ScholarshipPage({ params }: { params: Promise<{ sl
 
           <div className="flex justify-center mt-12">
             <Button size="lg" className="px-8">
+              <Link href={link.link}>
               Postuler à cette bourse
+              </Link>
+             
             </Button>
           </div>
         </div>
