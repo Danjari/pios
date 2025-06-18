@@ -273,17 +273,22 @@ export default async function ScholarshipPage({ params }: { params: Promise<{ sl
             </section>
           </div>
 
-          <div className="flex justify-center mt-12">
-            <Button size="lg" className="px-8">
-              Postuler à cette bourse
-            </Button>
-          </div>
+          {scholarship.applicationLink && (
+              <div className="flex justify-center mt-12">
+                <Link href={scholarship.applicationLink} passHref target="_blank" rel="noopener noreferrer">
+                  <Button size="lg" className="px-8">
+                    Postuler à cette bourse
+                  </Button>
+                </Link>
+              </div>
+            )}
+
         </div>
       </main>
 
       <footer className="bg-gray-100 py-6 mt-12">
         <div className="container mx-auto px-4 text-center text-gray-600">
-          <p>© {new Date().getFullYear()} PIOS - Projet d&apos;Orientation Scolaire au Niger</p>
+          <p>© {new Date().getFullYear()} PIOS - Platforme  d&apos;information et d&apos;Orientation Scolaire au Niger</p>
         </div>
       </footer>
     </div>
