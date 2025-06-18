@@ -82,6 +82,7 @@ export default function NavBar() {
               key={link.href}
               href={link.href}
               className="text-white block transition-all duration-300 hover:text-gray-200 hover:pl-2"
+              onClick={() => setIsMenuOpen(false)}
             >
               {link.label}
             </Link>

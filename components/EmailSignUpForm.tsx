@@ -21,6 +21,7 @@ export function EmailSignupForm() {
       setName("");
       setEmail("");
       setNumber("");
+      window.close();
     } else {
       setStatus("error");
     }
