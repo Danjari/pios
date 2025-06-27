@@ -20,7 +20,7 @@ export default function Hero() {
             Bienvenue sur PIOS, votre guide vers l&apos;avenir
           </h1>
           <p className="text-lg sm:text-xl text-black mb-8">
-            Explorez les meilleures opportunités d&apos;études et trouvez l&apos;université qui vous convient.
+            Explorez les meilleures opportunités d&apos;études, bourses et trouvez l&apos;université qui vous convient.
           </p>
   
           {/* Call-to-Action Buttons */}
