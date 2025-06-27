@@ -55,12 +55,20 @@ export function ScholarshipSearchFilters({bourses,onFiltersChange}:SearchFilters
 
   useEffect(()=>{
     const filteredBourses = bourses.filter((bourse) => {
+      const matchesSearch = searchQuery
+      ? [bourse.name, bourse.fullDescription].some((text) =>
+          text?.toLocaleLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            .includes(
+              searchQuery.toLocaleLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            )
+        )
+      : true;
       const matchesType = selectedFilters.type ? bourse.type === selectedFilters.type : true
       const matchesLocation = selectedFilters.location ? bourse.country === selectedFilters.location : true
       const matchesCoverage = selectedFilters.coverage ? bourse.coverage === selectedFilters.coverage : true
       const matchesDuration = selectedFilters.duration ? bourse.duration === selectedFilters.duration : true
       const matchesLevel = selectedFilters.level ? bourse.levels.includes(selectedFilters.level as "Licence" | "Master" | "Doctorat") : true
-      return matchesType && matchesLocation && matchesCoverage && matchesDuration && matchesLevel
+      return matchesSearch && matchesType && matchesLocation && matchesCoverage && matchesDuration && matchesLevel
     })
     onFiltersChange(filteredBourses)
   },[searchQuery, selectedFilters,onFiltersChange,bourses])
@@ -69,7 +77,12 @@ export function ScholarshipSearchFilters({bourses,onFiltersChange}:SearchFilters
     <div className="space-y-4">
       <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-        <Input placeholder="Rechercher une bourse..." className="pl-10 py-6 text-base" />
+        <Input
+          placeholder="Rechercher une bourse..."
+          className="pl-10 py-6 text-base"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
       </div>
 
       {/* Desktop Filters */}

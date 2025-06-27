@@ -49,10 +49,14 @@ export function SearchFilters({ filieres, onFiltersChange }: SearchFiltersProps)
   // Filter filieres based on search query and selected filters
   useEffect(() => {
     const filteredFilieres = filieres.filter((filiere) => {
-      // Search query filter
+    // Search query filter
       const matchesSearch = searchQuery
-        ? filiere.nomDeFiliere.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          filiere.descriptionCourte.toLowerCase().includes(searchQuery.toLowerCase())
+        ? [filiere.nomDeFiliere, filiere.descriptionCourte].some(text =>
+            text.toLocaleLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+              .includes(
+                searchQuery.toLocaleLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+              )
+          )
         : true
 
       // Bac filter
