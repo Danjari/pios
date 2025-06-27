@@ -50,9 +50,14 @@ export function UniversitySearchFilters({universites,onFiltersChange}:SearchFilt
     useEffect(() => {
       const filteredFilieres = universites.filter((universite) => {
         // Search query filter
-        const matchesSearch = searchQuery
-          ? universite.nomDeLUniversite.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            universite.description.toLowerCase().includes(searchQuery.toLowerCase())
+
+          const matchesSearch = searchQuery
+          ? [universite.nomDeLUniversite, universite.description].some(text =>
+              text.toLocaleLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                .includes(
+                  searchQuery.toLocaleLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                )
+            )
           : true
   
         // Bac filter
