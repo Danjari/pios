@@ -13,8 +13,9 @@ export default function NavBar() {
     <nav className="bg-white bg-opacity-5 p-4 sticky top-0 z-50 backdrop-blur-lg shadow-lg">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         {/* Logo or Title */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <Image src="/logo.png" alt="PIOS Logo" width={96} height={48} className="h-12 w-24 object-contain transition-transform duration-300 group-hover:scale-110" />
+        <Link href="/" className="flex items-center gap-0 group">
+          <Image src="/logo.png" alt="PIOS Logo" width={32} height={32} className="h-12 w-24 object-contain transition-transform duration-300 group-hover:scale-110" />
+           <span className="text-2xl font-bold text-blue-800 transition-all duration-300 group-hover:scale-105">PIOS</span>
         </Link>
 
         {/* Desktop Menu */}
