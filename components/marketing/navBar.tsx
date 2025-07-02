@@ -15,7 +15,7 @@ export default function NavBar() {
         {/* Logo or Title */}
         <Link href="/" className="flex items-center gap-0 group">
           <Image src="/logo.png" alt="PIOS Logo" width={32} height={32} className="h-12 w-24 object-contain transition-transform duration-300 group-hover:scale-110" />
-           <span className="text-2xl font-bold text-blue-800 transition-all duration-300 group-hover:scale-105">PIOS</span>
+           <span className="hidden md:inline text-2xl font-bold text-blue-800 transition-all duration-300 group-hover:scale-105">PIOS</span>
         </Link>
 
         {/* Desktop Menu */}
