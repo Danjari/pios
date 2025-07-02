@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row md:justify-between md:items-center text-center md:text-left gap-2">
           <div className="text-gray-500 text-sm order-2 md:order-1">
             <p>
-              © {new Date().getFullYear()} <span className="font-semibold text-gray-700">PIOS</span> — tous droits réservés
+              © {new Date().getFullYear()} <span className="font-semibold text-gray-700">Plateforme d&apos;Information et d&apos;Orientation scolaire</span> — tous droits réservés
             </p>
           </div>
           <div className="text-gray-700 text-sm order-1 md:order-2">

@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from "react";
 import Link from "next/link"; // Import Link for navigation
+import Image from "next/image";
 
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,9 +13,9 @@ export default function NavBar() {
     <nav className="bg-white bg-opacity-5 p-4 sticky top-0 z-50 backdrop-blur-lg shadow-lg">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         {/* Logo or Title */}
-        <div className="text-2xl font-bold text-blue-800 transition-all duration-300 hover:scale-105">
-          <Link href="/">PIOS</Link>
-        </div>
+        <Link href="/" className="flex items-center gap-2 group">
+          <Image src="/logo.png" alt="PIOS Logo" width={96} height={48} className="h-12 w-24 object-contain transition-transform duration-300 group-hover:scale-110" />
+        </Link>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex space-x-8">
