@@ -14,7 +14,14 @@ export default function Hero() {
         className="absolute inset-0 object-cover opacity-20 z-0"
         priority
       />
-        <div className="max-w-4xl mx-auto relative z-10 text-center py-32">
+      {/* Overlay for better text readability */}
+      <div className="absolute inset-0 bg-white/60 backdrop-blur-sm z-0" aria-hidden="true" />
+      <div className="flex justify-center px-4 sm:mb-8 sm:px-0 z-10 mt-4 mb-6">
+        <div className="relative rounded-full px-3 py-1 text-sm text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20 bg-white/80 text-center">
+          Nous avons de nouvelles bourses. <Link href="/bourses" className="font-semibold text-indigo-600"><span className="absolute inset-0" aria-hidden="true"></span>Lis plus <span aria-hidden="true">&rarr;</span></Link>
+        </div>
+      </div>
+        <div className="max-w-4xl mx-auto relative z-10 text-center py-3">
           {/* Hero Text with Gradient */}
           <h1 className="text-5xl sm:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-800 to-slate-400 mb-6">
             Bienvenue sur PIOS, votre guide vers l&apos;avenir
@@ -53,6 +60,6 @@ export default function Hero() {
         </div>
         
       </div>
-      </section>
+    </section>
     );
   }
