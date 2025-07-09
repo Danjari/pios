@@ -1,7 +1,7 @@
 import React from "react";
 import UniversitiesPage from "@/components/universityClient"; // Client component
 import { fetchUniversites } from "@/lib/api";
-//export const revalidate = 60;
+export const revalidate = 60;
 
 
 export default async function Universites() {
