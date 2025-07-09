@@ -10,12 +10,22 @@ import {
   HTMLConverterFeature,
   lexicalHTML,
 } from '@payloadcms/richtext-lexical';
+import { revalidatePage } from '@/lib/revalidatePage';
 
 export const Filieres: CollectionConfig = {
   slug: 'filieres',
   admin: {
     useAsTitle: 'nomDeFiliere',
     defaultColumns: ['nomDeFiliere', 'slug'],
+  },
+  hooks: {
+    afterChange: [
+      async ({ doc }) => {
+        const path = `/filieres/${doc.slug}`; // Adjust your dynamic segment
+        await revalidatePage({ path });
+        await revalidatePage({ path: `/filieres` });
+      },
+    ],
   },
   fields: [
     {
