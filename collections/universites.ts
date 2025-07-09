@@ -19,6 +19,7 @@ export const Universites: CollectionConfig = {
       async ({ doc }) => {
         const path = `/universites/${doc.slug}`; // Adjust your dynamic segment
         await revalidatePage({ path });
+        await revalidatePage({ path: `/universites` });
       },
     ],
   },
