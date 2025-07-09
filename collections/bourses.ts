@@ -1,3 +1,4 @@
+import { revalidatePage } from '@/lib/revalidatePage';
 import type { CollectionConfig } from 'payload';
 
 export const Bourses: CollectionConfig = {
@@ -5,6 +6,15 @@ export const Bourses: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'type', 'country', 'coverage'],
+  },
+  hooks: {
+    afterChange: [
+      async ({ doc }) => {
+        const path = `/bourses/${doc.slug}`; // Adjust your dynamic segment
+        await revalidatePage({ path });
+        await revalidatePage({ path: `/bourses` });
+      },
+    ],
   },
   fields: [
     // Basic Info
