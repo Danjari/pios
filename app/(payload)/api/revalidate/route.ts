@@ -5,9 +5,9 @@ import { revalidatePath } from "next/cache"; // This function is used for revali
 // Defining an async function to handle POST requests
 export async function POST(req: NextRequest) {
   // Extracting URL search parameters from the request URL
-  const { searchParams } = new URL(req.url);
+  //const { searchParams } = new URL(req.url);
   // Retrieving the 'secret' parameter from the search parameters
-  const secret = searchParams.get("secret");
+  const secret = req.headers.get("x-revalidate-secret");
 
   // Checking if the provided secret matches the environment variable REVALIDATE_SECRET
   if (secret !== process.env.REVALIDATE_SECRET) {
