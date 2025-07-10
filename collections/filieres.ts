@@ -26,6 +26,17 @@ export const Filieres: CollectionConfig = {
         await revalidatePage({ path: `/filieres` });
       },
     ],
+    afterDelete: [
+      async ({ doc }) => {
+        // Detail page
+        const path = `/filieres/${doc.slug}`;
+        
+        await revalidatePage({ path });
+
+        // List page
+        await revalidatePage({ path: `/filieres` });
+      },
+    ],
   },
   fields: [
     {

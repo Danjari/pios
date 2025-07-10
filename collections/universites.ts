@@ -18,7 +18,19 @@ export const Universites: CollectionConfig = {
     afterChange: [
       async ({ doc }) => {
         const path = `/universites/${doc.slug}`; // Adjust your dynamic segment
+        
         await revalidatePage({ path });
+        await revalidatePage({ path: `/universites` });
+      },
+    ],
+    afterDelete: [
+      async ({ doc }) => {
+        // Detail page
+        const path = `/universites/${doc.slug}`;
+        
+        await revalidatePage({ path });
+
+        // List page
         await revalidatePage({ path: `/universites` });
       },
     ],
