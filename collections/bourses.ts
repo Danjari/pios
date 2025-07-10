@@ -15,6 +15,13 @@ export const Bourses: CollectionConfig = {
         await revalidatePage({ path: `/bourses` });
       },
     ],
+    afterDelete:[
+      async ({doc})=>{
+        const path = `bourses/${doc.slug}`;
+        await revalidatePage({path});
+        await revalidatePage({path: `/bourses`});
+      }
+    ]
   },
   fields: [
     // Basic Info
