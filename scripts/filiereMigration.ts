@@ -26,7 +26,7 @@ async function migrate() {
         bacRequired: filiere.bacRequired || [],
         locations: filiere.locations || [],
         descriptionCourte: filiere.descriptionCourte,
-        longDescription: filiere.longDescription,
+        longDescription_html: filiere.longDescription_html,
         prerequisites: filiere.prerequisites,
         careerOpportunities: filiere.careerOpportunities,
         universities: filiere.universities || [],

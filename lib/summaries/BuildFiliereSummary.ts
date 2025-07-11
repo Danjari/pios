@@ -1,6 +1,20 @@
 import { Filiere } from "@/payload-types";
 
-export function buildFiliereSummary(filiere: Filiere): string {
+type PartialFiliereForSummary = Pick<
+  Filiere,
+  | "nomDeFiliere"
+  | "category"
+  | "duration"
+  | "bacRequired"
+  | "locations"
+  | "descriptionCourte"
+  | "longDescription_html"
+  | "prerequisites"
+  | "careerOpportunities"
+  | "universities"
+>;
+
+export function buildFiliereSummary(filiere: PartialFiliereForSummary): string {
   const prerequisitesList =
     filiere.prerequisites
       ?.map((p) => p.item)
