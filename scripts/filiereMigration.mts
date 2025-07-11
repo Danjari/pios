@@ -1,8 +1,10 @@
-import { MongoClient } from "mongodb";
-import { buildFiliereSummary } from "@/lib/summaries/BuildFiliereSummary"; // ← adjust import if needed
+import 'dotenv/config';
 
-const MONGODB_URI = process.env.MONGODB_URI || "your_mongo_uri_here";
-const DB_NAME = "pios_db"; // ← your DB name
+import { MongoClient } from "mongodb";
+import { buildFiliereSummary } from "../lib/summaries/BuildFiliereSummary.js";
+
+const MONGODB_URI = process.env.DATABASE_URI!;
+const DB_NAME = "test"; // ← your DB name
 const COLLECTION_NAME = "filieres";
 
 async function migrate() {
@@ -37,7 +39,7 @@ async function migrate() {
         { $set: { summaryText } }
       );
 
-      console.log(`✅ Updated: ${filiere.title}`);
+      console.log(`✅ Updated: ${filiere.nomDeFiliere}`);
     }
 
     console.log("🎉 Migration completed successfully!");
