@@ -11,6 +11,7 @@ import {
   lexicalHTML,
 } from '@payloadcms/richtext-lexical';
 import { revalidatePage } from '@/lib/revalidatePage';
+import { buildFiliereSummary } from '@/lib/summaries/BuildFiliereSummary';
 
 export const Filieres: CollectionConfig = {
   slug: 'filieres',
@@ -19,6 +20,24 @@ export const Filieres: CollectionConfig = {
     defaultColumns: ['nomDeFiliere', 'slug'],
   },
   hooks: {
+    beforeChange: [
+      ({ data }) => {
+        data.summaryText = buildFiliereSummary({
+          nomDeFiliere: data.nomDeFiliere,
+          category: data.category,
+          duration: data.duration,
+          bacRequired: data.bacRequired || [],
+          locations: data.locations || [],
+          descriptionCourte: data.descriptionCourte,
+          longDescription_html: data.longDescription_html,
+          prerequisites: data.prerequisites,
+          careerOpportunities: data.careerOpportunities,
+          universities: data.universities || [],
+        });
+  
+        return data;
+      },
+    ],
     afterChange: [
       async ({ doc }) => {
         const path = `/filieres/${doc.slug}`; // Adjust your dynamic segment
@@ -168,6 +187,15 @@ export const Filieres: CollectionConfig = {
       admin: {
         // Optionally customize what shows in the admin UI
         // This uses `nomDeLUniversite`, since that's what your `useAsTitle` is set to
+      },
+    },
+    {
+      name: 'summaryText',
+      label: 'Résumé complet (généré)',
+      type: 'textarea',
+      admin: {
+        readOnly: true,
+        description: 'Résumé généré automatiquement — utilisé pour AI et recherche avancée.',
       },
     },    
   ],
