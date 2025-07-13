@@ -17,16 +17,19 @@ export async function callAgent(query: string, threadId: string) {
       console.log("🔍 Filière lookup tool called");
   
       const results = await vectorStore.similaritySearchWithScore(query, n);
-      console.log("Vector results raw:", JSON.stringify(results, null, 2));
+      //console.log("Vector results raw:", JSON.stringify(results, null, 2));
 
   
       return JSON.stringify(
-        results.map((r) => ({
-          summary: r[0].pageContent,
-          link: r[0].metadata.vectorMetadata?.link || "",
-          nomDeFiliere: r[0].metadata.vectorMetadata?.nomDeFiliere || "",
-          score: r[1],
-        }))
+        results.map((r) => {
+          const link = r[0].metadata.vectorMetadata?.link || "";
+          const name = r[0].metadata.vectorMetadata?.nomDeFiliere || "Détails";
+          return {
+            summary: r[0].pageContent,
+            link: `[Voir la filière ${name}](${link})`,
+            score: r[1],
+          };
+        })
       );
     },
     {
@@ -63,7 +66,8 @@ export async function callAgent(query: string, threadId: string) {
     const prompt = ChatPromptTemplate.fromMessages([
       [
         "system",
-        `Tu es un assistant AI d'orientation académique sur la platforme. Utilise les outils disponibles pour aider les étudiants. Si tu ne peux pas répondre complètement, dis-le clairement. Prefixe ta réponse finale avec "FINAL ANSWER".`,
+        `Tu es un assistant AI d'orientation académique sur la plateforme. Utilise les outils disponibles pour aider les étudiants. Toujours inclure un lien direct vers la ressource (filière) la plus pertinente que tu mentionnes, même si l'utilisateur ne l'a pas demandé. Si tu ne peux pas répondre complètement, dis-le clairement. Prefixe ta réponse finale avec "FINAL ANSWER".`
+
       ],
       new MessagesPlaceholder("messages"),
     ]);
@@ -105,6 +109,26 @@ export async function callAgent(query: string, threadId: string) {
   );
 
   await client.close();
+  const finalMessage = finalState.messages[finalState.messages.length - 1];
 
-  return finalState.messages[finalState.messages.length - 1].content;
+let finalContentText = "";
+
+if (typeof finalMessage.content === "string") {
+  finalContentText = finalMessage.content;
+} else if (Array.isArray(finalMessage.content)) {
+  // In most cases, you'll want to join all pieces if it's an array
+  finalContentText = finalMessage.content.map(part => {
+    if (typeof part === "string") return part;
+    if ("text" in part && typeof part.text === "string") return part.text;
+    return "";
+  }).join(" ");
+} else {
+  // fallback, in case it's an unexpected type
+  finalContentText = String(finalMessage.content);
+}
+
+// Remove "FINAL ANSWER" prefix
+const cleanContent = finalContentText.replace(/^FINAL ANSWER\s*:?/i, "").trim();
+
+return cleanContent;
 }
