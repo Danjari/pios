@@ -1,15 +1,17 @@
 import { NextResponse } from "next/server";
-import { runAgent } from "@/lib/agent";
+import { callAgent } from "@/lib/agent";
 
 export async function POST(req: Request) {
   const { question } = await req.json();
-  if (!question) return NextResponse.json({ error: "No question provided" }, { status: 400 });
+  if (!question) {
+    return NextResponse.json({ error: "No question provided" }, { status: 400 });
+  }
 
   try {
-    const answer = await runAgent(question);
+    const answer = await callAgent(question, "default-thread");
     return NextResponse.json({ answer });
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: "Failed to process" }, { status: 500 });
+    console.error("❌ Error:", error);
+    return NextResponse.json({ error: "Agent failed" }, { status: 500 });
   }
 }

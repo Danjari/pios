@@ -1,42 +1,107 @@
-import { Graph } from "langgraphjs";
-import { GoogleGenerativeAI } from "@google/generative-ai";
-import { vectorSearch } from "@/lib/vectorSearch";
+import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
+import { StateGraph, Annotation } from "@langchain/langgraph";
+//import { MongoDBAtlasVectorSearch } from "@langchain/mongodb";
+import { ToolNode } from "@langchain/langgraph/prebuilt";
+import { tool } from "@langchain/core/tools";
+import { z } from "zod";
+import { getVectorStore } from "@/lib/vectorSearch";
+import { HumanMessage, AIMessage,BaseMessage } from "@langchain/core/messages";
+import { ChatPromptTemplate, MessagesPlaceholder } from "@langchain/core/prompts";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+export async function callAgent(query: string, threadId: string) {
+  const { vectorStore, client } = await getVectorStore();
 
-export async function runAgent(question: string) {
-  const graph = new Graph();
-
-  // Node 1: Retrieve context
-  graph.addNode("retrieve", async (input: { question: string }) => {
-    const results = await vectorSearch(input.question, 3);
-    const context = results.map(r => r.summaryText).join("\n\n");
-
-    // Also include metadata for links
-    const links = results.map(r => {
-      if (r.vectorMetadata?.link) {
-        return `👉 [En savoir plus sur ${r.vectorMetadata.nomDeFiliere}](${r.vectorMetadata.link})`;
-      }
-      return "";
-    }).join("\n\n");
-
-    return { question: input.question, context, links };
+  // Create tool for filière lookup
+  const filiereLookupTool = tool(
+    async ({ query, n = 3 }) => {
+      console.log("🔍 Filière lookup tool called");
+  
+      const results = await vectorStore.similaritySearchWithScore(query, n);
+  
+      return JSON.stringify(
+        results.map((r) => ({
+          summary: r[0].pageContent,
+          link: r[0].metadata.vectorMetadata?.link || "",
+          nomDeFiliere: r[0].metadata.vectorMetadata?.nomDeFiliere || "",
+          score: r[1],
+        }))
+      );
+    },
+    {
+      name: "filiere_lookup",
+      description: "Cherche des informations sur les filières.",
+      schema: z.object({
+        query: z.string().describe("La requête de recherche"),
+        n: z.number().optional().default(3).describe("Nombre de résultats à retourner"),
+      }),
+    }
+  );
+  
+  // State
+  const GraphState = Annotation.Root({
+    messages: Annotation<BaseMessage[]>({
+      reducer: (x, y) => x.concat(y),
+    }),
   });
 
-  // Node 2: Generate answer
-  graph.addNode("answer", async (input: { question: string; context: string; links: string }) => {
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+  // Tools node
+  const tools = [filiereLookupTool];
+  const toolNode = new ToolNode<typeof GraphState.State>(tools);
 
-    const prompt = `Réponds à la question suivante en utilisant ce contexte:\n\n${input.context}\n\nQuestion: ${input.question}\n\nSi possible, propose aussi des liens pour en savoir plus:\n${input.links}`;
+  // Chat model with Gemini
+  const model = new ChatGoogleGenerativeAI({
+    model: "gemini-pro",
+    temperature: 0,
+    maxOutputTokens: 4096,
+  }).bindTools(tools);
 
-    const result = await model.generateContent(prompt);
-    return { answer: result.response.text() };
-  });
+  // Prompt
+  async function callModel(state: typeof GraphState.State) {
+    const prompt = ChatPromptTemplate.fromMessages([
+      [
+        "system",
+        `Tu es un assistant AI d'orientation académique. Utilise les outils disponibles pour aider les étudiants. Si tu ne peux pas répondre complètement, dis-le clairement. Prefixe ta réponse finale avec "FINAL ANSWER".`,
+      ],
+      new MessagesPlaceholder("messages"),
+    ]);
 
-  // Connect nodes
-  graph.addEdge("retrieve", "answer");
+    const formatted = await prompt.formatMessages({
+      messages: state.messages,
+    });
 
-  // Execute
-  const response = await graph.invoke({ question });
-  return response.answer;
+    const result = await model.invoke(formatted);
+    return { messages: [result] };
+  }
+
+  // Decide when to call tools or end
+  function shouldContinue(state: typeof GraphState.State) {
+    const messages = state.messages;
+    const last = messages[messages.length - 1] as AIMessage;
+    if (last.tool_calls?.length) {
+      return "tools";
+    }
+    return "__end__";
+  }
+
+  // Build workflow
+  const workflow = new StateGraph(GraphState)
+    .addNode("agent", callModel)
+    .addNode("tools", toolNode)
+    .addEdge("__start__", "agent")
+    .addConditionalEdges("agent", shouldContinue)
+    .addEdge("tools", "agent");
+
+  const app = workflow.compile();
+
+  // Run
+  const finalState = await app.invoke(
+    {
+      messages: [new HumanMessage(query)],
+    },
+    { recursionLimit: 15, configurable: { thread_id: threadId } }
+  );
+
+  await client.close();
+
+  return finalState.messages[finalState.messages.length - 1].content;
 }
