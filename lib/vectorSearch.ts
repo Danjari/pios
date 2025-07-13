@@ -1,38 +1,25 @@
 import { MongoClient } from "mongodb";
-import { createEmbedding } from "@/lib/createEmbedding"; 
+import { MongoDBAtlasVectorSearch } from "@langchain/mongodb";
+import { HuggingFaceEmbeddings } from "@/lib/createEmbedding";
 
 const MONGODB_URI = process.env.DATABASE_URI!;
 const DB_NAME = "test";
 const COLLECTION_NAME = "filieres";
 
-const client = new MongoClient(MONGODB_URI);
-
-export async function vectorSearch(query: string, topK = 3) {
+export async function getVectorStore() {
+  const client = new MongoClient(MONGODB_URI);
   await client.connect();
   const db = client.db(DB_NAME);
   const collection = db.collection(COLLECTION_NAME);
 
-  const queryEmbedding = await createEmbedding(query);
+  const embeddings = new HuggingFaceEmbeddings(process.env.HF_API_KEY!);
 
-  const results = await collection.aggregate([
-    {
-      $vectorSearch: {
-        queryVector: queryEmbedding,
-        path: "vectorizedTextSummary",
-        numCandidates: 50,
-        limit: topK,
-        index: "default", // replace if your index name is different
-      },
-    },
-    {
-      $project: {
-        summaryText: 1,
-        vectorMetadata: 1,
-        score: { $meta: "vectorSearchScore" },
-      },
-    },
-  ]).toArray();
+  const vectorStore = new MongoDBAtlasVectorSearch(embeddings, {
+    collection,
+    indexName: "default",
+    textKey: "summaryText",
+    embeddingKey: "vectorizedTextSummary",
+  });
 
-  await client.close();
-  return results;
+  return { vectorStore, client };
 }
