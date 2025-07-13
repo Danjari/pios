@@ -37,11 +37,20 @@ async function run() {
 
       console.log(`Embedding: ${filiere.nomDeFiliere}...`);
       const embedding = await createEmbedding(summary);
-
+      const link = `/filieres/${filiere.slug}`;
+      // update the filiere with the embedding and the link and the name of the filiere
       await collection.updateOne(
         { _id: filiere._id },
-        { $set: { vectorizedTextSummary: embedding } }
-      );
+        {
+          $set: {
+            vectorizedTextSummary: embedding,
+            vectorMetadata: {
+              link,
+              nomDeFiliere: filiere.nomDeFiliere,
+            },
+          },
+        }
+      )
 
       console.log(`✅ Updated: ${filiere.nomDeFiliere}`);
     }
