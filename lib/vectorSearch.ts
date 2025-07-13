@@ -16,7 +16,7 @@ export async function getVectorStore() {
 
   const vectorStore = new MongoDBAtlasVectorSearch(embeddings, {
     collection,
-    indexName: "default",
+    indexName: "vector_index",
     textKey: "summaryText",
     embeddingKey: "vectorizedTextSummary",
   });

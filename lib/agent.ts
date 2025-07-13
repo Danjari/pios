@@ -13,10 +13,12 @@ export async function callAgent(query: string, threadId: string) {
 
   // Create tool for filière lookup
   const filiereLookupTool = tool(
-    async ({ query, n = 3 }) => {
+    async ({ query, n = 5 }) => {
       console.log("🔍 Filière lookup tool called");
   
       const results = await vectorStore.similaritySearchWithScore(query, n);
+      console.log("Vector results raw:", JSON.stringify(results, null, 2));
+
   
       return JSON.stringify(
         results.map((r) => ({
@@ -50,9 +52,10 @@ export async function callAgent(query: string, threadId: string) {
 
   // Chat model with Gemini
   const model = new ChatGoogleGenerativeAI({
-    model: "gemini-pro",
-    temperature: 0,
+    model: "gemini-2.5-flash",
+    temperature: 0.75,
     maxOutputTokens: 4096,
+    apiKey: process.env.GEMINI_API_KEY,
   }).bindTools(tools);
 
   // Prompt
@@ -60,7 +63,7 @@ export async function callAgent(query: string, threadId: string) {
     const prompt = ChatPromptTemplate.fromMessages([
       [
         "system",
-        `Tu es un assistant AI d'orientation académique. Utilise les outils disponibles pour aider les étudiants. Si tu ne peux pas répondre complètement, dis-le clairement. Prefixe ta réponse finale avec "FINAL ANSWER".`,
+        `Tu es un assistant AI d'orientation académique sur la platforme. Utilise les outils disponibles pour aider les étudiants. Si tu ne peux pas répondre complètement, dis-le clairement. Prefixe ta réponse finale avec "FINAL ANSWER".`,
       ],
       new MessagesPlaceholder("messages"),
     ]);
