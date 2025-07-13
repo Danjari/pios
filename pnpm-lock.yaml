@@ -11,6 +11,9 @@ importers:
       '@google/genai':
         specifier: ^0.8.0
         version: 0.8.0
+      '@huggingface/inference':
+        specifier: ^4.5.1
+        version: 4.5.1
       '@payloadcms/db-mongodb':
         specifier: ^3.14.0
         version: 3.28.1(@aws-sdk/credential-providers@3.758.0)(payload@3.28.1(graphql@16.10.0)(typescript@5.8.2))
@@ -658,6 +661,17 @@ packages:
   '@google/genai@0.8.0':
     resolution: {integrity: sha512-Zs+OGyZKyMbFofGJTR9/jTQSv8kITh735N3tEuIZj4VlMQXTC0soCFahysJ9NaeenRlD7xGb6fyqmX+FwrpU6Q==}
     engines: {node: '>=18.0.0'}
+
+  '@huggingface/inference@4.5.1':
+    resolution: {integrity: sha512-eMuugf8LfyqRyZxcdXH2sTk2Isb7+2B1lxHwdmHAOfaclfoNDC/OegZZ12Fp61WdgTXr+R/gM7oATMr3HXlN2g==}
+    engines: {node: '>=18'}
+
+  '@huggingface/jinja@0.5.1':
+    resolution: {integrity: sha512-yUZLld4lrM9iFxHCwFQ7D1HW2MWMwSbeB7WzWqFYDWK+rEb+WldkLdAJxUPOmgICMHZLzZGVcVjFh3w/YGubng==}
+    engines: {node: '>=18'}
+
+  '@huggingface/tasks@0.19.23':
+    resolution: {integrity: sha512-akJDLpcgf1rz+9ddH8cA+JdpSU6aDiStV59JoaMeMuni8g5Q0tbgbFBxW1Jnm/m7LENy5UumtbS6Ie36havZmQ==}
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -5184,6 +5198,15 @@ snapshots:
       - encoding
       - supports-color
       - utf-8-validate
+
+  '@huggingface/inference@4.5.1':
+    dependencies:
+      '@huggingface/jinja': 0.5.1
+      '@huggingface/tasks': 0.19.23
+
+  '@huggingface/jinja@0.5.1': {}
+
+  '@huggingface/tasks@0.19.23': {}
 
   '@humanfs/core@0.19.1': {}
 
