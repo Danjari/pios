@@ -12,6 +12,9 @@ import {
 } from '@payloadcms/richtext-lexical';
 import { revalidatePage } from '@/lib/revalidatePage';
 import { buildFiliereSummary } from '@/lib/summaries/BuildFiliereSummary';
+import { HfInference } from "@huggingface/inference";
+
+const hf = new HfInference(process.env.HF_API_KEY!);
 
 export const Filieres: CollectionConfig = {
   slug: 'filieres',
@@ -21,8 +24,9 @@ export const Filieres: CollectionConfig = {
   },
   hooks: {
     beforeChange: [
-      ({ data }) => {
-        data.summaryText = buildFiliereSummary({
+      async ({ data }) => {
+        // Build summary
+        const summaryText = buildFiliereSummary({
           nomDeFiliere: data.nomDeFiliere,
           category: data.category,
           duration: data.duration,
@@ -34,10 +38,29 @@ export const Filieres: CollectionConfig = {
           careerOpportunities: data.careerOpportunities,
           universities: data.universities || [],
         });
-  
+    
+        data.summaryText = summaryText;
+    
+        // Create embedding
+        const embedding = await hf.featureExtraction({
+          model: "intfloat/e5-large-v2",
+          inputs: summaryText,
+        });
+    
+        // Build link
+        const link = `/filieres/${data.slug}`;
+    
+        // Save vector fields
+        data.vectorizedTextSummary = embedding;
+        data.vectorMetadata = {
+          link,
+          nomDeFiliere: data.nomDeFiliere,
+        };
+    
         return data;
       },
     ],
+    
     afterChange: [
       async ({ doc }) => {
         const path = `/filieres/${doc.slug}`; // Adjust your dynamic segment
