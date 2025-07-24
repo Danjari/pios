@@ -74,17 +74,43 @@ export default function ChatPage() {
       textareaRef.current.style.height = "auto"
     }
 
-    // Simulate assistant response after 1.5 seconds
-    setTimeout(() => {
+    try {
+      // Call the agent API endpoint
+      const response = await fetch('/api/agent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          question: userMessage.content,
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to get response')
+      }
+
+      const data = await response.json()
+      
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: "Thanks for your message. I'll get back to you.",
+        content: data.answer,
         role: "assistant",
         timestamp: new Date(),
       }
       setMessages((prev) => [...prev, assistantMessage])
+    } catch (error) {
+      console.error('Error:', error)
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: 'Sorry, I encountered an error. Please try again.',
+        role: "assistant",
+        timestamp: new Date(),
+      }
+      setMessages((prev) => [...prev, errorMessage])
+    } finally {
       setIsTyping(false)
-    }, 1500)
+    }
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
