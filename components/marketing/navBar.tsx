@@ -25,6 +25,7 @@ export default function NavBar() {
             { href: "/filieres", label: "Filières" },
             { href: "/universites", label: "Universités" },
             { href: "/bourses", label: "Bourses" },
+            { href: "/chat", label: "Chat IA" },
           ].map((link) => (
             <Link
               key={link.href}
@@ -64,22 +65,23 @@ export default function NavBar() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      <div
-        className={`absolute left-0 right-0 bg-blue-800 transition-all duration-300 ease-in-out ${
-          isMenuOpen
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 -translate-y-2 pointer-events-none"
-        } md:hidden`}
-      >
-        <div className="space-y-4 p-4">
-          {[
-            { href: "/", label: "Accueil" },
-            { href: "/filieres", label: "Filières" },
-            { href: "/universites", label: "Universités" },
-            { href: "/bourses", label: "Bourses" },
-            //{ href: "/blog", label: "Blog" },
-          ].map((link) => (
+              {/* Mobile Menu */}
+        <div
+          className={`absolute left-0 right-0 bg-blue-800 transition-all duration-300 ease-in-out ${
+            isMenuOpen
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 -translate-y-2 pointer-events-none"
+          } md:hidden`}
+        >
+          <div className="space-y-4 p-4">
+            {[
+              { href: "/", label: "Accueil" },
+              { href: "/filieres", label: "Filières" },
+              { href: "/universites", label: "Universités" },
+              { href: "/bourses", label: "Bourses" },
+              { href: "/chat", label: "Chat IA" },
+              //{ href: "/blog", label: "Blog" },
+            ].map((link) => (
             <Link
               key={link.href}
               href={link.href}

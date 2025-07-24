@@ -133,22 +133,25 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="h-screen bg-white flex flex-col font-system overflow-hidden">
-      {/* Translucent Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-sm bg-white/70 border-b border-gray-200/50">
-        <div className="safe-area-inset-top">
-          <div className="px-4 py-3 flex items-center justify-center relative">
-            <div className="absolute left-4 flex items-center gap-2">
-              <MessageCircle className="w-5 h-5 text-[#007aff]" />
+    <div className="min-h-screen bg-white flex flex-col font-system">
+      {/* Page Header */}
+      <div className="bg-white border-b border-gray-200/50">
+        <div className="max-w-4xl mx-auto px-4 py-6">
+          <div className="flex items-center justify-center relative">
+            <div className="flex items-center gap-3">
+              <MessageCircle className="w-6 h-6 text-[#007aff]" />
+              <h1 className="text-2xl font-semibold text-gray-900 tracking-tight">AI Assistant</h1>
             </div>
-            <h1 className="text-lg font-semibold text-gray-900 tracking-tight">AI Assistant</h1>
           </div>
+          <p className="text-center text-gray-600 mt-2">Posez vos questions et obtenez des réponses instantanées</p>
         </div>
-      </header>
+      </div>
 
       {/* Chat Area */}
-      <div className="flex-1 overflow-hidden">
-        <div className="h-full overflow-y-auto px-4 py-6">
+      <div className="flex-1">
+        <div className="max-w-4xl mx-auto px-4 py-6">
+          <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+            <div className="h-[600px] overflow-y-auto px-4 py-6">
           {messages.length === 0 && (
             <div className="text-center text-gray-500 mt-20 animate-in fade-in duration-500">
               <div className="w-20 h-20 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
@@ -215,35 +218,35 @@ export default function ChatPage() {
             )}
           </div>
 
-          <div ref={messagesEndRef} className="h-4" />
-        </div>
-      </div>
+              <div ref={messagesEndRef} className="h-4" />
+            </div>
 
-      {/* Input Bar */}
-      <div className="backdrop-blur-sm bg-white/70 border-t border-gray-200/50">
-        <div className="safe-area-inset-bottom">
-          <div className="px-4 py-3">
-            <form onSubmit={handleSubmit} className="flex items-end gap-3">
-              <div className="flex-1 relative">
-                <Textarea
-                  ref={textareaRef}
-                  value={input}
-                  onChange={handleInputChange}
-                  onKeyDown={handleKeyDown}
-                  placeholder="iMessage"
-                  className="min-h-[44px] max-h-[120px] resize-none border-gray-300 focus:border-[#007aff] focus:ring-[#007aff]/20 rounded-full px-4 py-3 shadow-sm transition-all duration-200 bg-white text-[15px] placeholder:text-gray-400"
-                  disabled={isTyping}
-                  rows={1}
-                />
+            {/* Input Bar */}
+            <div className="border-t border-gray-200 bg-white">
+              <div className="px-4 py-3">
+                <form onSubmit={handleSubmit} className="flex items-end gap-3">
+                  <div className="flex-1 relative">
+                    <Textarea
+                      ref={textareaRef}
+                      value={input}
+                      onChange={handleInputChange}
+                      onKeyDown={handleKeyDown}
+                      placeholder="Tapez votre message..."
+                      className="min-h-[44px] max-h-[120px] resize-none border-gray-300 focus:border-[#007aff] focus:ring-[#007aff]/20 rounded-full px-4 py-3 shadow-sm transition-all duration-200 bg-white text-[15px] placeholder:text-gray-400"
+                      disabled={isTyping}
+                      rows={1}
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    disabled={!input.trim() || isTyping}
+                    className="h-11 w-11 rounded-full bg-[#007aff] hover:bg-[#0056d6] disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md hover:scale-105 active:scale-95 flex items-center justify-center"
+                  >
+                    <Send className="w-4 h-4 text-white" />
+                  </Button>
+                </form>
               </div>
-              <Button
-                type="submit"
-                disabled={!input.trim() || isTyping}
-                className="h-11 w-11 rounded-full bg-[#007aff] hover:bg-[#0056d6] disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md hover:scale-105 active:scale-95 flex items-center justify-center"
-              >
-                <Send className="w-4 h-4 text-white" />
-              </Button>
-            </form>
+            </div>
           </div>
         </div>
       </div>
