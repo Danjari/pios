@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { fetchBourseBySlug } from "@/lib/api"
 import { EmailSignupForm } from "@/components/EmailSignUpForm"
+import NavBar from "@/components/marketing/navBar"
+import Footer from "@/components/marketing/footer"
 
 
 
@@ -32,6 +34,8 @@ export default async function ScholarshipPage({ params }: { params: Promise<{ sl
   }
 
   return (
+    <>
+    <NavBar/>
     <div className="min-h-screen bg-gray-50">
     
 
@@ -291,5 +295,7 @@ export default async function ScholarshipPage({ params }: { params: Promise<{ sl
         </div>
       </main>
     </div>
+    <Footer/>
+    </>
   )
 }
