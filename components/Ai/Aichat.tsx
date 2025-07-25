@@ -31,6 +31,15 @@ const suggestedPrompts = [
   "Help me write an email",
 ]
 
+// Helper function to clean AI responses
+const cleanAIResponse = (content: string): string => {
+  return content
+    .replace(/^FINAL ANSWER\s*:?/i, "")
+    .replace(/^ANSWER\s*:?/i, "")
+    .replace(/^RESPONSE\s*:?/i, "")
+    .trim()
+}
+
 export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState("")
@@ -100,7 +109,7 @@ export default function ChatPage() {
       const data = await response.json()
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: data.answer,
+        content: cleanAIResponse(data.answer),
         role: "assistant",
         timestamp: new Date(),
       }
@@ -159,7 +168,7 @@ export default function ChatPage() {
       const data = await response.json()
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: data.answer,
+        content: cleanAIResponse(data.answer),
         role: "assistant",
         timestamp: new Date(),
       }

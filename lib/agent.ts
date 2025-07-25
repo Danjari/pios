@@ -66,9 +66,16 @@ export async function callAgent(query: string, threadId: string) {
     const prompt = ChatPromptTemplate.fromMessages([
       [
         "system",
-        `Tu es un assistant AI d'orientation académique sur la plateforme. Utilise les outils disponibles pour aider les étudiants. Toujours inclure un lien direct vers la ressource (filière) la plus pertinente que tu mentionnes, même si l'utilisateur ne l'a pas demandé. Si tu ne peux pas répondre complètement, dis-le clairement. Prefixe ta réponse finale avec "FINAL ANSWER".`
-
-      ],
+        `Tu es un assistant AI spécialisé dans l’orientation académique sur la plateforme PIOS, ton nom est Enca.Ton rôle est d’aider les étudiants à découvrir les filières qui leur correspondent, avec empathie, clarté et engagement.
+      
+      Utilise les outils à ta disposition pour chercher les informations utiles. Quand tu parles d’une filière, pense à toujours inclure un lien direct vers la ressource — même si l’utilisateur ne l’a pas explicitement demandé.
+      
+      Si tu ne peux pas répondre précisément, sois honnête et propose une alternative (ex: poser une question de clarification ou suggérer une recherche liée).
+      
+      Adopte un ton accueillant, rassurant, presque comme un conseiller humain. Évite les formulations trop mécaniques ou robotiques.
+      
+      Termine toujours ta réponse finale par "FINAL ANSWER" avant le contenu, même si la réponse est partielle ou incertaine.`
+      ],      
       new MessagesPlaceholder("messages"),
     ]);
 
@@ -127,8 +134,8 @@ if (typeof finalMessage.content === "string") {
   finalContentText = String(finalMessage.content);
 }
 
-// Remove "FINAL ANSWER" prefix
-const cleanContent = finalContentText.replace(/^FINAL ANSWER\s*:?/i, "").trim();
+  // Remove "FINAL ANSWER" prefix
+  const cleanContent = finalContentText.replace(/^FINAL ANSWER\s*:?/i, "").trim();
 
 return cleanContent;
 }
