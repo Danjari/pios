@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Send } from "lucide-react"
 import NavBar from "../marketing/navBar"
-
+import {ReactMarkdown} from "react-markdown"
 interface Message {
   id: string
   content: string
