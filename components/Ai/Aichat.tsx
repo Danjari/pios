@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Send } from "lucide-react"
 import NavBar from "../marketing/navBar"
-import {ReactMarkdown} from "react-markdown"
+import ReactMarkdown from "react-markdown"
 interface Message {
   id: string
   content: string
@@ -280,7 +280,9 @@ export default function ChatPage() {
                         : "bg-[#f1f0f0] text-gray-900 rounded-[20px] rounded-bl-[8px]"
                     }`}
                   >
-                    <p className="whitespace-pre-wrap break-words leading-relaxed text-[15px]">{message.content}</p>
+                    <div className="whitespace-pre-wrap break-words leading-relaxed text-[15px]">
+                      <ReactMarkdown>{message.content}</ReactMarkdown>
+                    </div>
                   </div>
                   <p
                     className={`text-xs text-gray-400 mt-1 px-2 ${
