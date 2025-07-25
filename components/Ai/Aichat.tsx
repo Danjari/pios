@@ -5,7 +5,8 @@ import type React from "react"
 import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { MessageCircle, Send } from "lucide-react"
+import { Send } from "lucide-react"
+import NavBar from "../marketing/navBar"
 
 interface Message {
   id: string
@@ -202,16 +203,7 @@ export default function ChatPage() {
 
   return (<div className="h-screen bg-white flex flex-col font-system overflow-hidden">
   {/* Translucent Header */}
-  <header className="sticky top-0 z-50 backdrop-blur-sm bg-white/70 border-b border-gray-200/50">
-    <div className="safe-area-inset-top">
-      <div className="px-4 py-3 flex items-center justify-center relative">
-        <div className="absolute left-4 flex items-center gap-2">
-          <MessageCircle className="w-5 h-5 text-[#007aff]" />
-        </div>
-        <h1 className="text-lg font-semibold text-gray-900 tracking-tight">AI Assistant</h1>
-      </div>
-    </div>
-  </header>
+ <NavBar/>
 
   {/* Chat Area */}
   <div className="flex-1 overflow-hidden relative">
@@ -348,7 +340,7 @@ export default function ChatPage() {
                 value={input}
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
-                placeholder="Pios AI..."
+                placeholder="Pios AI"
                 className="min-h-[44px] max-h-[120px] resize-none border-gray-300 focus:border-[#007aff] focus:ring-[#007aff]/20 rounded-full px-4 py-3 shadow-sm transition-all duration-200 bg-white text-[15px] placeholder:text-gray-400"
                 disabled={isTyping}
                 rows={1}
