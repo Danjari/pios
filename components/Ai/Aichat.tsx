@@ -281,7 +281,20 @@ export default function ChatPage() {
                     }`}
                   >
                     <div className="whitespace-pre-wrap break-words leading-relaxed text-[15px]">
-                      <ReactMarkdown>{message.content}</ReactMarkdown>
+                      <ReactMarkdown
+                        components={{
+                          a: ({ ...props}) => (
+                            <a
+                              {...props}
+                              className="text-blue-600 underline hover:text-blue-800 font-semibold transition-colors"
+                              target="_blank" // optional: open in new tab
+                              rel="noopener noreferrer"
+                            />
+                          ),
+                        }}
+                      >
+                        {message.content}
+                      </ReactMarkdown>
                     </div>
                   </div>
                   <p
