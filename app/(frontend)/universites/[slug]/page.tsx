@@ -19,8 +19,10 @@ export default async function UniversityPage({ params }: { params: Promise<{ slu
   }
 
   return (
+    <>
+    <NavBar/>
     <div className="min-h-screen bg-gray-50">
-      <NavBar/>
+      
 
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
@@ -329,7 +331,9 @@ export default async function UniversityPage({ params }: { params: Promise<{ slu
           </div>
         </div>
       </main>
-      <Footer/>
+     
     </div>
+    <Footer/>
+    </>
   )
 }
