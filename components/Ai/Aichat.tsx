@@ -24,10 +24,18 @@ function formatRelativeTime(date: Date): string {
   return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
 }
 
+const suggestedPrompts = [
+  "Explain this concept to me",
+  "Summarize this article",
+  "Give me ideas for a project",
+  "Help me write an email",
+]
+
 export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState("")
   const [isTyping, setIsTyping] = useState(false)
+  const [isChatMode, setIsChatMode] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
@@ -36,8 +44,10 @@ export default function ChatPage() {
   }
 
   useEffect(() => {
-    scrollToBottom()
-  }, [messages, isTyping])
+    if (isChatMode) {
+      scrollToBottom()
+    }
+  }, [messages, isTyping, isChatMode])
 
   // Autofocus input on load
   useEffect(() => {
@@ -54,9 +64,68 @@ export default function ChatPage() {
     return () => clearInterval(interval)
   }, [])
 
+  const startChat = async (messageContent: string) => {
+    if (!messageContent.trim()) return
+
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      content: messageContent.trim(),
+      role: "user",
+      timestamp: new Date(),
+    }
+
+    setMessages([userMessage])
+    setInput("")
+    setIsChatMode(true)
+    setIsTyping(true)
+
+    // Reset textarea height
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto"
+    }
+
+    try {
+      const response = await fetch('/api/agent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          question: userMessage.content,
+        }),
+      })
+      if (!response.ok) {
+        throw new Error('Failed to get response')
+      }
+      const data = await response.json()
+      const assistantMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: data.answer,
+        role: "assistant",
+        timestamp: new Date(),
+      }
+      setMessages((prev) => [...prev, assistantMessage])
+    } catch {
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: 'Sorry, I encountered an error. Please try again.',
+        role: "assistant",
+        timestamp: new Date(),
+      }
+      setMessages((prev) => [...prev, errorMessage])
+    } finally {
+      setIsTyping(false)
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!input.trim() || isTyping) return
+
+    if (!isChatMode) {
+      startChat(input)
+      return
+    }
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -75,7 +144,6 @@ export default function ChatPage() {
     }
 
     try {
-      // Call the agent API endpoint
       const response = await fetch('/api/agent', {
         method: 'POST',
         headers: {
@@ -85,13 +153,10 @@ export default function ChatPage() {
           question: userMessage.content,
         }),
       })
-
       if (!response.ok) {
         throw new Error('Failed to get response')
       }
-
       const data = await response.json()
-      
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         content: data.answer,
@@ -99,8 +164,7 @@ export default function ChatPage() {
         timestamp: new Date(),
       }
       setMessages((prev) => [...prev, assistantMessage])
-    } catch (error) {
-      console.error('Error:', error)
+    } catch {
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         content: 'Sorry, I encountered an error. Please try again.',
@@ -111,6 +175,10 @@ export default function ChatPage() {
     } finally {
       setIsTyping(false)
     }
+  }
+
+  const handleSuggestedPrompt = (prompt: string) => {
+    startChat(prompt)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -132,22 +200,77 @@ export default function ChatPage() {
     textarea.style.height = Math.min(scrollHeight, maxHeight) + "px"
   }
 
-  return (
-    <div className="h-screen bg-white flex flex-col font-system overflow-hidden">
+  return (<div className="h-screen bg-white flex flex-col font-system overflow-hidden">
+  {/* Translucent Header */}
+  <header className="sticky top-0 z-50 backdrop-blur-sm bg-white/70 border-b border-gray-200/50">
+    <div className="safe-area-inset-top">
+      <div className="px-4 py-3 flex items-center justify-center relative">
+        <div className="absolute left-4 flex items-center gap-2">
+          <MessageCircle className="w-5 h-5 text-[#007aff]" />
+        </div>
+        <h1 className="text-lg font-semibold text-gray-900 tracking-tight">AI Assistant</h1>
+      </div>
+    </div>
+  </header>
 
-      {/* Chat Area */}
-      <div className="flex-1 overflow-hidden">
-        <div className="h-full overflow-y-auto px-4 py-6">
-          {messages.length === 0 && (
-            <div className="text-center text-gray-500 mt-20 animate-in fade-in duration-500">
-              <div className="w-20 h-20 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
-                <MessageCircle className="w-10 h-10 text-gray-400" />
-              </div>
-              <h2 className="text-xl font-medium mb-2 text-gray-800">Welcome to AI Assistant</h2>
-              <p className="text-gray-500 text-sm">Send a message to get started</p>
-            </div>
-          )}
+  {/* Chat Area */}
+  <div className="flex-1 overflow-hidden relative">
+    {/* Welcome Screen */}
+    <div
+      className={`absolute inset-0 flex flex-col items-center justify-center px-6 transition-all duration-300 ease-in-out ${
+        isChatMode ? "opacity-0 translate-y-4 pointer-events-none" : "opacity-100 translate-y-0"
+      }`}
+    >
+      <div className="text-center mb-8">
+        <h2 className="text-3xl font-semibold text-gray-900 mb-6">Hello! How can I help you today?</h2>
 
+        {/* Suggested Prompts */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8 max-w-md">
+          {suggestedPrompts.map((prompt, index) => (
+            <button
+              key={index}
+              onClick={() => handleSuggestedPrompt(prompt)}
+              className="px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full text-sm font-medium transition-all duration-200 hover:scale-105 active:scale-95 text-left"
+            >
+              {prompt}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Centered Input Bar (Welcome Mode) */}
+      <div className="w-full max-w-md">
+        <form onSubmit={handleSubmit} className="flex items-end gap-3">
+          <div className="flex-1 relative">
+            <Textarea
+              ref={textareaRef}
+              value={input}
+              onChange={handleInputChange}
+              onKeyDown={handleKeyDown}
+              placeholder="Ask me anything..."
+              className="min-h-[44px] max-h-[120px] resize-none border-gray-300 focus:border-[#007aff] focus:ring-[#007aff]/20 rounded-full px-4 py-3 shadow-sm transition-all duration-200 bg-white text-[15px] placeholder:text-gray-400"
+              rows={1}
+            />
+          </div>
+          <Button
+            type="submit"
+            disabled={!input.trim()}
+            className="h-11 w-11 rounded-full bg-[#007aff] hover:bg-[#0056d6] disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md hover:scale-105 active:scale-95 flex items-center justify-center"
+          >
+            <Send className="w-4 h-4 text-white" />
+          </Button>
+        </form>
+      </div>
+    </div>
+
+    {/* Chat Messages (Chat Mode) */}
+    <div
+      className={`h-full transition-all duration-300 ease-in-out ${
+        isChatMode ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
+      }`}
+    >
+      <div className="h-full overflow-y-auto px-4 py-6 pb-32">
+        <div className="max-w-3xl mx-auto">
           <div className="space-y-6">
             {messages.map((message, index) => (
               <div
@@ -207,35 +330,42 @@ export default function ChatPage() {
           <div ref={messagesEndRef} className="h-4" />
         </div>
       </div>
+    </div>
+  </div>
 
-      {/* Input Bar */}
-      <div className="backdrop-blur-sm bg-white/70 border-t border-gray-200/50">
-        <div className="safe-area-inset-bottom">
-          <div className="px-4 py-3">
-            <form onSubmit={handleSubmit} className="flex items-end gap-3">
-              <div className="flex-1 relative">
-                <Textarea
-                  ref={textareaRef}
-                  value={input}
-                  onChange={handleInputChange}
-                  onKeyDown={handleKeyDown}
-                  placeholder="iMessage"
-                  className="min-h-[44px] max-h-[120px] resize-none border-gray-300 focus:border-[#007aff] focus:ring-[#007aff]/20 rounded-full px-4 py-3 shadow-sm transition-all duration-200 bg-white text-[15px] placeholder:text-gray-400"
-                  disabled={isTyping}
-                  rows={1}
-                />
-              </div>
-              <Button
-                type="submit"
-                disabled={!input.trim() || isTyping}
-                className="h-11 w-11 rounded-full bg-[#007aff] hover:bg-[#0056d6] disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md hover:scale-105 active:scale-95 flex items-center justify-center"
-              >
-                <Send className="w-4 h-4 text-white" />
-              </Button>
-            </form>
-          </div>
+  {/* Fixed Input Bar (Chat Mode) */}
+  <div
+    className={`backdrop-blur-sm bg-white/70 border-t border-gray-200/50 transition-all duration-300 ease-in-out ${
+      isChatMode ? "opacity-100 translate-y-0" : "opacity-0 translate-y-full pointer-events-none"
+    }`}
+  >
+    <div className="safe-area-inset-bottom">
+      <div className="px-4 py-3">
+        <div className="max-w-3xl mx-auto">
+          <form onSubmit={handleSubmit} className="flex items-end gap-3">
+            <div className="flex-1 relative">
+              <Textarea
+                value={input}
+                onChange={handleInputChange}
+                onKeyDown={handleKeyDown}
+                placeholder="Pios AI..."
+                className="min-h-[44px] max-h-[120px] resize-none border-gray-300 focus:border-[#007aff] focus:ring-[#007aff]/20 rounded-full px-4 py-3 shadow-sm transition-all duration-200 bg-white text-[15px] placeholder:text-gray-400"
+                disabled={isTyping}
+                rows={1}
+              />
+            </div>
+            <Button
+              type="submit"
+              disabled={!input.trim() || isTyping}
+              className="h-11 w-11 rounded-full bg-[#007aff] hover:bg-[#0056d6] disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md hover:scale-105 active:scale-95 flex items-center justify-center"
+            >
+              <Send className="w-4 h-4 text-white" />
+            </Button>
+          </form>
         </div>
       </div>
     </div>
-  )
+  </div>
+</div>
+)
 }
