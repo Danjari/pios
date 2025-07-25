@@ -8,6 +8,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Gallery } from "@/components/universites/gallery"
 import { fetchUniversiteBySlug } from "@/lib/api"
 import { VideoPlayer } from "@/components/universites/videoPlayer"
+import NavBar from "@/components/marketing/navBar"
+import Footer from "@/components/marketing/footer"
 
 export default async function UniversityPage({ params }: { params: Promise<{ slug: string }> }) {
   const university = await fetchUniversiteBySlug((await params).slug)
@@ -18,7 +20,7 @@ export default async function UniversityPage({ params }: { params: Promise<{ slu
 
   return (
     <div className="min-h-screen bg-gray-50">
-  
+      <NavBar/>
 
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
@@ -327,6 +329,7 @@ export default async function UniversityPage({ params }: { params: Promise<{ slu
           </div>
         </div>
       </main>
+      <Footer/>
     </div>
   )
 }
