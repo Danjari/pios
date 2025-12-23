@@ -17,17 +17,17 @@ export default function UniversitiesPage({universites}:Props) {
   const [allUniversities] = useState<Universite[]>(universites)
   const [filteredUniversties, setFilteredUniversities] = useState<Universite[]>(universites)
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 pt-24 pb-12 md:pt-28">
         <div className="max-w-4xl mx-auto">
-          <Link href="/" className="inline-flex items-center text-indigo-600 hover:text-indigo-800 mb-6">
+          <Link href="/" className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6">
             <ChevronLeft size={20} />
             <span>Retour à l&apos;accueil</span>
           </Link>
 
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Découvrez les universités</h2>
+          <h2 className="text-3xl md:text-4xl text-[#142948] tracking-tight mb-4">Découvrez les universités</h2>
           <p className="text-gray-600 mb-8">
             Explorez les différentes universités du Niger et trouvez celle qui correspond à vos aspirations académiques.
           </p>

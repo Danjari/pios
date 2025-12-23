@@ -258,6 +258,10 @@ export interface Filiere {
       }[]
     | null;
   universities?: (string | Universite)[] | null;
+  /**
+   * Résumé généré automatiquement — utilisé pour AI et recherche avancée.
+   */
+  summaryText?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -578,6 +582,7 @@ export interface FilieresSelect<T extends boolean = true> {
         id?: T;
       };
   universities?: T;
+  summaryText?: T;
   updatedAt?: T;
   createdAt?: T;
 }

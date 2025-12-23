@@ -37,23 +37,23 @@ export function UniversityCard({ university }: UniversityCardProps) {
         <div className="space-y-3">
           <div className="flex justify-between items-start">
             <h3 className="font-bold text-lg text-gray-800">{university.nomDeLUniversite}</h3>
-            <Badge variant="outline" className="bg-indigo-50 text-indigo-700 border-indigo-200">
+            <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
               {university.type}
             </Badge>
           </div>
           <div className="flex items-center text-gray-600">
-            <MapPin className="h-4 w-4 mr-2 text-indigo-600" />
+            <MapPin className="h-4 w-4 mr-2 text-blue-600" />
             <span>
               {university.city || university.region}, {university.country || 'Niger'}
             </span>
           </div>
           <div className="flex items-center text-gray-600">
-            <BookOpen className="h-4 w-4 mr-2 text-indigo-600" />
+            <BookOpen className="h-4 w-4 mr-2 text-blue-600" />
             <span>{university.educationSystem}</span>
           </div>
           {university.graduatesCount && (
             <div className="flex items-center text-gray-600">
-              <GraduationCap className="h-4 w-4 mr-2 text-indigo-600" />
+              <GraduationCap className="h-4 w-4 mr-2 text-blue-600" />
               <span>{university.graduatesCount} diplômés</span>
             </div>
           )}

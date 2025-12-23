@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import NavBar from "../../components/marketing/navBar";
-import Footer from "../../components/marketing/footer";
-import AIAssistant from "../../components/AiAssistant";
+
+
 import { PostHogProvider } from "../providers/PHProviders";
 
 const geistSans = Geist({
@@ -32,12 +31,12 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
         <PostHogProvider>
-          <NavBar/>
+          
           <main className="flex-grow">
             {children}
           </main>
-          <Footer/>
-          <AIAssistant/>
+         
+         
         </PostHogProvider>
       </body>
     </html>

@@ -39,11 +39,68 @@ export default function AIAssistant() {
     }
   }, [messages, isOpen]);
 
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   if (!input.trim()) return;
+
+  //   // Add user message
+  //   const userMessage: Message = { 
+  //     role: 'user', 
+  //     content: input.trim(),
+  //     timestamp: new Date()
+  //   };
+  //   setMessages([...messages, userMessage]);
+  //   setInput('');
+  //   setIsLoading(true);
+
+  //   try {
+  //     // Call OpenAI API
+  //     const response = await fetch('/api/chat', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({
+  //         messages: messages.concat(userMessage).map(msg => ({
+  //           role: msg.role,
+  //           content: msg.content
+  //         })),
+  //       }),
+  //     });
+
+  //     if (!response.ok) {
+  //       throw new Error('Failed to get response');
+  //     }
+
+  //     const data = await response.json();
+      
+  //     // Add assistant message
+  //     setMessages((prevMessages) => [
+  //       ...prevMessages,
+  //       { 
+  //         role: 'assistant', 
+  //         content: data.message,
+  //         timestamp: new Date()
+  //       },
+  //     ]);
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //     setMessages((prevMessages) => [
+  //       ...prevMessages,
+  //       { 
+  //         role: 'assistant', 
+  //         content: 'Sorry, I encountered an error. Please try again.',
+  //         timestamp: new Date()
+  //       },
+  //     ]);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
-
-    // Add user message
+  
     const userMessage: Message = { 
       role: 'user', 
       content: input.trim(),
@@ -52,34 +109,30 @@ export default function AIAssistant() {
     setMessages([...messages, userMessage]);
     setInput('');
     setIsLoading(true);
-
+  
     try {
-      // Call OpenAI API
-      const response = await fetch('/api/chat', {
+      // Call your agent endpoint
+      const response = await fetch('/api/agent', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          messages: messages.concat(userMessage).map(msg => ({
-            role: msg.role,
-            content: msg.content
-          })),
+          question: userMessage.content,
         }),
       });
-
+  
       if (!response.ok) {
         throw new Error('Failed to get response');
       }
-
+  
       const data = await response.json();
       
-      // Add assistant message
       setMessages((prevMessages) => [
         ...prevMessages,
         { 
           role: 'assistant', 
-          content: data.message,
+          content: data.answer, // we use 'answer' from new endpoint
           timestamp: new Date()
         },
       ]);
@@ -97,7 +150,7 @@ export default function AIAssistant() {
       setIsLoading(false);
     }
   };
-
+  
   // Format timestamp
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });

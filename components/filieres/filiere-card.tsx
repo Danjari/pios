@@ -20,7 +20,7 @@ export function FiliereCard({ filiere }: FiliereCardProps) {
       <CardHeader className="pb-2">
         <div className="flex justify-between items-start">
           <h3 className="font-bold text-lg text-gray-800">{filiere.nomDeFiliere}</h3>
-          <Badge variant="outline" className="bg-indigo-50 text-indigo-700 border-indigo-200">
+          <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
             {filiere.category || "Non spécifié"}
           </Badge>
         </div>
@@ -28,7 +28,7 @@ export function FiliereCard({ filiere }: FiliereCardProps) {
       <CardContent className="flex-grow">
         <div className="space-y-3">
           <div className="flex items-center text-gray-600">
-            <Clock className="h-4 w-4 mr-2 text-indigo-600" />
+            <Clock className="h-4 w-4 mr-2 text-blue-600" />
             <span>
               {(() => {
                 switch (filiere.duration) {
@@ -42,11 +42,11 @@ export function FiliereCard({ filiere }: FiliereCardProps) {
             </span>
           </div>
           <div className="flex items-center text-gray-600">
-            <BookOpen className="h-4 w-4 mr-2 text-indigo-600" />
+            <BookOpen className="h-4 w-4 mr-2 text-blue-600" />
             <span>Bac {filiere.bacRequired?.join(", ") || "Non spécifié"}</span>
           </div>
           <div className="flex items-center text-gray-600">
-            <MapPin className="h-4 w-4 mr-2 text-indigo-600" />
+            <MapPin className="h-4 w-4 mr-2 text-blue-600" />
             <span>{filiere.locations?.join(", ") || "Non spécifié"} </span>
           </div>
           <p className="text-gray-600 text-sm mt-2 line-clamp-2">{filiere.descriptionCourte}</p>
