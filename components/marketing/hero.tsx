@@ -1,65 +1,64 @@
-import Link from "next/link";
-import Image from "next/image";
-import background from "@/public/background.png";
-export default function Hero() {
-    return (
-    <section>
+"use client";
 
-      <div className="relative min-h-screen flex flex-col justify-center  px-4 sm:px-8">
-        {/* Background Gradient */}
-        <Image
-        src={background}
-        alt="Background"
-        fill
-        className="absolute inset-0 object-cover opacity-20 z-0"
-        priority
-      />
-      {/* Overlay for better text readability */}
-      <div className="absolute inset-0 bg-white/60 backdrop-blur-sm z-0" aria-hidden="true" />
-      <div className="flex justify-center px-4 sm:mb-8 sm:px-0 z-10 mt-4 mb-6">
-        <div className="relative rounded-full px-3 py-1 text-sm text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20 bg-white/80 text-center">
-          Nous avons de nouvelles bourses. <Link href="/bourses" className="font-semibold text-indigo-600"><span className="absolute inset-0" aria-hidden="true"></span>Lis plus <span aria-hidden="true">&rarr;</span></Link>
-        </div>
+import Link from "next/link";
+
+interface HeroProps {
+  onCtaClick: () => void;
+}
+
+export default function Hero({ onCtaClick }: HeroProps) {
+  return (
+    <div className="relative h-[90vh] md:h-[95vh] min-h-[600px] w-full overflow-hidden">
+      {/* Background image */}
+      <div
+        className="absolute inset-0 bg-cover bg-[center_right_-100px] md:bg-center"
+        style={{
+          backgroundImage:
+            "url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2560&auto=format&fit=crop')",
+        }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-[#142948] via-[#142948]/80 md:via-[#142948]/70 to-[#142948]/20 md:to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#142948] via-transparent to-transparent opacity-60" />
       </div>
-        <div className="max-w-4xl mx-auto relative z-10 text-center py-3">
-          {/* Hero Text with Gradient */}
-          <h1 className="text-5xl sm:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-800 to-slate-400 mb-6">
-            Bienvenue sur PIOS, votre guide vers l&apos;avenir
-          </h1>
-          <p className="text-lg sm:text-xl text-black mb-8">
-            Explorez les meilleures opportunités d&apos;études, bourses et trouvez l&apos;université qui vous convient.
-          </p>
-  
-          {/* Call-to-Action Buttons */}
-          <div className="flex justify-center gap-6">
-            <Link href="/filieres">
-            <button className="rounded-md bg-blue-800 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-800">
-                Voir les filières
-              </button>
-            </Link>
-            <Link href="/universites">
-              <button className="  py-3 px-4 text-sm/6 text-grey-900  font-semibold">
-                Voir les universités<span aria-hidden="true">→</span>
-              </button>
-            </Link>
-          </div>
-        </div>
-        
-        {/* Optional Background Shapes (or keep this simple without them) */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
+
+      <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center items-start pt-16">
+        <Link
+          href="/bourses"
+          className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] md:text-xs mb-6 md:mb-8"
         >
-          <div
-            style={{
-              clipPath:
-                'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
-            }}
-            className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#1E3A8A] to-[#2563EB] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
-          />
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+          </span>
+          Nouvelles bourses disponibles. Lis plus →
+        </Link>
+
+        <h1 className="text-4xl sm:text-6xl md:text-8xl max-w-4xl text-white mb-6 md:mb-8 leading-[1.1] tracking-tighter">
+          Bienvenue sur PIOS,
+          <br />
+          <span className="text-blue-400">guide vers l&apos;avenir</span>
+        </h1>
+
+        <p className="text-base sm:text-xl md:text-2xl text-gray-300 max-w-2xl mb-8 md:mb-12 leading-relaxed">
+          Explorez les meilleures opportunités d&apos;études, bourses et trouvez
+          l&apos;université qui vous convient au Niger.
+        </p>
+
+        <div className="flex flex-col sm:flex-row gap-3 md:gap-5 w-full sm:w-auto">
+          <button
+            onClick={onCtaClick}
+            className="w-full sm:w-auto px-8 md:px-10 py-4 md:py-5 bg-blue-600 text-white rounded-full text-base md:text-lg shadow-xl shadow-blue-900/20 hover:bg-blue-500 transition-all hover:scale-105 active:scale-95"
+          >
+            Voir les filières
+          </button>
+          <Link
+            href="/universites"
+            className="inline-flex w-full sm:w-auto px-8 md:px-10 py-4 md:py-5 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-full text-base md:text-lg items-center justify-center gap-2 hover:bg-white/20 transition-all active:scale-95"
+          >
+            Voir les universités <span className="text-xl md:text-2xl">→</span>
+          </Link>
         </div>
-        
       </div>
-    </section>
-    );
-  }
+    </div>
+  );
+}

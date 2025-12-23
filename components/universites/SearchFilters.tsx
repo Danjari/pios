@@ -136,7 +136,7 @@ export function UniversitySearchFilters({universites,onFiltersChange}:SearchFilt
           </Select>
 
           {hasActiveFilters && (
-            <Button variant="ghost" size="sm" onClick={clearFilters} className="text-indigo-600 hover:text-indigo-800">
+            <Button variant="ghost" size="sm" onClick={clearFilters} className="text-blue-600 hover:text-blue-800">
               <X size={16} className="mr-1" />
               Effacer les filtres
             </Button>
@@ -236,13 +236,13 @@ export function UniversitySearchFilters({universites,onFiltersChange}:SearchFilt
               </Badge>
             )} */}
             {selectedFilters.type && (
-              <Badge className="bg-indigo-100 text-indigo-800 hover:bg-indigo-200">
+              <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-200">
                 {selectedFilters.type}
                 <X size={14} className="ml-1 cursor-pointer" onClick={() => handleFilterChange("type", null)} />
               </Badge>
             )}
             {selectedFilters.localisation && (
-              <Badge className="bg-indigo-100 text-indigo-800 hover:bg-indigo-200">
+              <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-200">
                 {selectedFilters.localisation}
                 <X size={14} className="ml-1 cursor-pointer" onClick={() => handleFilterChange("localisation", null)} />
               </Badge>

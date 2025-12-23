@@ -27,7 +27,7 @@ export function FiliereGrid({ filieres }: FiliereGridProps) {
         <div className="flex justify-center mt-8">
           <button
             onClick={loadMore}
-            className="px-6 py-2 bg-white border border-indigo-300 text-indigo-700 rounded-md hover:bg-indigo-50 transition-colors"
+            className="px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all shadow-lg shadow-blue-200"
           >
             Voir plus de filières
           </button>

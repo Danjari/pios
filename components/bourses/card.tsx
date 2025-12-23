@@ -39,19 +39,19 @@ export function ScholarshipCard({ scholarship }: ScholarshipCardProps) {
       <CardContent className="flex-grow">
         <div className="space-y-3">
           <div className="flex items-center text-gray-600">
-            <Globe className="h-4 w-4 mr-2 text-indigo-600" />
+            <Globe className="h-4 w-4 mr-2 text-blue-600" />
             <span>{scholarship.country}</span>
           </div>
           <div className="flex items-center text-gray-600">
-            <Percent className="h-4 w-4 mr-2 text-indigo-600" />
+            <Percent className="h-4 w-4 mr-2 text-blue-600" />
             <span>{scholarship.coverage} de couverture</span>
           </div>
           <div className="flex items-center text-gray-600">
-            <Clock className="h-4 w-4 mr-2 text-indigo-600" />
+            <Clock className="h-4 w-4 mr-2 text-blue-600" />
             <span>{scholarship.duration}</span>
           </div>
           <div className="flex items-center text-gray-600">
-            <GraduationCap className="h-4 w-4 mr-2 text-indigo-600" />
+            <GraduationCap className="h-4 w-4 mr-2 text-blue-600" />
             <span>{scholarship.levels.join(", ")}</span>
           </div>
           <p className="text-gray-600 text-sm mt-2 line-clamp-2">{scholarship.shortDescription}</p>
